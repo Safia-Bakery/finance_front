@@ -46,10 +46,11 @@ export enum MainPermissions {
   filling = 2,
 }
 export interface MeTypes {
+  id: number | string;
   username: string;
-  status: number;
-  created_at: string;
-  id: number;
+  role?: { descrition: string; name: string };
+  full_name: string;
+  permissions: number[];
 }
 
 export interface CategoryTypes {

@@ -25,7 +25,7 @@ const MainInput: FC<Props> = ({
 }) => {
   return (
     <input
-      className={cl(className, "form-control mb-2", styles.inputBox)}
+      className={cl(className, "mb-2", styles.inputBox)}
       placeholder={placeholder || ""}
       ref={ref}
       {...register}

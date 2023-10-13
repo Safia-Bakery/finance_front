@@ -1,15 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../rootConfig";
-// import { StatusRoles } from "utils/types";
+import { MainPermissions } from "src/utils/types";
 
 interface State {
-  token?: string;
-  me?: { id?: number; username?: string; role?: any };
+  token: string | null;
+  permissions?: { [key in MainPermissions]: boolean };
+  link: string;
 }
 
 const initialState: State = {
-  token: undefined,
-  me: undefined,
+  token: null,
+  permissions: undefined,
+  link: "/home",
 };
 
 export const authReducer = createSlice({
@@ -17,29 +19,32 @@ export const authReducer = createSlice({
   initialState,
   reducers: {
     logoutHandler: (state) => {
-      localStorage.clear();
-      window.location.reload();
-      // state.me = {};
-      // state.token = undefined;
-      // localStorage.removeItem("safia_finance");
-      // state.me.username = "";
-      // state.me.role = undefined;
-      // state.me.id = undefined;
+      // state.token = null;
+      // state.permissions = undefined;
+      // window.location.reload();
+      // // localStorage.clear();
+      // const { pathname, search } = window.location;
+      // if (pathname.includes("login")) state.link = "/home";
+      // else state.link = pathname + search;
     },
-
     loginHandler: (state, { payload }) => {
       state.token = payload;
     },
-
-    roleHandler: (state, { payload }) => {
-      state.me = payload;
+    permissionHandler: (state, { payload }: PayloadAction<any[]>) => {
+      const permissions = payload.reduce((acc, number) => {
+        acc[number] = true;
+        return acc;
+      }, {});
+      state.permissions = permissions;
     },
   },
 });
 
 export const tokenSelector = (state: RootState) => state.auth.token;
-export const roleSelector = (state: RootState) => state.auth.me;
+export const permissionSelector = (state: RootState) => state.auth.permissions;
+export const linkSelector = (state: RootState) => state.auth.link;
 
-export const { loginHandler, logoutHandler, roleHandler } = authReducer.actions;
+export const { loginHandler, logoutHandler, permissionHandler } =
+  authReducer.actions;
 
 export default authReducer.reducer;

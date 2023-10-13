@@ -12,6 +12,7 @@ interface Props {
   values?: { id: number | string; name: string; status?: number }[];
   children?: ReactNode;
   onFocus?: () => void;
+  noDefault?: boolean;
 }
 
 const MainSelect: FC<Props> = ({
@@ -20,18 +21,19 @@ const MainSelect: FC<Props> = ({
   values,
   children,
   onFocus,
+  noDefault,
   ...others
 }) => {
   return (
     <select
-      className={cl("form-select form-control", styles.select)}
+      className={cl(className, styles.inputBox, "mb-2")}
       onFocus={onFocus}
       {...others}
       {...register}
     >
       {!children ? (
         <>
-          <option value={undefined}></option>
+          {!noDefault && <option value={undefined}></option>}
           {values?.map((item) => (
             <option key={item.id} value={item.id}>
               {item.name}
