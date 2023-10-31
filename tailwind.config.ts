@@ -4,13 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        mainGray: "#EFF2F7",
+        mainGray: "#D9D9D9",
         darkGray: "#545556",
         black: "#303031",
         darkYellow: "#FFDC4C",
         yellow: "#FFE15B",
-        primary: "#3399ee",
+        primary: "#9484F6",
         darkBlue: "#002C69",
+        green: "#34B441",
+      },
+      boxShadow: {
+        // selected: "0px 4px 4px 0px #00000040",
+        button: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
       },
     },
   },

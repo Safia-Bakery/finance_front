@@ -1,0 +1,12 @@
+.tableHead {
+  font-weight: 700;
+}
+tr {
+  th:last-of-type {
+    padding-right: 1rem;
+  }
+  th {
+    padding: 8px;
+    text-align: left;
+  }
+}

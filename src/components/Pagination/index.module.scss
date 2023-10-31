@@ -1,0 +1,23 @@
+.pageLink {
+  color: var(--primary);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.pagination {
+  display: flex;
+  gap: 5px;
+}
+
+.active {
+  border-radius: 6px;
+  background-color: var(--primary);
+
+  .pageLink {
+    color: white;
+  }
+}

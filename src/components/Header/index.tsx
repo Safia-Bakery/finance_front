@@ -1,7 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import styles from "./index.module.scss";
-import cl from "classnames";
-import { useLocation } from "react-router-dom";
+import Typography, { TextSize } from "../Typography";
 
 interface Props extends PropsWithChildren {
   title?: string;
@@ -9,19 +7,17 @@ interface Props extends PropsWithChildren {
 }
 
 const Header: FC<Props> = ({ children, title, subTitle }) => {
-  const location = useLocation();
-
   return (
-    <>
-      <div className={cl(styles.header)}>
-        <div className="pull-left">
-          <h2 className={styles.title}>{location?.state?.name || title}</h2>
-          {subTitle && <p className="mb-0">{subTitle}</p>}
-        </div>
-        <div className="pull-right">{children}</div>
-      </div>
-      <hr />
-    </>
+    <div
+      className={
+        "flex justify-between p-4 bg-white rounded-t-xl rounded-b-[2px] items-center"
+      }
+    >
+      <Typography size={TextSize.L}>{title}</Typography>
+      {/* {subTitle && <p className="mb-0">{subTitle}</p>} */}
+
+      <div className="">{children}</div>
+    </div>
   );
 };
 

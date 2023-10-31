@@ -5,6 +5,7 @@ import Card from "src/components/Card";
 import MainInput from "src/components/BaseInputs/MainInput";
 import MainSelect from "src/components/BaseInputs/MainSelect";
 import { useState } from "react";
+import cl from "classnames";
 
 const currencyVals = [
   {
@@ -23,7 +24,7 @@ const Home = () => {
 
   return (
     <div className="pr-2">
-      <div className={styles.top}>
+      <div className={cl(styles.top, "!shadow")}>
         <div className="header text-center">
           <Typography size={TextSize.XL}>
             Добро пожаловать {user?.full_name}
@@ -31,7 +32,7 @@ const Home = () => {
           <p className={styles.category}>{user?.role?.toString()}Admin</p>
         </div>
       </div>
-      <Card className="w-auto bg-[#F8F9FA]">
+      <Card className="bg-[#F8F9FA] !w-auto m-2">
         <div className="w-[400px] ml-4">
           <Typography size={TextSize.L} weight={Weight.bold} alignCenter>
             КУРС ВАЛЮТ

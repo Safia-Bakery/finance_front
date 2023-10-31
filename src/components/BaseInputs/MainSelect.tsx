@@ -1,7 +1,8 @@
-import { ChangeEvent, FC, ReactNode } from "react";
+import { ChangeEvent, FC, ReactNode, useRef } from "react";
 import cl from "classnames";
 import styles from "./index.module.scss";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { InputStyle } from "./MainInput";
 
 interface Props {
   onChange?: (val: ChangeEvent<HTMLSelectElement>) => void;
@@ -12,6 +13,9 @@ interface Props {
   values?: { id: number | string; name: string; status?: number }[];
   children?: ReactNode;
   onFocus?: () => void;
+  inputStyle?: InputStyle;
+  placeholder?: string;
+  onClear?: () => void;
   noDefault?: boolean;
 }
 
@@ -21,29 +25,62 @@ const MainSelect: FC<Props> = ({
   values,
   children,
   onFocus,
+  placeholder,
+  inputStyle = InputStyle.primary,
+  onClear,
   noDefault,
   ...others
 }) => {
+  const selectInputRef = useRef<any>();
+
+  const handleClear = () => {
+    onClear?.();
+    selectInputRef.current.value = undefined;
+  };
+
   return (
-    <select
-      className={cl(className, styles.inputBox, "mb-2")}
-      onFocus={onFocus}
-      {...others}
-      {...register}
-    >
-      {!children ? (
-        <>
-          {!noDefault && <option value={undefined}></option>}
-          {values?.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </>
-      ) : (
-        children
+    <div className={styles.select}>
+      {onClear && others.value && (
+        <img
+          onClick={handleClear}
+          src="/assets/icons/clear.svg"
+          alt="clear"
+          width={15}
+          height={15}
+          className={styles.selectClear}
+        />
       )}
-    </select>
+
+      <select
+        ref={selectInputRef}
+        className={cl(
+          className,
+          "mb-2 w-full rounded-lg",
+          styles.inputBox,
+          styles[inputStyle]
+        )}
+        onFocus={onFocus}
+        {...others}
+        {...register}
+      >
+        {!children ? (
+          <>
+            {!noDefault && (
+              <option className="opacity-0" value={undefined} hidden>
+                {placeholder}
+              </option>
+            )}
+            {values?.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </>
+        ) : (
+          children
+        )}
+      </select>
+    </div>
   );
 };
 

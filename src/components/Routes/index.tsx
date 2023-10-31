@@ -16,6 +16,8 @@ import useQueryString from "src/hooks/useQueryString";
 import Login from "src/pages/Login";
 import Home from "src/pages/Home";
 import ControlPanel from "src/pages/ControlPanel";
+import Orders from "src/pages/Orders";
+import AddOrder from "src/pages/AddOrder";
 
 export const routes = [
   // {
@@ -93,6 +95,8 @@ const Navigation = () => {
 
           <Route element={<Home />} path={"/home"} />
           <Route element={<ControlPanel />} path={"/"} />
+          <Route element={<Orders />} path={"/orders"} />
+          <Route element={<AddOrder />} path={"/orders/add"} />
           {/* {renderScreen} */}
         </Routes>
       </div>
