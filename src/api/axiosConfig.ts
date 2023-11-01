@@ -5,9 +5,8 @@ import axios, {
   CancelTokenSource,
 } from "axios";
 import { Store } from "redux";
-import { logoutHandler } from "src/redux/reducers/auth";
-
-import { RootState } from "src/redux/rootConfig";
+import { logoutHandler } from "src/store/reducers/auth";
+import { RootState } from "src/store/rootConfig";
 
 interface BaseUrlParams {
   url: string;
@@ -46,7 +45,7 @@ class BaseAPIClient {
         Authorization: `Bearer ${token}`,
       };
     }
-    this.store?.dispatch(logoutHandler());
+    // this.store?.dispatch(logoutHandler());
     config.cancelToken = this.cancelTokenSource.token;
     return config;
   };
@@ -77,11 +76,7 @@ class BaseAPIClient {
     return config;
   }
 
-  public async get<T>(
-    url: string,
-    params?: object,
-    config?: AxiosRequestConfig
-  ) {
+  public async get<T>({ url, params, config }: BaseUrlParams) {
     try {
       const fullUrl = this.buildUrlWithParams(url, params);
       config = config || {};

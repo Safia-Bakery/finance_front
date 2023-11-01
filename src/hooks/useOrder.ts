@@ -1,22 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "src/main";
-// import { Order } from "src/utils/types";
+import { OrderType } from "src/utils/types";
 
 export const useOrder = ({
-  id,
   enabled = true,
+  id,
 }: {
   enabled?: boolean;
-  id: number | string;
+  id?: number;
 }) => {
   return useQuery({
-    queryKey: ["order", id],
+    queryKey: ["get_order", id],
     queryFn: () =>
       apiClient
-        .get(`/request/${id}`)
-        .then(({ data: response }) => (response as any) || null),
-    enabled: !!id && enabled,
-    refetchOnMount: true,
+        .get({ url: "/v1/orders", params: { id } })
+        .then(({ data: response }) => (response as OrderType) || null),
+    enabled,
   });
 };
 export default useOrder;

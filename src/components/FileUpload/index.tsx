@@ -1,7 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 // import { reportImgSelector } from "src/redux/reducers/selects";
-import { useAppSelector } from "src/redux/utils/types";
+import { useAppSelector } from "src/store/utils/types";
 import styles from "./index.module.scss";
+import Typography, { TextSize } from "../Typography";
+import { imageConverter } from "src/utils/helpers";
 
 export interface FileItem {
   file: File;
@@ -49,40 +51,58 @@ const UploadComponent: FC<FileUploaderProps> = ({
 
   return (
     <div>
-      <input
-        className="form-control"
-        id="fileUploader"
-        type="file"
-        ref={inputRef}
-        multiple
-        onChange={handleFileUpload}
-      />
+      <div className="bg-white border border-mainGray rounded-md relative h-7 overflow-hidden">
+        <div className="bg-lightGray h-7 w-1/2 border border-r-mainGray pl-2">
+          <Typography size={TextSize.S} className="text-[#9F9FA0]">
+            Выбрать файл
+          </Typography>
+        </div>
+        <input
+          className="absolute top-0 bottom-0 left-0 right-0 opacity-0 cursor-pointer"
+          id="fileUploader"
+          type="file"
+          ref={inputRef}
+          multiple
+          onChange={handleFileUpload}
+        />
+      </div>
 
-      {!!fileList?.length && (
-        <table className="table table-hover mt-3">
-          <thead>
-            <tr>
-              <th className={styles.tableHead}>Загруженные файлы</th>
-              <th className={styles.tableHead}></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {fileList.map((item) => (
-              <tr className="bg-blue" key={item.id}>
-                <td>{item.file.name}</td>
-                <td width={50}>
-                  <div
-                    className="d-flex justify-content-center pointer"
-                    onClick={() => handleFileDelete(item.id)}
-                  >
-                    <img src="/assets/icons/delete.svg" alt="delete" />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {!fileList?.length ? (
+        <div className="gap-2 flex mt-2">
+          <div className="flex items-center justify-center flex-1 h-12 border border-mainGray rounded-md bg-lightGray">
+            <Typography size={TextSize.S} className="text-[#9F9FA0]">
+              (image)
+            </Typography>
+          </div>
+          <div className="flex items-center justify-center flex-1 h-12 border border-mainGray rounded-md bg-lightGray">
+            <Typography size={TextSize.S} className="text-[#9F9FA0]">
+              (image)
+            </Typography>
+          </div>
+          <div className="flex items-center justify-center flex-1 h-12 border border-mainGray rounded-md bg-lightGray">
+            <Typography size={TextSize.S} className="text-[#9F9FA0]">
+              (image)
+            </Typography>
+          </div>
+        </div>
+      ) : (
+        <div className="gap-2 flex mt-2">
+          {fileList.map((item, idx) => (
+            <div className="relative">
+              <img
+                src={imageConverter(item.file)}
+                className="max-h-12 object-contain h-full"
+                alt={`image-${idx}`}
+              />
+              <div
+                className="absolute top-1 right-1 border border-black rounded-full"
+                onClick={() => handleFileDelete(item.id)}
+              >
+                <img src="/assets/icons/clear.svg" alt="delete" />
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

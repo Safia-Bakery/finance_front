@@ -44,6 +44,7 @@ export interface BranchTypes extends BasePaginatedRes {
 export enum MainPermissions {
   fillings = 1,
   filling = 2,
+  add_categories = 2,
 }
 export interface MeTypes {
   id: number | string;
@@ -111,4 +112,43 @@ export interface SubCatSelectVals {
       status: number;
     };
   };
+}
+export interface RoleTypes {
+  id: number;
+  name: string;
+  role_permission: [
+    {
+      id: number;
+      pagecrud_id: number;
+      permission_crud: {
+        id: number;
+        name: string;
+      };
+    }
+  ];
+}
+
+export interface PermissionTypes {
+  id: number;
+  name: string;
+  pages_crud: [
+    {
+      id: number;
+      name: string;
+    }
+  ];
+}
+export interface UserType {
+  username: string;
+  status: number;
+  created_at: string;
+  full_name: string;
+  is_client: number;
+  id: number;
+  role_id: number;
+  phone_number: string;
+}
+
+export interface UsersType extends BasePaginatedRes {
+  items: UserType[];
 }

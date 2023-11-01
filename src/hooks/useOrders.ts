@@ -1,30 +1,51 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "src/main";
-import { OrderType } from "src/utils/types";
 
 export const useOrders = ({
   enabled = true,
   size,
   page = 1,
-  sub_id,
-  body,
-  department,
+  status,
+  branch_id,
+  created_at,
+  is_delivery,
+  sphere,
 }: {
   enabled?: boolean;
   size?: number;
   page?: number;
-  sub_id?: number | string;
-  department?: number | string;
-  body?: any;
+  status?: number;
+  branch_id?: string;
+  created_at?: string;
+  is_delivery?: number;
+  sphere?: string;
 }) => {
   return useQuery({
-    queryKey: ["requests", page, sub_id, department],
+    queryKey: [
+      "get_orders",
+      page,
+      status,
+      branch_id,
+      created_at,
+      is_delivery,
+      sphere,
+    ],
     queryFn: () =>
       apiClient
-        .get("/request", { ...body, page, size, sub_id, department })
-        .then(({ data: response }) => (response as OrderType) || null),
+        .get({
+          url: "/v1/orders/all",
+          params: {
+            page,
+            size,
+            status,
+            branch_id,
+            created_at,
+            is_delivery,
+            sphere,
+          },
+        })
+        .then(({ data: response }) => (response as any) || null),
     enabled,
-    // refetchOnMount: true,
   });
 };
 export default useOrders;

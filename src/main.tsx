@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.scss";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor, store } from "./redux/rootConfig";
+import { persistor, store } from "./store/rootConfig.ts";
 import BaseAPIClient from "./api/axiosConfig.ts";
 import Loading from "./components/Loader/index.tsx";
 import { Provider } from "react-redux";

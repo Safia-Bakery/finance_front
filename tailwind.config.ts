@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         mainGray: "#D9D9D9",
         darkGray: "#545556",
+        lightGray: "#E9ECEF",
         black: "#303031",
         darkYellow: "#FFDC4C",
         yellow: "#FFE15B",
@@ -14,7 +15,6 @@ module.exports = {
         green: "#34B441",
       },
       boxShadow: {
-        // selected: "0px 4px 4px 0px #00000040",
         button: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
       },
     },

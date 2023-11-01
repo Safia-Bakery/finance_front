@@ -1,20 +1,33 @@
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import BaseInput from "src/components/BaseInputs";
-import MainInput from "src/components/BaseInputs/MainInput";
+import MainCheckBox from "src/components/BaseInputs/MainCheckBox";
+import MainInput, { InputStyle } from "src/components/BaseInputs/MainInput";
 import MainTextArea from "src/components/BaseInputs/MainTextArea";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
+import UploadComponent, { FileItem } from "src/components/FileUpload";
 import Header from "src/components/Header";
 import Typography, { TextSize } from "src/components/Typography";
 
 const AddOrder = () => {
+  const { id } = useParams();
   const [activeCateg, $activeCateg] = useState();
+  const [files, $files] = useState<FormData>();
   const { register } = useForm();
 
   const categories: any[] = [];
   const categoryLoading = false;
+
+  const handleFilesSelected = (data: FileItem[]) => {
+    const formData = new FormData();
+    data.forEach((item) => {
+      formData.append("files", item.file, item.file.name);
+    });
+    $files(formData);
+  };
 
   const renderCategs = useMemo(() => {
     return (
@@ -56,11 +69,16 @@ const AddOrder = () => {
   }, [activeCateg, categories, categoryLoading]);
   return (
     <Container>
-      <Header title={`Заявка №100091`}>
+      <Header title={id ? `Заявка №100091` : "Новая заявка"}>
         <Button className="bg-[#F69B30] w-24">Логи</Button>
       </Header>
       <Card>
-        {renderCategs}
+        <div className="flex justify-between items-center">
+          {renderCategs}
+          <BaseInput>
+            <MainCheckBox inputStyle={InputStyle.white} label={"Срочно"} />
+          </BaseInput>
+        </div>
         <div className="flex flex-wrap flex-[4] gap-7 mb-7">
           <BaseInput className="flex flex-col flex-1" label="Заказчик">
             <MainInput register={register("name")} />
@@ -85,12 +103,7 @@ const AddOrder = () => {
         </div>
         <div className="flex justify-between mt-6">
           <BaseInput label="Добавить фото" className="relative w-1/3">
-            <MainInput />
-            <MainInput
-              type="file"
-              register={register("image", { required: "Обязательное поле" })}
-              className="opacity-0 absolute right-0 bottom-0"
-            />
+            <UploadComponent onFilesSelected={handleFilesSelected} />
           </BaseInput>
 
           <BaseInput className="w-1/2" label="Комментарии">

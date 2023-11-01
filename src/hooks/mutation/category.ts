@@ -3,7 +3,7 @@ import apiClient from "src/main";
 
 interface Body {
   name: string;
-  status: number;
+  status?: number;
   id?: number;
   price?: number;
 }

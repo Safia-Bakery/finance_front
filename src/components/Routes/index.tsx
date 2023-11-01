@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "src/redux/utils/types";
+import { useAppDispatch, useAppSelector } from "src/store/utils/types";
 import {
   loginHandler,
   logoutHandler,
   //   permissionSelector,
   tokenSelector,
-} from "src/redux/reducers/auth";
+} from "src/store/reducers/auth";
 import useToken from "src/hooks/useToken";
 // import BreadCrump from "../BreadCrump";
 import Sidebar from "../Sidebar";
@@ -18,6 +18,13 @@ import Home from "src/pages/Home";
 import ControlPanel from "src/pages/ControlPanel";
 import Orders from "src/pages/Orders";
 import AddOrder from "src/pages/AddOrder";
+import Users from "src/pages/Users";
+import { MainPermissions } from "src/utils/types";
+import EditAddUser from "src/pages/EditAddUser";
+import EditAddRole from "src/pages/EditAddRole";
+import Roles from "src/pages/Roles";
+import Spheres from "src/pages/Spheres";
+import EditAddSphere from "src/pages/EditAddSphere";
 
 export const routes = [
   // {
@@ -72,18 +79,6 @@ const Navigation = () => {
     if (!!error) dispatch(logoutHandler());
   }, [token, error]);
 
-  useEffect(() => {
-    if (!!tokenKey) {
-      dispatch(loginHandler(tokenKey));
-      navigate(pathname + search);
-    }
-  }, [tokenKey]);
-
-  //   useEffect(() => {
-  //     if (!!user?.permissions.length && !!token)
-  //       dispatch(permissionHandler(user?.permissions));
-  //   }, [user?.permissions, token]);
-
   return (
     <>
       {/* {renderSidebar} */}
@@ -97,6 +92,32 @@ const Navigation = () => {
           <Route element={<ControlPanel />} path={"/"} />
           <Route element={<Orders />} path={"/orders"} />
           <Route element={<AddOrder />} path={"/orders/add"} />
+          <Route element={<AddOrder />} path={"/orders/:id"} />
+
+          <Route element={<Orders />} path={"/purchasing"} />
+          <Route element={<Orders />} path={"/finance"} />
+          <Route element={<Orders />} path={"/accounting"} />
+          <Route element={<Orders />} path={"/archieve"} />
+          <Route
+            element={
+              <Users
+                edit={MainPermissions.filling}
+                add={MainPermissions.filling}
+              />
+            }
+            path={"/users"}
+          />
+          <Route element={<EditAddUser />} path={"/users/:id"} />
+          <Route element={<EditAddUser />} path={"/users/add"} />
+
+          <Route element={<Roles />} path={"/roles"} />
+          <Route element={<EditAddRole />} path={"/role/add"} />
+          <Route element={<EditAddRole />} path={"/role/:id"} />
+
+          <Route element={<Spheres />} path={"/spheres"} />
+          <Route element={<EditAddSphere />} path={"/spheres/add"} />
+          <Route element={<EditAddSphere />} path={"/spheres/:id"} />
+
           {/* {renderScreen} */}
         </Routes>
       </div>

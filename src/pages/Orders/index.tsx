@@ -4,6 +4,7 @@ import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
 import Header from "src/components/Header";
+import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography, { TextSize } from "src/components/Typography";
 
@@ -56,6 +57,8 @@ const Orders = () => {
             </tr>
           </tbody>
         </table>
+
+        <Pagination className="my-4" totalPages={2} />
       </Card>
     </Container>
   );

@@ -2,23 +2,22 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 import cl from "classnames";
 import { Fragment, useMemo, useState } from "react";
-import { useAppDispatch } from "src/redux/utils/types";
-import { logoutHandler } from "src/redux/reducers/auth";
+import { useAppDispatch } from "src/store/utils/types";
+import { logoutHandler } from "src/store/reducers/auth";
 import { MainPermissions } from "src/utils/types";
 import useToken from "src/hooks/useToken";
 
 const routes = [
   { name: "Главная страница", url: "/home", param: "?" },
   {
-    name: "Поиск",
-    url: "/search",
-    hasline: true,
+    name: "Отчёты",
+    url: "/reports",
     screen: MainPermissions.fillings,
   },
   { name: "Все заявки", url: "/orders", screen: MainPermissions.fillings },
   {
-    name: "Принятые заказы",
-    url: "/received-orders",
+    name: "Отдел закупа",
+    url: "/purchasing",
     screen: MainPermissions.fillings,
   },
   // {
@@ -27,37 +26,35 @@ const routes = [
   //   screen: MainPermissions.fillings,
   // },
   {
-    name: "Товары",
-    url: "/received-orders4",
+    name: "Финансовый отдел",
+    url: "/finance",
     screen: MainPermissions.fillings,
   },
   {
-    name: "Категории",
-    url: "/categories",
+    name: "Бухгалтерия",
+    url: "/accounting",
     screen: MainPermissions.fillings,
   },
-  { name: "Клиенты", url: "/clients", screen: MainPermissions.fillings },
+  { name: "Архив", url: "/archieve", screen: MainPermissions.fillings },
   {
-    name: "Отзывы",
-    url: "/comments",
+    name: "Сотрудники",
+    url: "/users",
     hasline: true,
     screen: MainPermissions.fillings,
   },
-  { name: "Пользователи", url: "/users", screen: MainPermissions.fillings },
-  { name: "Филиалы", url: "/branches", screen: MainPermissions.fillings },
   {
     name: "Роли",
     url: "/roles",
     screen: MainPermissions.fillings,
   },
+  { name: "Сферы", url: "/spheres", screen: MainPermissions.fillings },
+  { name: "Настройки", url: "/settings", screen: MainPermissions.fillings },
 ];
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
-
-  console.log(pathname.includes("orders"), "pathname");
 
   const dispatch = useAppDispatch();
   const permission = { 1: true, 2: true };

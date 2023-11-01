@@ -34,3 +34,8 @@ export const queryClient = new QueryClient({
 });
 
 export const isMobile = window.innerWidth <= 1200;
+
+export const imageConverter = (img: File) => {
+  if (img?.size) return URL.createObjectURL(img);
+  return "";
+};

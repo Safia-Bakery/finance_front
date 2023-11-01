@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "src/main";
-import { tokenSelector } from "src/redux/reducers/auth";
-import { useAppSelector } from "src/redux/utils/types";
+import { tokenSelector } from "src/store/reducers/auth";
+import { useAppSelector } from "src/store/utils/types";
 import { MeTypes } from "src/utils/types";
 
 export const useToken = ({ enabled = true }) => {
@@ -9,7 +9,9 @@ export const useToken = ({ enabled = true }) => {
   return useQuery({
     queryKey: ["me_token"],
     queryFn: () =>
-      apiClient.get("/me").then(({ data: response }) => response as MeTypes),
+      apiClient
+        .get({ url: "/me" })
+        .then(({ data: response }) => response as MeTypes),
     enabled: !!token && enabled,
   });
 };
