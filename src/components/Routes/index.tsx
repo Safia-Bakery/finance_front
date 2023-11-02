@@ -29,7 +29,7 @@ import PurchasingDepartment from "src/pages/PurchasingDepartment";
 import FinanceDepartment from "src/pages/FinanceDepartment";
 import Accounting from "src/pages/Accounting";
 import Archive from "src/pages/Archive";
-import Logs from "src/pages/Logs";
+// import Logs from "src/pages/Logs";
 
 export const routes = [
   // {
@@ -122,7 +122,7 @@ const Navigation = () => {
           <Route element={<Spheres />} path={"/spheres"} />
           <Route element={<EditAddSphere />} path={"/spheres/add"} />
           <Route element={<EditAddSphere />} path={"/spheres/:id"} />
-          <Route element={<Logs />} path={"/logs"} />
+          {/* <Route element={<Logs />} path={"/logs"} /> */}
 
           {/* {renderScreen} */}
         </Routes>
