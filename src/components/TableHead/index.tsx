@@ -19,7 +19,7 @@ const TableHead: FC<Props> = ({
 }) => {
   return (
     <>
-      <thead className="w-full bg-mainGray ">
+      <thead className="w-full bg-mainGray  ">
         <tr className={styles.row}>
           {column.map(({ name, key }) => {
             return (

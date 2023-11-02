@@ -31,7 +31,7 @@ const AddOrder = () => {
 
   const renderCategs = useMemo(() => {
     return (
-      <div className="mt-4">
+      <div className=" mt-4">
         <Typography size={TextSize.XXL}>Сфера</Typography>
         <div className="w-full mt-4 flex items-center h-full relative">
           {!!categories?.length && !categoryLoading && (
@@ -72,7 +72,7 @@ const AddOrder = () => {
       <Header title={id ? `Заявка №100091` : "Новая заявка"}>
         <Button className="bg-[#F69B30] w-24">Логи</Button>
       </Header>
-      <Card>
+      <Card className="md: flex flex-col">
         <div className="flex justify-between items-center">
           {renderCategs}
           <BaseInput>
@@ -86,18 +86,18 @@ const AddOrder = () => {
           <BaseInput className="flex flex-col flex-[2]" label="Название товара">
             <MainInput register={register("product")} />
           </BaseInput>
-          <BaseInput className="flex flex-col flex-1" label="Название товара">
+          <BaseInput className="flex flex-col flex-1" label="Цена">
             <MainInput register={register("product")} />
           </BaseInput>
         </div>
         <div className="flex flex-wrap flex-[4] gap-4">
-          <BaseInput className="flex flex-col flex-1" label="Название товара">
+          <BaseInput className="flex flex-col flex-1" label="Тип оплаты">
             <MainInput register={register("product")} />
           </BaseInput>
-          <BaseInput className="flex flex-col flex-[2]" label="Название товара">
+          <BaseInput className="flex flex-col flex-[2]" label="Плательщик">
             <MainInput register={register("product")} />
           </BaseInput>
-          <BaseInput className="flex flex-col flex-1" label="Название товара">
+          <BaseInput className="flex flex-col flex-1" label="Поставщик">
             <MainInput register={register("product")} />
           </BaseInput>
         </div>
