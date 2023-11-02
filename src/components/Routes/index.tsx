@@ -25,6 +25,11 @@ import EditAddRole from "src/pages/EditAddRole";
 import Roles from "src/pages/Roles";
 import Spheres from "src/pages/Spheres";
 import EditAddSphere from "src/pages/EditAddSphere";
+import PurchasingDepartment from "src/pages/PurchasingDepartment";
+import FinanceDepartment from "src/pages/FinanceDepartment";
+import Accounting from "src/pages/Accounting";
+import Archive from "src/pages/Archive";
+import Logs from "src/pages/Logs";
 
 export const routes = [
   // {
@@ -94,10 +99,10 @@ const Navigation = () => {
           <Route element={<AddOrder />} path={"/orders/add"} />
           <Route element={<AddOrder />} path={"/orders/:id"} />
 
-          <Route element={<Orders />} path={"/purchasing"} />
-          <Route element={<Orders />} path={"/finance"} />
-          <Route element={<Orders />} path={"/accounting"} />
-          <Route element={<Orders />} path={"/archieve"} />
+          <Route element={<PurchasingDepartment />} path={"/purchasing"} />
+          <Route element={<FinanceDepartment />} path={"/finance"} />
+          <Route element={<Accounting />} path={"/accounting"} />
+          <Route element={<Archive />} path={"/archieve"} />
           <Route
             element={
               <Users
@@ -117,6 +122,7 @@ const Navigation = () => {
           <Route element={<Spheres />} path={"/spheres"} />
           <Route element={<EditAddSphere />} path={"/spheres/add"} />
           <Route element={<EditAddSphere />} path={"/spheres/:id"} />
+          <Route element={<Logs />} path={"/logs"} />
 
           {/* {renderScreen} */}
         </Routes>

@@ -1,13 +1,10 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import BaseInput from "src/components/BaseInputs";
+import React, { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
-import Typography, { TextSize } from "src/components/Typography";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -16,10 +13,12 @@ const column = [
   { name: "Дата поступления", key: "fillial.name" },
   { name: "Сумма", key: "category.name" },
   { name: "Срочно", key: "" },
-  { name: "Статус", key: "" },
+  { name: "Статус (Мусажон)", key: "" },
+  { name: "Статус (Руководитель)", key: "" },
+  { name: "Финансовый отдел", key: "" },
 ];
 
-const Orders = () => {
+const FinanceDepartment = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sortKey, setSortKey] = useState();
   const handleSort = (key: any) => {
@@ -30,17 +29,10 @@ const Orders = () => {
       setSortOrder("asc");
     }
   };
-  const navigate = useNavigate();
-  const handleNavigate = () => {
-    navigate("/orders/add");
-  };
+
   return (
     <Container>
-      <Header title="Все заявки">
-        <Button onClick={handleNavigate} className="bg-primary">
-          Новая заявка
-        </Button>
-      </Header>
+      <Header title="Все заявки"></Header>
 
       <Card>
         <table>
@@ -52,14 +44,16 @@ const Orders = () => {
           />
 
           <tbody className="px-2 py-1">
-            <tr className="py-1">
+            <tr className="py-1 text-center ">
               <td>100091</td>
               <td>Фабрика</td>
               <td>Гафуржанов Шахзод</td>
               <td>01.10.2023</td>
               <td>14 000 000 сум</td>
               <td>Да</td>
-              <td>Создан</td>
+              <td>Согласовано</td>
+              <td>Согласовано</td>
+              <td>(Не задано)</td>
             </tr>
           </tbody>
         </table>
@@ -70,4 +64,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default FinanceDepartment;

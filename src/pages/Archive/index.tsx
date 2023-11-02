@@ -1,6 +1,4 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import BaseInput from "src/components/BaseInputs";
+import React, { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
@@ -16,10 +14,13 @@ const column = [
   { name: "Дата поступления", key: "fillial.name" },
   { name: "Сумма", key: "category.name" },
   { name: "Срочно", key: "" },
-  { name: "Статус", key: "" },
+  { name: "Статус (Мусажон)", key: "" },
+  { name: "Статус (Руководитель)", key: "" },
+  { name: "Финансовый отдел", key: "" },
+  { name: "Бухгалтерия", key: "" },
 ];
 
-const Orders = () => {
+const Archive = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sortKey, setSortKey] = useState();
   const handleSort = (key: any) => {
@@ -30,17 +31,10 @@ const Orders = () => {
       setSortOrder("asc");
     }
   };
-  const navigate = useNavigate();
-  const handleNavigate = () => {
-    navigate("/orders/add");
-  };
+
   return (
     <Container>
-      <Header title="Все заявки">
-        <Button onClick={handleNavigate} className="bg-primary">
-          Новая заявка
-        </Button>
-      </Header>
+      <Header title="Все заявки"></Header>
 
       <Card>
         <table>
@@ -51,15 +45,23 @@ const Orders = () => {
             sortOrder={sortOrder}
           />
 
-          <tbody className="px-2 py-1">
-            <tr className="py-1">
+          <tbody className="px-2 py-1 bg-[#B9EFCD] ">
+            <tr className="py-1 text-center  ">
               <td>100091</td>
               <td>Фабрика</td>
               <td>Гафуржанов Шахзод</td>
               <td>01.10.2023</td>
               <td>14 000 000 сум</td>
               <td>Да</td>
-              <td>Создан</td>
+              <td className="flex justify-end items-center">
+                <Typography size={TextSize.L}>Согласовано</Typography>
+                <span className="">
+                  <img src="assets/icons/right-green.svg" alt="" />
+                </span>
+              </td>
+              <td>Согласовано</td>
+              <td>Подтверждён</td>
+              <td>Оплачен</td>
             </tr>
           </tbody>
         </table>
@@ -70,4 +72,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default Archive;

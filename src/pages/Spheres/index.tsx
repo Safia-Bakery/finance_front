@@ -16,9 +16,9 @@ import useToken from "src/hooks/useToken";
 
 const column = [
   { name: "№", key: "" },
-  { name: "Категория", key: "name" },
-  { name: "Статус", key: "status" },
-  { name: "", key: "" },
+  { name: "Название", key: "name" },
+  { name: "Назначенный руководитель", key: "status" },
+  { name: "Статус", key: "" },
 ];
 
 const Spheres = () => {
@@ -66,7 +66,7 @@ const Spheres = () => {
       {/* <CategoriesFilter /> */}
 
       <Card className="mt-8">
-        <Header title="Категории">
+        <Header title="Сферы">
           <div className="flex gap-3">
             {/* <Button
               className="bg-blue-400 ml-2 w-24"
@@ -78,16 +78,16 @@ const Spheres = () => {
             >
               Update
             </Button> */}
-            {perms?.[MainPermissions.filling] && (
-              <Button
-                className="bg-yellow ml-2 w-24"
-                textClassName="text-black"
-                textSize={TextSize.L}
-                onClick={() => handleNavigate("add")}
-              >
-                Создать
-              </Button>
-            )}
+            {/* {perms?.[MainPermissions.filling] && ( */}
+            <Button
+              className="bg-yellow ml-2 w-24"
+              textClassName="text-black"
+              textSize={TextSize.L}
+              onClick={() => handleNavigate("add")}
+            >
+              Создать
+            </Button>
+            {/* )} */}
           </div>
         </Header>
         <div className="content">
