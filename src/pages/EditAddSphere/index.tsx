@@ -7,8 +7,8 @@ import MainInput from "src/components/BaseInputs/MainInput";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Typography, { TextSize } from "src/components/Typography";
-import categoryMutation from "src/hooks/mutation/category";
-import useCategories from "src/hooks/useCategories";
+import sphereMutation from "src/hooks/mutation/sphere";
+import useSpheres from "src/hooks/useSpheres";
 
 const EditAddSphere: FC = () => {
   const { id } = useParams();
@@ -21,24 +21,24 @@ const EditAddSphere: FC = () => {
     getValues,
   } = useForm();
 
-  const { data, refetch } = useCategories({
+  const { data, refetch } = useSpheres({
     ...(!!id && { id: Number(id) }),
     enabled: !!id,
   });
-  const { mutate, isLoading: mutateLoading } = categoryMutation();
+  const { mutate, isLoading: mutateLoading } = sphereMutation();
 
   const onSubmit = () => {
-    const { name, status, image } = getValues();
+    const { name, status } = getValues();
     mutate(
       {
         name,
+        status: Number(status),
         ...(!!id && { id: Number(id) }),
-        ...(!!status && { status }),
       },
       {
         onSuccess: () => {
           refetch();
-          navigate("/categories?update=1");
+          navigate("/spheres?update=1");
         },
       }
     );

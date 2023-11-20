@@ -45,9 +45,9 @@ const EditAddUser = () => {
         username,
         password,
         phone_number,
-        role_id,
+        role_id: +role_id,
         full_name,
-        status,
+        status: Number(status),
         ...(!!id && { id: Number(id) }),
       },
       {
@@ -68,7 +68,7 @@ const EditAddUser = () => {
 
         role_id: user?.role_id,
         username: user?.username,
-        status: !!user?.status,
+        status: user?.status,
       });
     }
   }, [id, user]);

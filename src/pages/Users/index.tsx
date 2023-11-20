@@ -84,21 +84,17 @@ const Users: FC<Props> = ({ client, edit, add }) => {
           <tbody>
             {users?.items.map((user, idx) => (
               <tr className="bg-blue hover:bg-gray-200 py-2" key={idx}>
-                <td width="40" className="first:pl-16">
+                <td width="40" className="first:pl-3 py-3">
                   {idx + 1}
                 </td>
-                <td className="text-center">{user?.full_name}</td>
-                <td className="text-center">
+                <td>{user?.full_name}</td>
+                <td>
                   <span className="not-set">{user?.username}</span>
                 </td>
-                <td className="text-center" width={250}>
-                  {user.role_id}
-                </td>
-                <td className="text-center">{user?.phone_number}</td>
-                <td className="text-center">
-                  {!!user?.status ? "Активный" : "Неактивный"}
-                </td>
-                <td className="text-center" width={40}>
+                <td width={250}>{user?.user_role?.name}</td>
+                <td>{user?.phone_number}</td>
+                <td>{!!user?.status ? "Активный" : "Неактивный"}</td>
+                <td width={40}>
                   {perms?.[edit] && (
                     <TableViewBtn onClick={handleNavigate(`${user?.id}`)} />
                   )}

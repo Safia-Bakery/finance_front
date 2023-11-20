@@ -12,43 +12,43 @@ const routes = [
   {
     name: "Отчёты",
     url: "/reports",
-    screen: MainPermissions.fillings,
+    screen: MainPermissions.reports,
   },
   { name: "Все заявки", url: "/orders", screen: MainPermissions.fillings },
   {
     name: "Отдел закупа",
     url: "/purchasing",
-    screen: MainPermissions.fillings,
+    screen: MainPermissions.purchasing_dep,
   },
-  // {
-  //   name: "Палитры",
-  //   url: "/received-orders2",
-  //   screen: MainPermissions.fillings,
-  // },
   {
     name: "Финансовый отдел",
     url: "/finance",
-    screen: MainPermissions.fillings,
+    screen: MainPermissions.finance,
   },
   {
     name: "Бухгалтерия",
     url: "/accounting",
-    screen: MainPermissions.fillings,
+    screen: MainPermissions.accounting,
   },
-  { name: "Архив", url: "/archieve", screen: MainPermissions.fillings },
+  { name: "Архив", url: "/archieve", screen: MainPermissions.archieve },
   {
     name: "Сотрудники",
     url: "/users",
     hasline: true,
-    screen: MainPermissions.fillings,
+    screen: MainPermissions.employees,
   },
   {
     name: "Роли",
     url: "/roles",
-    screen: MainPermissions.fillings,
+    screen: MainPermissions.roles,
   },
-  { name: "Сферы", url: "/spheres", screen: MainPermissions.fillings },
-  { name: "Настройки", url: "/settings", screen: MainPermissions.fillings },
+  {
+    name: "Плательщики",
+    url: "/payers",
+    screen: MainPermissions.payers,
+  },
+  { name: "Сферы", url: "/spheres", screen: MainPermissions.spheres },
+  { name: "Настройки", url: "/settings", screen: MainPermissions.settings },
 ];
 
 const Sidebar = () => {

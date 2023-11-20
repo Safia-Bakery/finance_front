@@ -96,10 +96,6 @@ const ShowRole = () => {
                               type="checkbox"
                               value={child?.id}
                               {...register(`${child.id}`)}
-                              // defaultChecked={rolePermission?.permissions?.includes(
-                              //   child?.id
-                              // )}
-                              // onChange={() => handlePermission(child?.id)}
                             />
                           </td>
                         </tr>

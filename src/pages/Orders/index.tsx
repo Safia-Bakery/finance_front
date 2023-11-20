@@ -1,13 +1,18 @@
+import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BaseInput from "src/components/BaseInputs";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
+import EmptyList from "src/components/EmptyList";
 import Header from "src/components/Header";
+import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
-import Typography, { TextSize } from "src/components/Typography";
+
+import useOrders from "src/hooks/useOrders";
+import { numberWithCommas } from "src/utils/helpers";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -20,6 +25,7 @@ const column = [
 ];
 
 const Orders = () => {
+  const navigate = useNavigate();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sortKey, setSortKey] = useState();
   const handleSort = (key: any) => {
@@ -30,10 +36,12 @@ const Orders = () => {
       setSortOrder("asc");
     }
   };
-  const navigate = useNavigate();
+  const { refetch: orderRefetch, data: orders, isLoading } = useOrders({});
+
   const handleNavigate = () => {
     navigate("/orders/add");
   };
+
   return (
     <Container>
       <Header title="Все заявки">
@@ -52,19 +60,27 @@ const Orders = () => {
           />
 
           <tbody className="px-2 py-1">
-            <tr className="py-1">
-              <td>100091</td>
-              <td>Фабрика</td>
-              <td>Гафуржанов Шахзод</td>
-              <td>01.10.2023</td>
-              <td>14 000 000 сум</td>
-              <td>Да</td>
-              <td>Создан</td>
-            </tr>
+            {!!orders?.items?.length &&
+              orders?.items.map((item) => (
+                <tr className="py-1" key={item.id}>
+                  <td className="py-3 pl-3">{item.id}</td>
+                  <td>{item?.order_sp?.name}</td>
+                  <td>Гафуржанов Шахзод</td>
+                  <td>{dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}</td>
+                  <td>{numberWithCommas(+item?.price)} сум</td>
+                  <td>{item.is_urgent ? "Да" : "Нет"}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
 
-        <Pagination className="my-4" totalPages={2} />
+        {isLoading && <Loading className="py-4" />}
+        {!isLoading && !orders?.items.length && <EmptyList />}
+
+        {!!orders?.items.length && (
+          <Pagination className="my-4" totalPages={orders.pages} />
+        )}
       </Card>
     </Container>
   );

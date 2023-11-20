@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "src/main";
+import { OredrsTypes } from "src/utils/types";
 
 export const useOrders = ({
   enabled = true,
@@ -33,7 +34,7 @@ export const useOrders = ({
     queryFn: () =>
       apiClient
         .get({
-          url: "/v1/orders/all",
+          url: "/v1/orders",
           params: {
             page,
             size,
@@ -44,7 +45,7 @@ export const useOrders = ({
             sphere,
           },
         })
-        .then(({ data: response }) => (response as any) || null),
+        .then(({ data: response }) => (response as OredrsTypes) || null),
     enabled,
   });
 };

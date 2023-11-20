@@ -1,35 +1,39 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Card from "src/components/Card";
 import TableHead from "src/components/TableHead";
 import TableViewBtn from "src/components/TableViewBtn";
 import Header from "src/components/Header";
 import Button from "src/components/Button";
 import { TextSize } from "src/components/Typography";
-import useSpheres from "src/hooks/useSpheres";
+import useSphereUsers from "src/hooks/useSphereUsers";
 import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
 import useToken from "src/hooks/useToken";
 import Container from "src/components/Container";
-import { MainPermissions } from "src/utils/types";
 
 const column = [
   { name: "№", key: "" },
   { name: "Название", key: "name" },
-  { name: "Назначенный руководитель", key: "status" },
-  { name: "Статус", key: "" },
+  { name: "Очередь", key: "sequence" },
+  { name: "Статус", key: "status" },
   { name: "", key: "" },
 ];
 
-const Spheres = () => {
+const SphereUsers = () => {
+  const { sphere_id } = useParams();
   const navigate = useNavigate();
   const [sortKey, setSortKey] = useState();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const update = useQueryString("update");
-  const { data } = useToken({});
-  const perms = data?.permissions;
 
-  const { data: categories, refetch, isLoading } = useSpheres({});
+  const name = useQueryString("name");
+
+  const {
+    data: users,
+    refetch,
+    isLoading,
+  } = useSphereUsers({ sphere_id: Number(sphere_id) });
 
   const handleNavigate = (url: string) => navigate(url);
 
@@ -48,8 +52,7 @@ const Spheres = () => {
 
   return (
     <Container>
-      {/* <CategoriesFilter /> */}
-      <Header title="Сферы">
+      <Header title={`Пользователи сферы(${name})`}>
         <div className="flex gap-3">
           {/* {perms?.[MainPermissions.filling] && ( */}
           <Button
@@ -58,7 +61,7 @@ const Spheres = () => {
             textSize={TextSize.L}
             onClick={() => handleNavigate("add")}
           >
-            Создать
+            Добавить
           </Button>
           {/* )} */}
         </div>
@@ -75,28 +78,26 @@ const Spheres = () => {
                 sortOrder={sortOrder}
               />
 
-              {!!categories?.length && (
+              {!!users?.length && (
                 <tbody>
-                  {categories?.map((category, idx) => (
+                  {users?.map((user, idx) => (
                     <tr key={idx} className="bg-blue">
                       <td className="first:pl-3 py-3" width="40">
                         {idx + 1}
                       </td>
                       <td>
-                        <Link
-                          to={`/sphere-users/${category.id}?name=${category.name}`}
-                        >
-                          {category?.name}
+                        <Link to={`/users/${user.id}`}>
+                          {user?.sp_user?.full_name}
                         </Link>
                       </td>
-                      <td>{"category?.name"}</td>
-                      <td>{!!category?.status ? "Активный" : "Неактивный"}</td>
+                      <td className="pl-4">{user.sequence}</td>
+                      <td>{!!user?.status ? "Активный" : "Неактивный"}</td>
                       <td width={40}>
-                        {perms?.[MainPermissions.filling] && (
-                          <TableViewBtn
-                            onClick={() => handleNavigate(`${category.id}`)}
-                          />
-                        )}
+                        {/* {perms?.[MainPermissions.filling] && ( */}
+                        <TableViewBtn
+                          onClick={() => handleNavigate(`${user.id}`)}
+                        />
+                        {/* )} */}
                       </td>
                     </tr>
                   ))}
@@ -105,7 +106,7 @@ const Spheres = () => {
             </table>
 
             {/* {isLoading && <Loading />} */}
-            {!categories?.length && !isLoading && <EmptyList />}
+            {!users?.length && !isLoading && <EmptyList />}
           </div>
         </div>
       </Card>
@@ -113,4 +114,4 @@ const Spheres = () => {
   );
 };
 
-export default Spheres;
+export default SphereUsers;
