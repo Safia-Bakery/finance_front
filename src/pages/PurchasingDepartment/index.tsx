@@ -45,7 +45,7 @@ const PurchasingDepartment = () => {
           />
 
           <tbody className="px-2 py-1">
-            <tr className="py-1  ">
+            <tr className="py-1    ">
               <td>100091</td>
               <td>Фабрика</td>
               <td>Гафуржанов Шахзод</td>

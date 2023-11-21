@@ -10,12 +10,14 @@ import Typography, { TextSize } from "src/components/Typography";
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
-  { name: "Руководитель", key: "type" },
+  { name: "Заказщик", key: "type" },
   { name: "Дата поступления", key: "fillial.name" },
   { name: "Сумма", key: "category.name" },
+  { name: " Тип оплаты", key: "" },
   { name: "Срочно", key: "" },
   { name: "Статус (Мусажон)", key: "" },
   { name: "Статус (Руководитель)", key: "" },
+  { name: "Руководитель", key: "" },
   { name: "Финансовый отдел", key: "" },
   { name: "Бухгалтерия", key: "" },
 ];
@@ -46,22 +48,47 @@ const Archive = () => {
           />
 
           <tbody className="px-2 py-1 bg-[#B9EFCD] ">
-            <tr className="py-1 text-center  ">
+            <tr className="py-1 text-center   ">
               <td>100091</td>
               <td>Фабрика</td>
-              <td>Гафуржанов Шахзод</td>
+              <td>Махмуд</td>
               <td>01.10.2023</td>
               <td>14 000 000 сум</td>
+              <td>Перечисление</td>
               <td>Да</td>
-              <td className="flex justify-end items-center">
-                <Typography size={TextSize.L}>Согласовано</Typography>
-                <span className="">
-                  <img src="assets/icons/right-green.svg" alt="" />
-                </span>
+              <td className="">
+                <div className="flex items-center gap-1 justify-center">
+                  <Typography size={TextSize.L}>Согласовано</Typography>
+                  <span className="">
+                    <img src="assets/icons/right-green.svg" alt="" />
+                  </span>
+                </div>
               </td>
-              <td>Согласовано</td>
-              <td>Подтверждён</td>
-              <td>Оплачен</td>
+              <td className="">
+                <div className="flex items-center gap-1 justify-center">
+                  <Typography size={TextSize.L}>Согласовано</Typography>
+                  <span className="">
+                    <img src="assets/icons/right-green.svg" alt="" />
+                  </span>
+                </div>
+              </td>
+              <td>Гафуржанов Шахзод</td>
+              <td>
+                <div className="flex items-center gap-1 justify-center">
+                  <Typography size={TextSize.L}>Подтвердждён</Typography>
+                  <span className="">
+                    <img src="assets/icons/right-blue.svg" alt="" />
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-1 justify-center">
+                  <Typography size={TextSize.L}>Оплачен</Typography>
+                  <span className="">
+                    <img src="assets/icons/right-blue.svg" alt="" />
+                  </span>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

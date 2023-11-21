@@ -5,6 +5,7 @@ import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
+import Typography from "src/components/Typography";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -51,8 +52,22 @@ const Accounting = () => {
               <td>01.10.2023</td>
               <td>14 000 000 сум</td>
               <td>Да</td>
-              <td>Согласовано</td>
-              <td>Согласовано</td>
+              <td>
+                <div className="flex items-center justify-center gap-1">
+                  <Typography>Согласовано</Typography>
+                  <span>
+                    <img src="assets/icons/right-green.svg" alt="+" />
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center justify-center gap-1">
+                  <Typography>Согласовано</Typography>
+                  <span>
+                    <img src="assets/icons/right-green.svg" alt="+" />
+                  </span>
+                </div>
+              </td>
               <td>Подтверждён</td>
             </tr>
           </tbody>
