@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BaseInput from "src/components/BaseInputs";
@@ -10,10 +9,9 @@ import Header from "src/components/Header";
 import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
-
 import useOrders from "src/hooks/useOrders";
 import { priceNum } from "src/utils/helpers";
-
+import dayjs from "dayjs";
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
@@ -25,7 +23,6 @@ const column = [
 ];
 
 const Orders = () => {
-  const navigate = useNavigate();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sortKey, setSortKey] = useState();
   const handleSort = (key: any) => {
@@ -36,12 +33,14 @@ const Orders = () => {
       setSortOrder("asc");
     }
   };
-  const { refetch: orderRefetch, data: orders, isLoading } = useOrders({});
 
+  const { data: orders, refetch, isLoading } = useOrders({});
+  console.log(orders, "orders");
+
+  const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/orders/add");
   };
-
   return (
     <Container>
       <Header title="Все заявки">
@@ -61,29 +60,26 @@ const Orders = () => {
             />
 
             <tbody className="px-2 py-1">
-              {!!orders?.items?.length &&
-                orders?.items.map((item) => (
-                  <tr className="py-1" key={item.id}>
-                    <td className="py-3 pl-3">{item.id}</td>
-                    <td>{item?.order_sp?.name}</td>
-                    <td>Гафуржанов Шахзод</td>
-                    <td>
-                      {dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}
-                    </td>
-                    <td>{priceNum(+item?.price)} сум</td>
-                    <td>{item.is_urgent ? "Да" : "Нет"}</td>
-                    <td>{item.status}</td>
-                  </tr>
-                ))}
+              {orders?.items.map((item, idx) => (
+                <tr key={idx} className="py-1">
+                  <td>{item.id}</td>
+                  <td>{item.sphere_id}</td>
+                  <td>Гафуржанов Шахзод</td>
+                  <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
+                  <td>{priceNum(+item?.price)} сум</td>
+                  <td>{item.is_urgent ? "Да" : "Нет"}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
 
-        {isLoading && <Loading className="py-4" />}
-        {!isLoading && !orders?.items?.length && <EmptyList />}
+        {isLoading && <Loading className=" py-4" />}
+        {!orders?.items.length && !isLoading && <EmptyList />}
 
         {!!orders?.pages && (
-          <Pagination className="my-4" totalPages={orders.pages} />
+          <Pagination className="my-4" totalPages={orders?.pages} />
         )}
       </Card>
     </Container>

@@ -6,6 +6,9 @@ import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography from "src/components/Typography";
 import useOrders from "src/hooks/useOrders";
+import Loading from "src/components/Loader";
+import EmptyList from "src/components/EmptyList";
+import { priceNum } from "src/utils/helpers";
 import dayjs from "dayjs";
 
 const column = [
@@ -55,8 +58,8 @@ const FinanceDepartment = () => {
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
                   <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
-                  <td>{item.price}</td>
-                  <td>{item.is_urgent}</td>
+                  <td>{priceNum(+item?.price)} сум</td>
+                  <td>{item.is_urgent ? "Да" : "Нет"}</td>
                   <td>
                     <div className="flex items-center justify-center gap-1 w-max">
                       <Typography>Согласовано</Typography>
@@ -80,7 +83,12 @@ const FinanceDepartment = () => {
           </table>
         </div>
 
-        <Pagination className="my-4" totalPages={2} />
+        {isLoading && <Loading className=" py-4" />}
+        {!orders?.items.length && !isLoading && <EmptyList />}
+
+        {!!orders?.pages && (
+          <Pagination className="my-4" totalPages={orders?.pages} />
+        )}
       </Card>
     </Container>
   );

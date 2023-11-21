@@ -56,7 +56,7 @@ const Navigation = () => {
   const { pathname, search } = useLocation();
 
   const renderSidebar = useMemo(() => {
-    if (!!token) return <Sidebar />;
+    return <Sidebar />;
   }, [token]);
 
   const renderScreen = useMemo(() => {
@@ -76,7 +76,7 @@ const Navigation = () => {
   }, [routes, token]);
 
   useEffect(() => {
-    if (!token) navigate("/login");
+    // if (!token) navigate("/login");
     if (!!error) dispatch(logoutHandler());
   }, [token, error]);
 
@@ -85,7 +85,7 @@ const Navigation = () => {
   return (
     <>
       {renderSidebar}
-      <div className={cl({ ["pl-[280px]"]: !!token })}>
+      <div className={cl({ ["pl-[280px]"]: true })}>
         <Routes>
           <Route element={<Login />} path={"/login"} />
 

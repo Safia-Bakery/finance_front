@@ -11,6 +11,7 @@ import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
 import useToken from "src/hooks/useToken";
 import Container from "src/components/Container";
+import Loading from "src/components/Loader";
 
 const column = [
   { name: "№", key: "" },
@@ -105,7 +106,7 @@ const SphereUsers = () => {
               )}
             </table>
 
-            {/* {isLoading && <Loading />} */}
+            {isLoading && <Loading />}
             {!users?.length && !isLoading && <EmptyList />}
           </div>
         </div>
