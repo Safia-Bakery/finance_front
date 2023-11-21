@@ -6,7 +6,7 @@ import TableHead from "src/components/TableHead";
 import TableViewBtn from "src/components/TableViewBtn";
 import Button from "src/components/Button";
 import { TextSize } from "src/components/Typography";
-import useRoles from "src/hooks/useRoles";
+import usePayers from "src/hooks/usePayers";
 import { MainPermissions } from "src/utils/types";
 import useToken from "src/hooks/useToken";
 import Container from "src/components/Container";
@@ -18,13 +18,13 @@ const column = [
   { name: "", key: "" },
 ];
 
-const Roles = () => {
+const Payers = () => {
   const navigate = useNavigate();
   const handleNavigate = (route: string) => () => navigate(route);
   const { data } = useToken({});
   const perms = data?.permissions;
 
-  const { data: roles, isLoading } = useRoles({});
+  const { data: payers, isLoading } = usePayers({});
 
   const [sortKey, setSortKey] = useState();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -39,8 +39,8 @@ const Roles = () => {
   };
 
   const sortData = () => {
-    if (roles && sortKey) {
-      const sortedData = [...roles].sort((a, b) => {
+    if (payers && sortKey) {
+      const sortedData = [...payers].sort((a, b) => {
         if (a[sortKey]! < b[sortKey]!) return sortOrder === "asc" ? -1 : 1;
         if (a[sortKey]! > b[sortKey]!) return sortOrder === "asc" ? 1 : -1;
         else return 0;
@@ -58,16 +58,16 @@ const Roles = () => {
   return (
     <Container>
       <Header title="Роли">
-        {perms?.[MainPermissions.filling] && (
-          <Button
-            className="bg-yellow"
-            textClassName="text-black"
-            textSize={TextSize.L}
-            onClick={() => navigate("add")}
-          >
-            Создать
-          </Button>
-        )}
+        {/* {perms?.[MainPermissions.payers] && ( */}
+        <Button
+          className="bg-yellow"
+          textClassName="text-black"
+          textSize={TextSize.L}
+          onClick={() => navigate("add")}
+        >
+          Создать
+        </Button>
+        {/* )} */}
       </Header>
       <Card className="mt-1">
         <div className="table-responsive grid-view content">
@@ -79,33 +79,31 @@ const Roles = () => {
               sortOrder={sortOrder}
             />
 
-            {!!roles?.length && (
+            {!!payers?.length && (
               <tbody>
-                {(sortData()?.length ? sortData() : roles)?.map((role, idx) => (
-                  <tr className="border-b-mainGray border-b-2" key={role.id}>
-                    <td className="pl-3 py-4" width="40">
-                      {idx + 1}
-                    </td>
-                    <td>
-                      <Link to={`/roles/${role.id}`}>{role.name}</Link>
-                    </td>
-                    <td width={40}>
-                      {perms?.[MainPermissions.filling] && (
-                        <TableViewBtn
-                          onClick={handleNavigate(`edit/${role.id}`)}
-                        />
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {(sortData()?.length ? sortData() : payers)?.map(
+                  (payer, idx) => (
+                    <tr className="border-b-mainGray border-b-2" key={payer.id}>
+                      <td className="pl-3 py-4" width="40">
+                        {idx + 1}
+                      </td>
+                      <td>{payer.name}</td>
+                      <td width={40}>
+                        {/* {perms?.[MainPermissions.edit_payers] && ( */}
+                        <TableViewBtn onClick={handleNavigate(`${payer.id}`)} />
+                        {/* )} */}
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             )}
           </table>
-          {!roles?.length && !isLoading && <EmptyList />}
+          {!payers?.length && !isLoading && <EmptyList />}
         </div>
       </Card>
     </Container>
   );
 };
 
-export default Roles;
+export default Payers;

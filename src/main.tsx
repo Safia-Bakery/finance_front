@@ -7,9 +7,10 @@ import BaseAPIClient from "./api/axiosConfig.ts";
 import Loading from "./components/Loader/index.tsx";
 import { Provider } from "react-redux";
 
-// export const baseURL = "https://backend.service.safiabakery.uz";
-// export const baseURL = "http://10.0.0.253:8000";
-export const baseURL = "http://109.94.172.130:8000";
+//http://10.0.0.109:8000/docs
+
+// export const baseURL = "https://6260-92-63-204-152.ngrok-free.app";
+export const baseURL = "http://10.0.0.109:8000";
 
 export default new BaseAPIClient(baseURL, store);
 

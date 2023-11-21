@@ -1,6 +1,4 @@
-import dayjs from "dayjs";
-import React, { useState } from "react";
-import Button from "src/components/Button";
+import { useState } from "react";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
 import Header from "src/components/Header";
@@ -8,6 +6,7 @@ import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography from "src/components/Typography";
 import useOrders from "src/hooks/useOrders";
+import dayjs from "dayjs";
 
 const column = [
   { name: "№ Заявки", key: "" },

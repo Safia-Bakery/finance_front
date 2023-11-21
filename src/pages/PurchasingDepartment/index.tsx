@@ -1,5 +1,4 @@
-import dayjs from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
@@ -7,7 +6,7 @@ import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import useOrders from "src/hooks/useOrders";
-
+import dayjs from "dayjs";
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
@@ -66,7 +65,7 @@ const PurchasingDepartment = () => {
           </table>
         </div>
 
-        <Pagination className="my-4" totalPages={2} />
+        <Pagination className="my-4" totalPages={orders?.pages} />
       </Card>
     </Container>
   );

@@ -27,8 +27,15 @@ import Spheres from "src/pages/Spheres";
 import EditAddSphere from "src/pages/EditAddSphere";
 import PurchasingDepartment from "src/pages/PurchasingDepartment";
 import FinanceDepartment from "src/pages/FinanceDepartment";
-import Accounting from "src/pages/Accounting";
+import Accounting from "src/pages/Accounting/Accounting";
 import Archive from "src/pages/Archive";
+import Loading from "../Loader";
+import cl from "classnames";
+import ShowRole from "src/pages/ShowRole";
+import EditAddSphereUsers from "src/pages/EditAddSphereUsers";
+import SphereUsers from "src/pages/SphereUsers";
+import Payers from "src/pages/Payers";
+import EditAddPayers from "src/pages/EditAddPayers";
 // import Logs from "src/pages/Logs";
 
 export const routes = [
@@ -47,21 +54,13 @@ export const routes = [
 const Navigation = () => {
   const token = useAppSelector(tokenSelector);
   const navigate = useNavigate();
-  const tokenKey = useQueryString("key");
   const dispatch = useAppDispatch();
-  //   const permission = useAppSelector(permissionSelector);
-  const { error, data: user } = useToken({});
+  const { error, data: user, isLoading } = useToken({});
   const { pathname, search } = useLocation();
 
-  //   const renderSidebar = useMemo(() => {
-  //     if (!!permission && !!token)
-  //       return (
-  //         <>
-  //           <CustomSidebar />
-  //           {/* <BreadCrump /> */}
-  //         </>
-  //       );
-  //   }, [permission, token]);
+  const renderSidebar = useMemo(() => {
+    if (!!token) return <Sidebar />;
+  }, [token]);
 
   const renderScreen = useMemo(() => {
     return null;
@@ -80,16 +79,16 @@ const Navigation = () => {
   }, [routes, token]);
 
   useEffect(() => {
-    // if (!token) navigate("/login");
+    if (!token) navigate("/login");
     if (!!error) dispatch(logoutHandler());
   }, [token, error]);
 
+  // if (isLoading && token) return <Loading absolute />;
+
   return (
     <>
-      {/* {renderSidebar} */}
-
-      <Sidebar />
-      <div className="pl-[260px]">
+      {renderSidebar}
+      <div className={cl({ ["pl-[280px]"]: !!token })}>
         <Routes>
           <Route element={<Login />} path={"/login"} />
 
@@ -116,13 +115,27 @@ const Navigation = () => {
           <Route element={<EditAddUser />} path={"/users/add"} />
 
           <Route element={<Roles />} path={"/roles"} />
-          <Route element={<EditAddRole />} path={"/role/add"} />
-          <Route element={<EditAddRole />} path={"/role/:id"} />
+          <Route element={<EditAddRole />} path={"/roles/add"} />
+          <Route element={<EditAddRole />} path={"/roles/:id"} />
+          <Route element={<ShowRole />} path={"/permission/:id"} />
 
           <Route element={<Spheres />} path={"/spheres"} />
           <Route element={<EditAddSphere />} path={"/spheres/add"} />
           <Route element={<EditAddSphere />} path={"/spheres/:id"} />
-          {/* <Route element={<Logs />} path={"/logs"} /> */}
+
+          <Route element={<Payers />} path={"/payers"} />
+          <Route element={<EditAddPayers />} path={"/payers/add"} />
+          <Route element={<EditAddPayers />} path={"/payers/:id"} />
+
+          <Route element={<SphereUsers />} path={"/sphere-users/:sphere_id"} />
+          <Route
+            element={<EditAddSphereUsers />}
+            path={"/sphere-users/:sphere_id/add"}
+          />
+          <Route
+            element={<EditAddSphereUsers />}
+            path={"/sphere-users/:sphere_id/:user_id"}
+          />
 
           {/* {renderScreen} */}
         </Routes>

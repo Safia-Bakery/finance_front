@@ -9,7 +9,7 @@ interface Body {
   role_id: number;
   full_name: string;
   status: number;
-
+  tg_id?: string;
   id?: number;
 }
 

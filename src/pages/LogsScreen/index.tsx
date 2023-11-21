@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";

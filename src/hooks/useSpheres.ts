@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "src/main";
-import { CategoryTypes } from "src/utils/types";
+import { SphereTypes } from "src/utils/types";
 
-export const useCategories = ({
+export const useSpheres = ({
   enabled = true,
   name,
   id,
@@ -19,12 +19,12 @@ export const useCategories = ({
     queryKey: ["categories", name, id, status, price],
     queryFn: () =>
       apiClient
-        .get({ url: "/v1/category", params: { name, id, status, price } })
+        .get({ url: "/v1/spheres", params: { name, id, status, price } })
         .then(({ data: response }) => {
-          return response as CategoryTypes[];
+          return response as SphereTypes[];
         }),
     enabled,
     refetchOnMount: true,
   });
 };
-export default useCategories;
+export default useSpheres;

@@ -82,3 +82,15 @@ body {
 table {
   width: 100%;
 }
+
+a {
+  color: rgb(13, 110, 253);
+}
+.react-tel-input {
+  .form-control {
+    width: 100% !important;
+  }
+  .flag-dropdown {
+    border: none !important;
+  }
+}

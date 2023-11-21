@@ -45,6 +45,30 @@ export enum MainPermissions {
   fillings = 1,
   filling = 2,
   add_categories = 2,
+
+  payers = 1,
+  edit_payers = 1,
+  add_payers = 1,
+
+  roles = 1,
+  edit_roles = 1,
+  add_role = 1,
+
+  reports = 1,
+  purchasing_dep = 1,
+
+  orders = 1,
+  add_order = 1,
+  finance = 1,
+  accounting = 1,
+  archieve = 1,
+  employees = 1,
+
+  spheres = 1,
+  add_sphere = 1,
+  edit_sphere = 1,
+
+  settings = 1,
 }
 export interface MeTypes {
   id: number | string;
@@ -54,11 +78,57 @@ export interface MeTypes {
   permissions: number[];
 }
 
-export interface CategoryTypes {
+export interface SphereTypes {
   name: string;
-  id: number;
   status: number;
-  price: number;
+  id: number;
+  sphereuser: [
+    {
+      id: number;
+      sphere_id: number;
+      status: number;
+      sequence: number;
+      user_id: number;
+      sp_user: {
+        username: string;
+        status: number;
+        created_at: string | Date;
+        full_name: string;
+        is_client: number;
+        id: number;
+        role_id: number;
+        phone_number: string;
+        user_role: {
+          id: number;
+          name: string;
+        };
+        tg_id: number;
+      };
+    }
+  ];
+}
+
+export interface SphereUsers {
+  id: number;
+  sphere_id: number;
+  status: number;
+  sequence: number;
+  user_id: number;
+  sp_user: {
+    username: string;
+    status: number;
+    created_at: string | Date;
+    full_name: string;
+    is_client: number;
+    id: number;
+    role_id: number;
+    phone_number: string;
+    user_role: {
+      id: number;
+      name: string;
+    };
+    tg_id: number;
+  };
 }
 
 export interface ContentTypes {
@@ -128,6 +198,11 @@ export interface RoleTypes {
   ];
 }
 
+export interface PayersType {
+  id: number;
+  name: string;
+  status: number;
+}
 export interface PermissionTypes {
   id: number;
   name: string;
@@ -147,6 +222,8 @@ export interface UserType {
   id: number;
   role_id: number;
   phone_number: string;
+  tg_id: null | number;
+  user_role: { id: number; name: string };
 }
 
 export interface UsersType extends BasePaginatedRes {

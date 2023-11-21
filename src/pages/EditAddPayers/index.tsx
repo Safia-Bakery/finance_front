@@ -6,29 +6,34 @@ import MainInput from "src/components/BaseInputs/MainInput";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Typography, { TextSize } from "src/components/Typography";
-import roleMutation from "src/hooks/mutation/roleMutation";
-import useRoles from "src/hooks/useRoles";
+import payerMutation from "src/hooks/mutation/payer";
+import usePayers from "src/hooks/usePayers";
 import { errorToast, successToast } from "src/utils/toast";
 
-const EditAddRole = () => {
+const EditAddPayers = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit, reset, getValues } = useForm();
 
-  const { refetch: roleRefetch, data } = useRoles({
+  const { refetch: payerRefetch, data } = usePayers({
     enabled: !!id,
     id: Number(id),
   });
-  const { mutate: postRole } = roleMutation();
-  const role = data?.[0];
+
+  const { refetch } = usePayers({ enabled: false });
+  const { mutate: postRole } = payerMutation();
+  const payer = data?.[0];
 
   const onSubmit = () => {
+    const { name, status } = getValues();
     postRole(
-      { name: getValues("name"), role_id: Number(id) },
+      { name, status: Number(status), id: Number(id) },
       {
-        onSuccess: (data: any) => {
-          successToast(!id ? "role created" : "role updated");
-          navigate(!id ? `/permission/${data.id}` : "/roles");
+        onSuccess: () => {
+          if (id) payerRefetch();
+          refetch();
+          successToast(!id ? "payer created" : "payer updated");
+          navigate("/payers");
         },
         onError: (e: any) => errorToast(e.message),
       }
@@ -36,12 +41,12 @@ const EditAddRole = () => {
   };
 
   useEffect(() => {
-    if (id && role?.name) {
+    if (id && payer?.name) {
       reset({
-        name: role.name,
+        name: payer.name,
       });
     }
-  }, [role?.name, id]);
+  }, [payer?.name, id]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -66,4 +71,4 @@ const EditAddRole = () => {
   );
 };
 
-export default EditAddRole;
+export default EditAddPayers;
