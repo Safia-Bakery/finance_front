@@ -51,29 +51,33 @@ const Orders = () => {
       </Header>
 
       <Card>
-        <table>
-          <TableHead
-            column={column}
-            sort={handleSort}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-          />
+        <div className="overflow-x-auto">
+          <table>
+            <TableHead
+              column={column}
+              sort={handleSort}
+              sortKey={sortKey}
+              sortOrder={sortOrder}
+            />
 
-          <tbody className="px-2 py-1">
-            {!!orders?.items?.length &&
-              orders?.items.map((item) => (
-                <tr className="py-1" key={item.id}>
-                  <td className="py-3 pl-3">{item.id}</td>
-                  <td>{item?.order_sp?.name}</td>
-                  <td>Гафуржанов Шахзод</td>
-                  <td>{dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}</td>
-                  <td>{priceNum(+item?.price)} сум</td>
-                  <td>{item.is_urgent ? "Да" : "Нет"}</td>
-                  <td>{item.status}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+            <tbody className="px-2 py-1">
+              {!!orders?.items?.length &&
+                orders?.items.map((item) => (
+                  <tr className="py-1" key={item.id}>
+                    <td className="py-3 pl-3">{item.id}</td>
+                    <td>{item?.order_sp?.name}</td>
+                    <td>Гафуржанов Шахзод</td>
+                    <td>
+                      {dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}
+                    </td>
+                    <td>{priceNum(+item?.price)} сум</td>
+                    <td>{item.is_urgent ? "Да" : "Нет"}</td>
+                    <td>{item.status}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
 
         {isLoading && <Loading className="py-4" />}
         {!isLoading && !orders?.items?.length && <EmptyList />}

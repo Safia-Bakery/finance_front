@@ -1,11 +1,12 @@
 import { useState } from "react";
-import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography from "src/components/Typography";
+import useOrders from "src/hooks/useOrders";
+import dayjs from "dayjs";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -31,47 +32,53 @@ const FinanceDepartment = () => {
     }
   };
 
+  const { data: orders, refetch, isLoading } = useOrders({});
+
   return (
     <Container>
       <Header title="Все заявки"></Header>
 
       <Card>
-        <table>
-          <TableHead
-            column={column}
-            sort={handleSort}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-          />
+        <div className=" overflow-x-auto">
+          <table>
+            <TableHead
+              column={column}
+              sort={handleSort}
+              sortKey={sortKey}
+              sortOrder={sortOrder}
+            />
 
-          <tbody className="px-2 py-1">
-            <tr className="py-1 text-center ">
-              <td>100091</td>
-              <td>Фабрика</td>
-              <td>Гафуржанов Шахзод</td>
-              <td>01.10.2023</td>
-              <td>14 000 000 сум</td>
-              <td>Да</td>
-              <td>
-                <div className="flex items-center justify-center gap-1">
-                  <Typography>Согласовано</Typography>
-                  <span>
-                    <img src="assets/icons/right-green.svg" alt="+" />
-                  </span>
-                </div>
-              </td>
-              <td>
-                <div className="flex items-center justify-center gap-1">
-                  <Typography>Согласовано</Typography>
-                  <span>
-                    <img src="assets/icons/right-green.svg" alt="+" />
-                  </span>
-                </div>
-              </td>
-              <td>(Не задано)</td>
-            </tr>
-          </tbody>
-        </table>
+            <tbody className="px-2 py-1">
+              {orders?.items.map((item, idx) => (
+                <tr className="py-1 text-center ">
+                  <td>{item.id}</td>
+                  <td>{item.sphere_id}</td>
+                  <td>Гафуржанов Шахзод</td>
+                  <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
+                  <td>{item.price}</td>
+                  <td>{item.is_urgent}</td>
+                  <td>
+                    <div className="flex items-center justify-center gap-1 w-max">
+                      <Typography>Согласовано</Typography>
+                      <span>
+                        <img src="assets/icons/right-green.svg" alt="+" />
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex items-center justify-center gap-1">
+                      <Typography>Согласовано</Typography>
+                      <span>
+                        <img src="assets/icons/right-green.svg" alt="+" />
+                      </span>
+                    </div>
+                  </td>
+                  <td>Не задано</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <Pagination className="my-4" totalPages={2} />
       </Card>

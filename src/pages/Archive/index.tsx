@@ -38,59 +38,61 @@ const Archive = () => {
       <Header title="Все заявки"></Header>
 
       <Card>
-        <table>
-          <TableHead
-            column={column}
-            sort={handleSort}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-          />
+        <div className="overflow-x-auto">
+          <table>
+            <TableHead
+              column={column}
+              sort={handleSort}
+              sortKey={sortKey}
+              sortOrder={sortOrder}
+            />
 
-          <tbody className="px-2 py-1 bg-[#B9EFCD] ">
-            <tr className="py-1 text-center   ">
-              <td>100091</td>
-              <td>Фабрика</td>
-              <td>Махмуд</td>
-              <td>01.10.2023</td>
-              <td>14 000 000 сум</td>
-              <td>Перечисление</td>
-              <td>Да</td>
-              <td className="">
-                <div className="flex items-center gap-1 justify-center">
-                  <Typography size={TextSize.L}>Согласовано</Typography>
-                  <span className="">
-                    <img src="assets/icons/right-green.svg" alt="" />
-                  </span>
-                </div>
-              </td>
-              <td className="">
-                <div className="flex items-center gap-1 justify-center">
-                  <Typography size={TextSize.L}>Согласовано</Typography>
-                  <span className="">
-                    <img src="assets/icons/right-green.svg" alt="" />
-                  </span>
-                </div>
-              </td>
-              <td>Гафуржанов Шахзод</td>
-              <td>
-                <div className="flex items-center gap-1 justify-center">
-                  <Typography size={TextSize.L}>Подтвердждён</Typography>
-                  <span className="">
-                    <img src="assets/icons/right-blue.svg" alt="" />
-                  </span>
-                </div>
-              </td>
-              <td>
-                <div className="flex items-center gap-1 justify-center">
-                  <Typography size={TextSize.L}>Оплачен</Typography>
-                  <span className="">
-                    <img src="assets/icons/right-blue.svg" alt="" />
-                  </span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            <tbody className="px-2 py-1 bg-[#B9EFCD] ">
+              <tr className="py-1 text-center   ">
+                <td>100091</td>
+                <td>Фабрика</td>
+                <td>Махмуд</td>
+                <td>01.10.2023</td>
+                <td>14 000 000 сум</td>
+                <td>Перечисление</td>
+                <td>Да</td>
+                <td>
+                  <div className="flex items-center gap-1 justify-center w-max">
+                    <Typography size={TextSize.L}>Согласовано</Typography>
+                    <span>
+                      <img src="/assets/icons/right-green.svg" alt="right" />
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div className="flex items-center gap-1 justify-center">
+                    <Typography size={TextSize.L}>Согласовано</Typography>
+                    <span>
+                      <img src="/assets/icons/right-green.svg" alt="right" />
+                    </span>
+                  </div>
+                </td>
+                <td>Гафуржанов Шахзод</td>
+                <td className="">
+                  <div className="flex items-center gap-1 justify-center  w-max">
+                    <Typography size={TextSize.L}>Подтвердждён</Typography>
+                    <span>
+                      <img src="/assets/icons/right-blue.svg" alt="right" />
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div className="flex items-center gap-1 justify-center">
+                    <Typography size={TextSize.L}>Оплачен</Typography>
+                    <span>
+                      <img src="/assets/icons/right-blue.svg" alt="right" />
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <Pagination className="my-4" totalPages={2} />
       </Card>
