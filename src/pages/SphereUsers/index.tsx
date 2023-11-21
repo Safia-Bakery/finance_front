@@ -11,6 +11,7 @@ import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
 import useToken from "src/hooks/useToken";
 import Container from "src/components/Container";
+import { SphereUsers as SphereUsersTypes } from "src/utils/types";
 
 const column = [
   { name: "№", key: "" },
@@ -23,8 +24,7 @@ const column = [
 const SphereUsers = () => {
   const { sphere_id } = useParams();
   const navigate = useNavigate();
-  const [sortKey, setSortKey] = useState();
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sort, $sort] = useState<SphereUsersTypes[]>();
   const update = useQueryString("update");
 
   const name = useQueryString("name");
@@ -36,15 +36,6 @@ const SphereUsers = () => {
   } = useSphereUsers({ sphere_id: Number(sphere_id) });
 
   const handleNavigate = (url: string) => navigate(url);
-
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
 
   useEffect(() => {
     if (update) refetch();
@@ -72,15 +63,14 @@ const SphereUsers = () => {
             {/* <ItemsCount data={categories} /> */}
             <table className="table table-hover">
               <TableHead
+                onSort={(data) => $sort(data)}
                 column={column}
-                sort={handleSort}
-                sortKey={sortKey}
-                sortOrder={sortOrder}
+                data={users}
               />
 
               {!!users?.length && (
                 <tbody>
-                  {users?.map((user, idx) => (
+                  {(sort?.length ? sort : users)?.map((user, idx) => (
                     <tr key={idx} className="bg-blue">
                       <td className="first:pl-3 py-3" width="40">
                         {idx + 1}

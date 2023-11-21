@@ -12,7 +12,7 @@ import { TextSize } from "src/components/Typography";
 import Button from "src/components/Button";
 import useUsers from "src/hooks/useUsers";
 import useQueryString from "src/hooks/useQueryString";
-import { MainPermissions } from "src/utils/types";
+import { MainPermissions, UserType } from "src/utils/types";
 import useToken from "src/hooks/useToken";
 
 interface Props {
@@ -32,11 +32,10 @@ const column = [
 ];
 
 const Users: FC<Props> = ({ client, edit, add }) => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
   const update = useQueryString("update");
   const { data } = useToken({});
   const perms = data?.permissions;
+  const [sort, $sort] = useState<UserType[]>();
 
   const { data: users, refetch } = useUsers({
     ...(!!client && { is_client: Number(client) }),
@@ -44,15 +43,6 @@ const Users: FC<Props> = ({ client, edit, add }) => {
 
   const navigate = useNavigate();
   const handleNavigate = (route: string) => () => navigate(route);
-
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
 
   useEffect(() => {
     if (update) refetch();
@@ -75,14 +65,13 @@ const Users: FC<Props> = ({ client, edit, add }) => {
         </Header>
         <table>
           <TableHead
+            onSort={(data) => $sort(data)}
             column={column}
-            sort={handleSort}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
+            data={users?.items}
           />
 
           <tbody>
-            {users?.items.map((user, idx) => (
+            {(sort?.length ? sort : users?.items)?.map((user, idx) => (
               <tr className="bg-blue hover:bg-gray-200 py-2" key={idx}>
                 <td width="40" className="first:pl-3 py-3">
                   {idx + 1}

@@ -5,6 +5,7 @@ import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography, { TextSize } from "src/components/Typography";
+import { Order } from "src/utils/types";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -22,16 +23,7 @@ const column = [
 ];
 
 const Archive = () => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
+  const [sort, $sort] = useState<Order[]>();
 
   return (
     <Container>
@@ -41,14 +33,14 @@ const Archive = () => {
         <div className="overflow-x-auto">
           <table>
             <TableHead
+              onSort={(data) => $sort(data)}
               column={column}
-              sort={handleSort}
-              sortKey={sortKey}
-              sortOrder={sortOrder}
+              // data={orders?.items}
             />
 
             <tbody className="px-2 py-1 bg-[#B9EFCD] ">
               <tr className="py-1 text-center   ">
+                {/* (sort?.length ? sort : orders?.items) */}
                 <td>100091</td>
                 <td>Фабрика</td>
                 <td>Махмуд</td>

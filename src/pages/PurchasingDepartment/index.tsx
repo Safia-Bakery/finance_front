@@ -7,6 +7,8 @@ import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import useOrders from "src/hooks/useOrders";
 import dayjs from "dayjs";
+import { Order } from "src/utils/types";
+
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
@@ -19,17 +21,7 @@ const column = [
 ];
 
 const PurchasingDepartment = () => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
-
+  const [sort, $sort] = useState<Order[]>();
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
@@ -42,14 +34,13 @@ const PurchasingDepartment = () => {
         <div className="overflow-x-auto">
           <table>
             <TableHead
+              onSort={(data) => $sort(data)}
               column={column}
-              sort={handleSort}
-              sortKey={sortKey}
-              sortOrder={sortOrder}
+              data={orders?.items}
             />
 
             <tbody className="px-2 py-1">
-              {orders?.items.map((item, idx) => (
+              {(sort?.length ? sort : orders?.items)?.map((item) => (
                 <tr className="py-1">
                   <td>{item.id}</td>
                   <td>{item.sphere_id}</td>

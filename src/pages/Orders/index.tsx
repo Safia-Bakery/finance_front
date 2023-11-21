@@ -1,7 +1,5 @@
-import dayjs from "dayjs";
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import BaseInput from "src/components/BaseInputs";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
@@ -10,33 +8,25 @@ import Header from "src/components/Header";
 import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
-
+import dayjs from "dayjs";
 import useOrders from "src/hooks/useOrders";
-import { priceNum } from "src/utils/helpers";
+import { mockOrder as orders, priceNum } from "src/utils/helpers";
+import { Order } from "src/utils/types";
 
 const column = [
   { name: "№ Заявки", key: "" },
-  { name: "Сфера", key: "id" },
+  { name: "Сфера", key: "sphere" },
   { name: "Руководитель", key: "type" },
-  { name: "Дата поступления", key: "fillial.name" },
-  { name: "Сумма", key: "category.name" },
-  { name: "Срочно", key: "" },
-  { name: "Статус", key: "" },
+  { name: "Дата поступления", key: "created_at" },
+  { name: "Сумма", key: "price" },
+  { name: "Срочно", key: "urgent" },
+  { name: "Статус", key: "status" },
 ];
 
 const Orders = () => {
   const navigate = useNavigate();
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
-  const { refetch: orderRefetch, data: orders, isLoading } = useOrders({});
+  const { refetch: orderRefetch, isLoading } = useOrders({});
+  const [sort, $sort] = useState<Order[]>();
 
   const handleNavigate = () => {
     navigate("/orders/add");
@@ -54,17 +44,17 @@ const Orders = () => {
         <div className="overflow-x-auto">
           <table>
             <TableHead
+              onSort={(data) => $sort(data)}
               column={column}
-              sort={handleSort}
-              sortKey={sortKey}
-              sortOrder={sortOrder}
+              data={orders?.items}
             />
-
             <tbody className="px-2 py-1">
               {!!orders?.items?.length &&
-                orders?.items.map((item) => (
+                (sort?.length ? sort : orders?.items).map((item) => (
                   <tr className="py-1" key={item.id}>
-                    <td className="py-3 pl-3">{item.id}</td>
+                    <td className="py-3 pl-3">
+                      <Link to={`${item?.id}`}>{item.id}</Link>
+                    </td>
                     <td>{item?.order_sp?.name}</td>
                     <td>Гафуржанов Шахзод</td>
                     <td>
@@ -79,8 +69,8 @@ const Orders = () => {
           </table>
         </div>
 
-        {isLoading && <Loading className="py-4" />}
-        {!isLoading && !orders?.items?.length && <EmptyList />}
+        {/* {isLoading && <Loading className="py-4" />}
+        {!isLoading && !orders?.items?.length && <EmptyList />} */}
 
         {!!orders?.pages && (
           <Pagination className="my-4" totalPages={orders.pages} />
