@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
@@ -6,6 +6,7 @@ import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography from "src/components/Typography";
+import { priceNum } from "src/utils/helpers";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -50,7 +51,7 @@ const Accounting = () => {
               <td>Фабрика</td>
               <td>Гафуржанов Шахзод</td>
               <td>01.10.2023</td>
-              <td>14 000 000 сум</td>
+              <td>{priceNum(14000000)}сум</td>
               <td>Да</td>
               <td>
                 <div className="flex items-center justify-center gap-1">

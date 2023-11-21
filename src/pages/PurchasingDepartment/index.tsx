@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";

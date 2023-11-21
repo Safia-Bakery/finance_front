@@ -12,7 +12,7 @@ import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 
 import useOrders from "src/hooks/useOrders";
-import { numberWithCommas } from "src/utils/helpers";
+import { priceNum } from "src/utils/helpers";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -67,7 +67,7 @@ const Orders = () => {
                   <td>{item?.order_sp?.name}</td>
                   <td>Гафуржанов Шахзод</td>
                   <td>{dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}</td>
-                  <td>{numberWithCommas(+item?.price)} сум</td>
+                  <td>{priceNum(+item?.price)} сум</td>
                   <td>{item.is_urgent ? "Да" : "Нет"}</td>
                   <td>{item.status}</td>
                 </tr>
@@ -76,9 +76,9 @@ const Orders = () => {
         </table>
 
         {isLoading && <Loading className="py-4" />}
-        {!isLoading && !orders?.items.length && <EmptyList />}
+        {!isLoading && !orders?.items?.length && <EmptyList />}
 
-        {!!orders?.items.length && (
+        {!!orders?.pages && (
           <Pagination className="my-4" totalPages={orders.pages} />
         )}
       </Card>

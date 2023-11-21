@@ -7,7 +7,7 @@ export const StatusName = [
   { name: "Активный", id: 1 },
   { name: "Не активный", id: 0 },
 ];
-export const numberWithCommas = (val: number) => {
+export const priceNum = (val: number) => {
   return val
     ?.toFixed(2)
     ?.toString()

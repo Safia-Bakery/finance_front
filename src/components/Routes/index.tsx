@@ -27,7 +27,7 @@ import Spheres from "src/pages/Spheres";
 import EditAddSphere from "src/pages/EditAddSphere";
 import PurchasingDepartment from "src/pages/PurchasingDepartment";
 import FinanceDepartment from "src/pages/FinanceDepartment";
-import Accounting from "src/pages/Accounting";
+import Accounting from "src/pages/Accounting/Accounting";
 import Archive from "src/pages/Archive";
 import Loading from "../Loader";
 import cl from "classnames";
