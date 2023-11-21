@@ -32,14 +32,14 @@ const Home = () => {
           <p className={styles.category}>{user?.role?.toString()}Admin</p>
         </div>
       </div>
-      <Card className="bg-[#F8F9FA] !w-auto m-2">
-        <div className="w-[400px] ml-4">
+      <Card className="bg-[#F8F9FA] !w-auto h-screen m-2">
+        <div className="w-[1200px] ml-4">
           <Typography size={TextSize.L} weight={Weight.bold} alignCenter>
             КУРС ВАЛЮТ
           </Typography>
           <div className="flex mt-3 gap-3">
             <div className="border border-gray-200 rounded ">
-              <table className="w-full ">
+              <table className="w-[700px] ">
                 <thead>
                   <tr className="border-b-darkBlue border-b-2">
                     <th className="uppercase text-darkBlue font-normal text-start  p-4">
@@ -69,7 +69,7 @@ const Home = () => {
               </table>
             </div>
 
-            <div className="p-6 bg-white rounded w-[200px] shadow h-min">
+            <div className="p-6 bg-white rounded w-[250px] shadow h-min">
               <Typography size={TextSize.L} weight={Weight.bold}>
                 Converter
               </Typography>
@@ -78,11 +78,10 @@ const Home = () => {
                 <div className="flex gap-2">
                   <MainInput
                     type="number"
-                    className="flex flex-2 shadow p-1 border rounded text-black"
+                    className="flex flex-2 shadow p-1 border rounded text-black w-24 "
                   />
-
                   <MainSelect
-                    className="flex-1 flex p-1 shadow text-black border rounded"
+                    className="flex-1 flex p-1 shadow text-black border rounded w-16"
                     noDefault
                     onChange={(e) => $currency(+e.target.value)}
                     values={currencyVals}
