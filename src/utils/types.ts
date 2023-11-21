@@ -290,6 +290,6 @@ export interface Order {
   comment: string;
 }
 
-export interface OredrsTypes extends BasePaginatedRes {
+export interface OrdersTypes extends BasePaginatedRes {
   items: Order[];
 }
