@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React, { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
@@ -5,6 +6,7 @@ import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
+import useOrders from "src/hooks/useOrders";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -29,6 +31,8 @@ const PurchasingDepartment = () => {
     }
   };
 
+  const { data: orders, refetch, isLoading } = useOrders({});
+
   return (
     <Container>
       <Header title="Все заявки">
@@ -36,27 +40,31 @@ const PurchasingDepartment = () => {
       </Header>
 
       <Card>
-        <table>
-          <TableHead
-            column={column}
-            sort={handleSort}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-          />
+        <div className="overflow-x-auto">
+          <table>
+            <TableHead
+              column={column}
+              sort={handleSort}
+              sortKey={sortKey}
+              sortOrder={sortOrder}
+            />
 
-          <tbody className="px-2 py-1">
-            <tr className="py-1    ">
-              <td>100091</td>
-              <td>Фабрика</td>
-              <td>Гафуржанов Шахзод</td>
-              <td>01.10.2023</td>
-              <td>14 000 000 сум</td>
-              <td>Да</td>
-              <td>Ожидает согласования</td>
-              <td>Ожидает согласования</td>
-            </tr>
-          </tbody>
-        </table>
+            <tbody className="px-2 py-1">
+              {orders?.items.map((item, idx) => (
+                <tr className="py-1">
+                  <td>{item.id}</td>
+                  <td>{item.sphere_id}</td>
+                  <td>Гафуржанов Шахзод</td>
+                  <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
+                  <td>{item.price}</td>
+                  <td>{item.is_urgent}</td>
+                  <td>Ожидает согласования</td>
+                  <td>Ожидает согласования</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <Pagination className="my-4" totalPages={2} />
       </Card>

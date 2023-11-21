@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BaseInput from "src/components/BaseInputs";
@@ -5,9 +6,12 @@ import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
 import Header from "src/components/Header";
+import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography, { TextSize } from "src/components/Typography";
+import useOrder from "src/hooks/useOrder";
+import useOrders from "src/hooks/useOrders";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -30,6 +34,10 @@ const Orders = () => {
       setSortOrder("asc");
     }
   };
+
+  const { data: orders, refetch, isLoading } = useOrders({});
+  console.log(orders, "orders");
+
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/orders/add");
@@ -43,26 +51,30 @@ const Orders = () => {
       </Header>
 
       <Card>
-        <table>
-          <TableHead
-            column={column}
-            sort={handleSort}
-            sortKey={sortKey}
-            sortOrder={sortOrder}
-          />
+        <div className="overflow-x-auto">
+          <table>
+            <TableHead
+              column={column}
+              sort={handleSort}
+              sortKey={sortKey}
+              sortOrder={sortOrder}
+            />
 
-          <tbody className="px-2 py-1">
-            <tr className="py-1">
-              <td>100091</td>
-              <td>Фабрика</td>
-              <td>Гафуржанов Шахзод</td>
-              <td>01.10.2023</td>
-              <td>14 000 000 сум</td>
-              <td>Да</td>
-              <td>Создан</td>
-            </tr>
-          </tbody>
-        </table>
+            <tbody className="px-2 py-1">
+              {orders?.items.map((item, idx) => (
+                <tr key={idx} className="py-1">
+                  <td>{item.id}</td>
+                  <td>{item.sphere_id}</td>
+                  <td>Гафуржанов Шахзод</td>
+                  <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
+                  <td>{item.price}</td>
+                  <td>{item.is_urgent}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <Pagination className="my-4" totalPages={2} />
       </Card>

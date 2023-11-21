@@ -152,3 +152,67 @@ export interface UserType {
 export interface UsersType extends BasePaginatedRes {
   items: UserType[];
 }
+
+export interface Order {
+  id: number;
+  title: string;
+  price: string;
+  payment_type: number;
+  supplier: string;
+  sphere_id: number;
+  payer_id: number;
+  files: [string];
+  status: number;
+  order_sp: {
+    name: string;
+    status: number;
+    id: number;
+    sphereuser: [
+      {
+        id: number;
+        sphere_id: number;
+        status: number;
+        sequence: number;
+        user_id: number;
+        sp_user: {
+          username: string;
+          status: number;
+          created_at: string | Date;
+          full_name: string;
+          is_client: number;
+          id: number;
+          role_id: number;
+          phone_number: string;
+          user_role: {
+            id: number;
+            name: string;
+          };
+          tg_id: number;
+        };
+      }
+    ];
+  };
+  order_py: {
+    id: number;
+    name: string;
+    status: number;
+  };
+  created_at: string | Date;
+  order_hi: [
+    {
+      id: number;
+      user_id: number;
+      order_id: number;
+      status: number;
+      comment: string;
+      created_at: string | Date;
+    }
+  ];
+  purchaser: string;
+  is_urgent: number;
+  comment: string;
+}
+
+export interface OrdersTypes extends BasePaginatedRes {
+  items: Order[];
+}

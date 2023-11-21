@@ -78,10 +78,10 @@ const Home = () => {
                 <div className="flex gap-2">
                   <MainInput
                     type="number"
-                    className="flex flex-2 shadow p-1 border rounded text-black w-24 "
+                    className="flex flex-2 shadow p-1 border rounded text-black w-min "
                   />
                   <MainSelect
-                    className="flex-1 flex p-1 shadow text-black border rounded w-16"
+                    className="flex-1 flex p-1 shadow text-black border rounded w-min"
                     noDefault
                     onChange={(e) => $currency(+e.target.value)}
                     values={currencyVals}
