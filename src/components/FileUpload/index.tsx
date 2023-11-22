@@ -12,11 +12,13 @@ export interface FileItem {
 interface FileUploaderProps {
   onFilesSelected: (formData: FileItem[]) => void;
   inputRef?: any;
+  disabled?: boolean;
 }
 
 const UploadComponent: FC<FileUploaderProps> = ({
   onFilesSelected,
   inputRef,
+  disabled,
 }) => {
   const [fileList, setFileList] = useState<FileItem[]>([]);
   const [fileIdCounter, setFileIdCounter] = useState(0);
@@ -62,6 +64,7 @@ const UploadComponent: FC<FileUploaderProps> = ({
           id="fileUploader"
           type="file"
           ref={inputRef}
+          disabled={disabled}
           multiple
           onChange={handleFileUpload}
         />
@@ -88,7 +91,7 @@ const UploadComponent: FC<FileUploaderProps> = ({
       ) : (
         <div className="gap-2 flex mt-2">
           {fileList.map((item, idx) => (
-            <div className="relative">
+            <div className="relative" key={idx}>
               <img
                 src={imageConverter(item.file)}
                 className="max-h-12 object-contain h-full"

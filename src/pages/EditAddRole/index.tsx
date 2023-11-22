@@ -5,6 +5,7 @@ import BaseInput from "src/components/BaseInputs";
 import MainInput from "src/components/BaseInputs/MainInput";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
+import Header from "src/components/Header";
 import Typography, { TextSize } from "src/components/Typography";
 import roleMutation from "src/hooks/mutation/roleMutation";
 import useRoles from "src/hooks/useRoles";
@@ -19,7 +20,9 @@ const EditAddRole = () => {
     enabled: !!id,
     id: Number(id),
   });
-  const { mutate: postRole } = roleMutation();
+
+  const { refetch } = useRoles({ enabled: false });
+  const { mutate: postRole, isLoading } = roleMutation();
   const role = data?.[0];
 
   const onSubmit = () => {
@@ -29,6 +32,7 @@ const EditAddRole = () => {
         onSuccess: (data: any) => {
           successToast(!id ? "role created" : "role updated");
           navigate(!id ? `/permission/${data.id}` : "/roles");
+          refetch();
         },
         onError: (e: any) => errorToast(e.message),
       }
@@ -44,25 +48,30 @@ const EditAddRole = () => {
   }, [role?.name, id]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography size={TextSize.XXL} className="flex my-4 ml-1">
-        Добавить
-      </Typography>
+    <>
+      <Header title={!id ? "Добавить" : "Изменить"} />
+
       <Card className="px-8 py-4">
-        <div className="flex flex-1 gap-4 flex-col">
-          <BaseInput label="НАЗВАНИЕ" className="mt-4">
-            <MainInput
-              register={register("name", { required: "Обязательное поле" })}
-            />
-          </BaseInput>
-        </div>
-        <div className="flex flex-1 justify-end">
-          <Button className="bg-darkYellow mt-4 w-64 text-black" type="submit">
-            {!!id ? "Изменить" : "Создать"}
-          </Button>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-1 gap-4 flex-col">
+            <BaseInput label="НАЗВАНИЕ" className="mt-4">
+              <MainInput
+                register={register("name", { required: "Обязательное поле" })}
+              />
+            </BaseInput>
+          </div>
+          <div className="flex flex-1 justify-end">
+            <Button
+              isLoading={isLoading}
+              className="bg-darkYellow mt-4 w-64 text-black"
+              type="submit"
+            >
+              {!!id ? "Изменить" : "Создать"}
+            </Button>
+          </div>
+        </form>
       </Card>
-    </form>
+    </>
   );
 };
 

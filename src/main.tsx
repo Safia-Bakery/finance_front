@@ -6,18 +6,26 @@ import { persistor, store } from "./store/rootConfig.ts";
 import BaseAPIClient from "./api/axiosConfig.ts";
 import Loading from "./components/Loader/index.tsx";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./utils/helpers.ts";
+import { ToastContainer } from "react-toastify";
 
-//http://10.0.0.109:8000/docs
+//https://api.finance.safiabakery.uz/docs
 
-// export const baseURL = "https://6260-92-63-204-152.ngrok-free.app";
-export const baseURL = "http://10.0.0.109:8000";
+export const baseURL = "https://api.finance.safiabakery.uz";
 
 export default new BaseAPIClient(baseURL, store);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <PersistGate persistor={persistor} loading={<Loading />}>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+        <ToastContainer autoClose={1000} />
+      </QueryClientProvider>
     </PersistGate>
   </Provider>
 );

@@ -11,6 +11,7 @@ export const useOrders = ({
   created_at,
   is_delivery,
   sphere,
+  id,
 }: {
   enabled?: boolean;
   size?: number;
@@ -20,6 +21,7 @@ export const useOrders = ({
   created_at?: string;
   is_delivery?: number;
   sphere?: string;
+  id?: number | string;
 }) => {
   return useQuery({
     queryKey: [
@@ -30,6 +32,7 @@ export const useOrders = ({
       created_at,
       is_delivery,
       sphere,
+      id,
     ],
     queryFn: () =>
       apiClient
@@ -43,6 +46,7 @@ export const useOrders = ({
             created_at,
             is_delivery,
             sphere,
+            id,
           },
         })
         .then(({ data: response }) => (response as OrdersTypes) || null),

@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Loading from "src/components/Loader";
 import TableHead from "src/components/TableHead";
 import TableViewBtn from "src/components/TableViewBtn";
@@ -47,22 +46,23 @@ const Users: FC<Props> = ({ client, edit, add }) => {
   useEffect(() => {
     if (update) refetch();
   }, [update]);
+
   return (
-    <Container>
+    <>
       <UsersFilter />
+      <Header title={client ? "" : "Пользователи"}>
+        {!client && perms?.[add] && (
+          <Button
+            className="bg-yellow ml-2 w-24"
+            textClassName="text-black"
+            textSize={TextSize.L}
+            onClick={handleNavigate("add")}
+          >
+            Создать
+          </Button>
+        )}
+      </Header>
       <Card>
-        <Header title={client ? "" : "Пользователи"}>
-          {!client && perms?.[add] && (
-            <Button
-              className="bg-yellow ml-2 w-24"
-              textClassName="text-black"
-              textSize={TextSize.L}
-              onClick={handleNavigate("add")}
-            >
-              Создать
-            </Button>
-          )}
-        </Header>
         <table>
           <TableHead
             onSort={(data) => $sort(data)}
@@ -100,7 +100,7 @@ const Users: FC<Props> = ({ client, edit, add }) => {
           </tbody>
         </table>
       </Card>
-    </Container>
+    </>
   );
 };
 

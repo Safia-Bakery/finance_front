@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
@@ -26,7 +25,7 @@ const Accounting = () => {
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
-    <Container>
+    <>
       <Header title="Все заявки"></Header>
 
       <Card>
@@ -39,7 +38,7 @@ const Accounting = () => {
             />
             <tbody className="px-2 py-1">
               {(sort?.length ? sort : orders?.items)?.map((item, idx) => (
-                <tr className="py-1 text-center ">
+                <tr className="py-1 text-center " key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
@@ -70,7 +69,7 @@ const Accounting = () => {
         </div>
         <Pagination className="my-4" totalPages={2} />
       </Card>
-    </Container>
+    </>
   );
 };
 

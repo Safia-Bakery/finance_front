@@ -9,8 +9,8 @@ import { TextSize } from "src/components/Typography";
 import usePayers from "src/hooks/usePayers";
 import { PayersType } from "src/utils/types";
 import useToken from "src/hooks/useToken";
-import Container from "src/components/Container";
 import EmptyList from "src/components/EmptyList";
+import Loading from "src/components/Loader";
 
 const column = [
   { name: "№", key: "" },
@@ -26,10 +26,10 @@ const Payers = () => {
   const { data: payers, isLoading } = usePayers({});
   const [sort, $sort] = useState<PayersType[]>();
 
-  // if (isLoading) return <Loading absolute />;
+  if (isLoading) return <Loading absolute />;
 
   return (
-    <Container>
+    <>
       <Header title="Роли">
         {/* {perms?.[MainPermissions.payers] && ( */}
         <Button
@@ -72,7 +72,7 @@ const Payers = () => {
           {!payers?.length && !isLoading && <EmptyList />}
         </div>
       </Card>
-    </Container>
+    </>
   );
 };
 

@@ -1,6 +1,5 @@
 import Button from "src/components/Button";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
@@ -15,7 +14,7 @@ const column = [
 
 const Logs = () => {
   return (
-    <Container>
+    <>
       <Header title="Логи">
         <Button className="bg-blue-500">Назад</Button>
       </Header>
@@ -58,7 +57,7 @@ const Logs = () => {
 
         <Pagination className="my-4" totalPages={2} />
       </Card>
-    </Container>
+    </>
   );
 };
 

@@ -9,7 +9,6 @@ import { TextSize } from "src/components/Typography";
 import useRoles from "src/hooks/useRoles";
 import { MainPermissions, RoleTypes } from "src/utils/types";
 import useToken from "src/hooks/useToken";
-import Container from "src/components/Container";
 import EmptyList from "src/components/EmptyList";
 
 const column = [
@@ -30,18 +29,18 @@ const Roles = () => {
   // if (isLoading) return <Loading absolute />;
 
   return (
-    <Container>
+    <>
       <Header title="Роли">
-        {perms?.[MainPermissions.filling] && (
-          <Button
-            className="bg-yellow"
-            textClassName="text-black"
-            textSize={TextSize.L}
-            onClick={() => navigate("add")}
-          >
-            Создать
-          </Button>
-        )}
+        {/* {perms?.[MainPermissions.roles] && ( */}
+        <Button
+          className="bg-yellow"
+          textClassName="text-black"
+          textSize={TextSize.L}
+          onClick={() => navigate("add")}
+        >
+          Создать
+        </Button>
+        {/* )} */}
       </Header>
       <Card className="mt-1">
         <div className="table-responsive grid-view content">
@@ -77,7 +76,7 @@ const Roles = () => {
           {!roles?.length && !isLoading && <EmptyList />}
         </div>
       </Card>
-    </Container>
+    </>
   );
 };
 

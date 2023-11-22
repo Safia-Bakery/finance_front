@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
@@ -26,8 +25,8 @@ const FinanceDepartment = () => {
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
-    <Container>
-      <Header title="Все заявки"></Header>
+    <>
+      <Header title="Все заявки" />
 
       <Card>
         <div className=" overflow-x-auto">
@@ -39,8 +38,8 @@ const FinanceDepartment = () => {
             />
 
             <tbody className="px-2 py-1">
-              {(sort?.length ? sort : orders?.items)?.map((item, idx) => (
-                <tr className="py-1 text-center ">
+              {(sort?.length ? sort : orders?.items)?.map((item) => (
+                <tr className="py-1 text-center " key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
@@ -72,7 +71,7 @@ const FinanceDepartment = () => {
 
         <Pagination className="my-4" totalPages={2} />
       </Card>
-    </Container>
+    </>
   );
 };
 

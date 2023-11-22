@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
@@ -25,7 +24,7 @@ const PurchasingDepartment = () => {
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
-    <Container>
+    <>
       <Header title="Все заявки">
         <Button className="bg-primary">Новая заявка</Button>
       </Header>
@@ -41,7 +40,7 @@ const PurchasingDepartment = () => {
 
             <tbody className="px-2 py-1">
               {(sort?.length ? sort : orders?.items)?.map((item) => (
-                <tr className="py-1">
+                <tr className="py-1" key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
@@ -58,7 +57,7 @@ const PurchasingDepartment = () => {
 
         <Pagination className="my-4" totalPages={orders?.pages} />
       </Card>
-    </Container>
+    </>
   );
 };
 

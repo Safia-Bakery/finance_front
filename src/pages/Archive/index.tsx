@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
@@ -26,8 +25,8 @@ const Archive = () => {
   const [sort, $sort] = useState<Order[]>();
 
   return (
-    <Container>
-      <Header title="Все заявки"></Header>
+    <>
+      <Header title="Все заявки" />
 
       <Card>
         <div className="overflow-x-auto">
@@ -88,7 +87,7 @@ const Archive = () => {
 
         <Pagination className="my-4" totalPages={2} />
       </Card>
-    </Container>
+    </>
   );
 };
 

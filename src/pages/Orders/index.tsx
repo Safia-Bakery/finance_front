@@ -2,16 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
-import EmptyList from "src/components/EmptyList";
 import Header from "src/components/Header";
-import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import dayjs from "dayjs";
 import useOrders from "src/hooks/useOrders";
-import { mockOrder as orders, priceNum } from "src/utils/helpers";
+import { priceNum } from "src/utils/helpers";
 import { Order } from "src/utils/types";
+import Loading from "src/components/Loader";
+import EmptyList from "src/components/EmptyList";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -25,7 +24,7 @@ const column = [
 
 const Orders = () => {
   const navigate = useNavigate();
-  const { refetch: orderRefetch, isLoading } = useOrders({});
+  const { refetch: orderRefetch, isLoading, data: orders } = useOrders({});
   const [sort, $sort] = useState<Order[]>();
 
   const handleNavigate = () => {
@@ -33,9 +32,13 @@ const Orders = () => {
   };
 
   return (
-    <Container>
+    <>
       <Header title="Все заявки">
-        <Button onClick={handleNavigate} className="bg-primary">
+        <Button
+          onClick={handleNavigate}
+          className="bg-primary"
+          textClassName="text-white"
+        >
           Новая заявка
         </Button>
       </Header>
@@ -53,7 +56,7 @@ const Orders = () => {
                 (sort?.length ? sort : orders?.items).map((item) => (
                   <tr className="py-1" key={item.id}>
                     <td className="py-3 pl-3">
-                      <Link to={`${item?.id}`}>{item.id}</Link>
+                      <Link to={`/orders/${item?.id}`}>{item.id}</Link>
                     </td>
                     <td>{item?.order_sp?.name}</td>
                     <td>Гафуржанов Шахзод</td>
@@ -69,14 +72,14 @@ const Orders = () => {
           </table>
         </div>
 
-        {/* {isLoading && <Loading className="py-4" />}
-        {!isLoading && !orders?.items?.length && <EmptyList />} */}
+        {isLoading && <Loading className="py-4" />}
+        {!isLoading && !orders?.items?.length && <EmptyList />}
 
         {!!orders?.pages && (
           <Pagination className="my-4" totalPages={orders.pages} />
         )}
       </Card>
-    </Container>
+    </>
   );
 };
 

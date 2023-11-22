@@ -10,7 +10,6 @@ import useSpheres from "src/hooks/useSpheres";
 import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
 import useToken from "src/hooks/useToken";
-import Container from "src/components/Container";
 import { MainPermissions, SphereTypes } from "src/utils/types";
 
 const column = [
@@ -37,7 +36,7 @@ const Spheres = () => {
   }, [update]);
 
   return (
-    <Container>
+    <>
       {/* <CategoriesFilter /> */}
       <Header title="Сферы">
         <div className="flex gap-3">
@@ -81,11 +80,11 @@ const Spheres = () => {
                       <td>{"category?.name"}</td>
                       <td>{!!category?.status ? "Активный" : "Неактивный"}</td>
                       <td width={40}>
-                        {perms?.[MainPermissions.filling] && (
-                          <TableViewBtn
-                            onClick={() => handleNavigate(`${category.id}`)}
-                          />
-                        )}
+                        {/* {perms?.[MainPermissions.edit_sphere] && ( */}
+                        <TableViewBtn
+                          onClick={() => handleNavigate(`${category.id}`)}
+                        />
+                        {/* )} */}
                       </td>
                     </tr>
                   ))}
@@ -98,7 +97,7 @@ const Spheres = () => {
           </div>
         </div>
       </Card>
-    </Container>
+    </>
   );
 };
 
