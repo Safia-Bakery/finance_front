@@ -1,15 +1,13 @@
+import dayjs from "dayjs";
 import { useState } from "react";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
-import EmptyList from "src/components/EmptyList";
 import Header from "src/components/Header";
-import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import Typography from "src/components/Typography";
 import useOrders from "src/hooks/useOrders";
-import { priceNum } from "src/utils/helpers";
-import dayjs from "dayjs";
+import { Order } from "src/utils/types";
+
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
@@ -45,8 +43,8 @@ const Accounting = () => {
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
                   <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
-                  <td>{priceNum(+item?.price)} сум</td>
-                  <td>{item.is_urgent ? "Да" : "Нет"}</td>
+                  <td>{item.price}</td>
+                  <td>{item.is_urgent}</td>
                   <td>
                     <div className="flex items-center justify-center gap-1 w-max">
                       <Typography>Согласовано</Typography>
@@ -69,13 +67,7 @@ const Accounting = () => {
             </tbody>
           </table>
         </div>
-
-        {isLoading && <Loading className=" py-4" />}
-        {!orders?.items.length && !isLoading && <EmptyList />}
-
-        {!!orders?.pages && (
-          <Pagination className="my-4" totalPages={orders?.pages} />
-        )}
+        <Pagination className="my-4" totalPages={2} />
       </Card>
     </>
   );

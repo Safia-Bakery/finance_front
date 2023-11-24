@@ -10,6 +10,8 @@ import EmptyList from "src/components/EmptyList";
 import Loading from "src/components/Loader";
 import { priceNum } from "src/utils/helpers";
 import dayjs from "dayjs";
+import { Order } from "src/utils/types";
+
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
@@ -22,17 +24,7 @@ const column = [
 ];
 
 const PurchasingDepartment = () => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
-
+  const [sort, $sort] = useState<Order[]>();
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
@@ -45,10 +37,9 @@ const PurchasingDepartment = () => {
         <div className="overflow-x-auto">
           <table>
             <TableHead
+              onSort={(data) => $sort(data)}
               column={column}
-              sort={handleSort}
-              sortKey={sortKey}
-              sortOrder={sortOrder}
+              data={orders?.items}
             />
             {!!orders?.items.length && (
               <tbody className="px-2 py-1">
