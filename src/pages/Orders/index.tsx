@@ -1,44 +1,50 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BaseInput from "src/components/BaseInputs";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
+import Container from "src/components/Container";
+import EmptyList from "src/components/EmptyList";
 import Header from "src/components/Header";
+import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
-import dayjs from "dayjs";
 import useOrders from "src/hooks/useOrders";
 import { priceNum } from "src/utils/helpers";
-import { Order } from "src/utils/types";
-import Loading from "src/components/Loader";
-import EmptyList from "src/components/EmptyList";
-
+import dayjs from "dayjs";
 const column = [
   { name: "№ Заявки", key: "" },
-  { name: "Сфера", key: "sphere" },
+  { name: "Сфера", key: "id" },
   { name: "Руководитель", key: "type" },
-  { name: "Дата поступления", key: "created_at" },
-  { name: "Сумма", key: "price" },
-  { name: "Срочно", key: "urgent" },
-  { name: "Статус", key: "status" },
+  { name: "Дата поступления", key: "fillial.name" },
+  { name: "Сумма", key: "category.name" },
+  { name: "Срочно", key: "" },
+  { name: "Статус", key: "" },
 ];
 
 const Orders = () => {
-  const navigate = useNavigate();
-  const { refetch: orderRefetch, isLoading, data: orders } = useOrders({});
-  const [sort, $sort] = useState<Order[]>();
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortKey, setSortKey] = useState();
+  const handleSort = (key: any) => {
+    if (key === sortKey) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortOrder("asc");
+    }
+  };
 
+  const { data: orders, refetch, isLoading } = useOrders({});
+  console.log(orders, "orders");
+
+  const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/orders/add");
   };
-
   return (
-    <>
+    <Container>
       <Header title="Все заявки">
-        <Button
-          onClick={handleNavigate}
-          className="bg-primary"
-          textClassName="text-white"
-        >
+        <Button onClick={handleNavigate} className="bg-primary">
           Новая заявка
         </Button>
       </Header>
@@ -47,39 +53,36 @@ const Orders = () => {
         <div className="overflow-x-auto">
           <table>
             <TableHead
-              onSort={(data) => $sort(data)}
               column={column}
-              data={orders?.items}
+              sort={handleSort}
+              sortKey={sortKey}
+              sortOrder={sortOrder}
             />
+
             <tbody className="px-2 py-1">
-              {!!orders?.items?.length &&
-                (sort?.length ? sort : orders?.items).map((item) => (
-                  <tr className="py-1" key={item.id}>
-                    <td className="py-3 pl-3">
-                      <Link to={`/orders/${item?.id}`}>{item.id}</Link>
-                    </td>
-                    <td>{item?.order_sp?.name}</td>
-                    <td>Гафуржанов Шахзод</td>
-                    <td>
-                      {dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}
-                    </td>
-                    <td>{priceNum(+item?.price)} сум</td>
-                    <td>{item.is_urgent ? "Да" : "Нет"}</td>
-                    <td>{item.status}</td>
-                  </tr>
-                ))}
+              {orders?.items.map((item, idx) => (
+                <tr key={idx} className="py-1">
+                  <td>{item.id}</td>
+                  <td>{item.sphere_id}</td>
+                  <td>Гафуржанов Шахзод</td>
+                  <td>{dayjs(item.created_at).format("DD.MM.YYYY HH:mm")}</td>
+                  <td>{priceNum(+item?.price)} сум</td>
+                  <td>{item.is_urgent ? "Да" : "Нет"}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
 
-        {isLoading && <Loading className="py-4" />}
-        {!isLoading && !orders?.items?.length && <EmptyList />}
+        {isLoading && <Loading className=" py-4" />}
+        {!orders?.items.length && !isLoading && <EmptyList />}
 
         {!!orders?.pages && (
-          <Pagination className="my-4" totalPages={orders.pages} />
+          <Pagination className="my-4" totalPages={orders?.pages} />
         )}
       </Card>
-    </>
+    </Container>
   );
 };
 

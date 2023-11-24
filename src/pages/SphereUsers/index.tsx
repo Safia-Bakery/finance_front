@@ -9,7 +9,9 @@ import { TextSize } from "src/components/Typography";
 import useSphereUsers from "src/hooks/useSphereUsers";
 import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
-import { SphereUsers as SphereUsersTypes } from "src/utils/types";
+import useToken from "src/hooks/useToken";
+import Container from "src/components/Container";
+import Loading from "src/components/Loader";
 
 const column = [
   { name: "№", key: "" },
@@ -22,7 +24,8 @@ const column = [
 const SphereUsers = () => {
   const { sphere_id } = useParams();
   const navigate = useNavigate();
-  const [sort, $sort] = useState<SphereUsersTypes[]>();
+  const [sortKey, setSortKey] = useState();
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const update = useQueryString("update");
 
   const name = useQueryString("name");
@@ -35,12 +38,21 @@ const SphereUsers = () => {
 
   const handleNavigate = (url: string) => navigate(url);
 
+  const handleSort = (key: any) => {
+    if (key === sortKey) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortOrder("asc");
+    }
+  };
+
   useEffect(() => {
     if (update) refetch();
   }, [update]);
 
   return (
-    <>
+    <Container>
       <Header title={`Пользователи сферы(${name})`}>
         <div className="flex gap-3">
           {/* {perms?.[MainPermissions.filling] && ( */}
@@ -61,14 +73,15 @@ const SphereUsers = () => {
             {/* <ItemsCount data={categories} /> */}
             <table className="table table-hover">
               <TableHead
-                onSort={(data) => $sort(data)}
                 column={column}
-                data={users}
+                sort={handleSort}
+                sortKey={sortKey}
+                sortOrder={sortOrder}
               />
 
               {!!users?.length && (
                 <tbody>
-                  {(sort?.length ? sort : users)?.map((user, idx) => (
+                  {users?.map((user, idx) => (
                     <tr key={idx} className="bg-blue">
                       <td className="first:pl-3 py-3" width="40">
                         {idx + 1}
@@ -93,12 +106,12 @@ const SphereUsers = () => {
               )}
             </table>
 
-            {/* {isLoading && <Loading />} */}
+            {isLoading && <Loading />}
             {!users?.length && !isLoading && <EmptyList />}
           </div>
         </div>
       </Card>
-    </>
+    </Container>
   );
 };
 
