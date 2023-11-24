@@ -9,6 +9,9 @@ import { TextSize } from "src/components/Typography";
 import useSphereUsers from "src/hooks/useSphereUsers";
 import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
+import useToken from "src/hooks/useToken";
+import Container from "src/components/Container";
+import Loading from "src/components/Loader";
 import { SphereUsers as SphereUsersTypes } from "src/utils/types";
 
 const column = [
@@ -40,7 +43,7 @@ const SphereUsers = () => {
   }, [update]);
 
   return (
-    <>
+    <Container>
       <Header title={`Пользователи сферы(${name})`}>
         <div className="flex gap-3">
           {/* {perms?.[MainPermissions.filling] && ( */}
@@ -68,7 +71,7 @@ const SphereUsers = () => {
 
               {!!users?.length && (
                 <tbody>
-                  {(sort?.length ? sort : users)?.map((user, idx) => (
+                  {users?.map((user, idx) => (
                     <tr key={idx} className="bg-blue">
                       <td className="first:pl-3 py-3" width="40">
                         {idx + 1}
@@ -93,12 +96,12 @@ const SphereUsers = () => {
               )}
             </table>
 
-            {/* {isLoading && <Loading />} */}
+            {isLoading && <Loading />}
             {!users?.length && !isLoading && <EmptyList />}
           </div>
         </div>
       </Card>
-    </>
+    </Container>
   );
 };
 

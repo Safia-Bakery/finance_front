@@ -2,18 +2,19 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
+import Container from "src/components/Container";
 import Header from "src/components/Header";
+import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
-import dayjs from "dayjs";
 import useOrders from "src/hooks/useOrders";
 import { priceNum } from "src/utils/helpers";
 import { Order } from "src/utils/types";
-import Loading from "src/components/Loader";
 import EmptyList from "src/components/EmptyList";
 import Approved from "src/components/Approved";
 import { useAppSelector } from "src/store/utils/types";
 import { sortedUsers } from "src/store/reducers/sorter";
+import dayjs from "dayjs";
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -64,13 +65,9 @@ const Orders = () => {
   if (isLoading) return <Loading absolute />;
 
   return (
-    <>
+    <Container>
       <Header title="Все заявки">
-        <Button
-          onClick={handleNavigate}
-          className="bg-primary"
-          textClassName="text-white"
-        >
+        <Button onClick={handleNavigate} className="bg-primary">
           Новая заявка
         </Button>
       </Header>
@@ -114,14 +111,14 @@ const Orders = () => {
           </table>
         </div>
 
-        {/* {isLoading && <Loading className="py-4" />} */}
-        {!isLoading && !orders?.items?.length && <EmptyList />}
+        {isLoading && <Loading className=" py-4" />}
+        {!orders?.items.length && !isLoading && <EmptyList />}
 
         {!!orders?.pages && (
-          <Pagination className="my-4" totalPages={orders.pages} />
+          <Pagination className="my-4" totalPages={orders?.pages} />
         )}
       </Card>
-    </>
+    </Container>
   );
 };
 
