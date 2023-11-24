@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import auth from "./auth";
-import toggle from "./toggle";
+import sorter from "./sorter";
 
 export default combineReducers({
   auth,
-  toggle,
+  sorter,
 });

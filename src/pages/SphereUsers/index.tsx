@@ -23,8 +23,8 @@ const SphereUsers = () => {
   const { sphere_id } = useParams();
   const navigate = useNavigate();
   const [sort, $sort] = useState<SphereUsersTypes[]>();
-  const update = useQueryString("update");
 
+  const update = useQueryString("update");
   const name = useQueryString("name");
 
   const {

@@ -2,38 +2,29 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "src/main";
 import { OrdersTypes } from "src/utils/types";
 
-export const useOrders = ({
-  enabled = true,
-  size,
-  page = 1,
-  status,
-  branch_id,
-  created_at,
-  is_delivery,
-  sphere,
-  id,
-}: {
+interface Params {
   enabled?: boolean;
   size?: number;
   page?: number;
   status?: number;
-  branch_id?: string;
   created_at?: string;
-  is_delivery?: number;
   sphere?: string;
   id?: number | string;
-}) => {
+  user_id?: string | number;
+}
+
+export const useOrders = ({
+  enabled = true,
+  size,
+  page,
+  status,
+  created_at,
+  sphere,
+  id,
+  user_id,
+}: Params) => {
   return useQuery({
-    queryKey: [
-      "get_orders",
-      page,
-      status,
-      branch_id,
-      created_at,
-      is_delivery,
-      sphere,
-      id,
-    ],
+    queryKey: ["get_orders", page, status, created_at, sphere, id, user_id],
     queryFn: () =>
       apiClient
         .get({
@@ -42,11 +33,10 @@ export const useOrders = ({
             page,
             size,
             status,
-            branch_id,
             created_at,
-            is_delivery,
             sphere,
             id,
+            user_id,
           },
         })
         .then(({ data: response }) => (response as OrdersTypes) || null),

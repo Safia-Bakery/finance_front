@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import BaseInput from "src/components/BaseInputs";
@@ -9,17 +9,18 @@ import MainTextArea from "src/components/BaseInputs/MainTextArea";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import EmptyList from "src/components/EmptyList";
-import UploadComponent, { FileItem } from "src/components/FileUpload";
 import Header from "src/components/Header";
 import Loading from "src/components/Loader";
 import OrderDenyModal from "src/components/OrderDenyModal";
 import Typography, { TextSize } from "src/components/Typography";
+import imageUploadMutation from "src/hooks/mutation/imageUpload";
 import orderMutation from "src/hooks/mutation/order";
 import orderStatusMutation from "src/hooks/mutation/orderStatus";
 import { useNavigateParams } from "src/hooks/useCustomNavigate";
 import useOrders from "src/hooks/useOrders";
 import usePayers from "src/hooks/usePayers";
 import useSpheres from "src/hooks/useSpheres";
+import { baseURL } from "src/main";
 import { PaymentTypes } from "src/utils/helpers";
 import { successToast } from "src/utils/toast";
 import { OrderStatus } from "src/utils/types";
@@ -28,22 +29,23 @@ const EditAddOrder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeCateg, $activeCateg] = useState<number>();
-  const [files, $files] = useState<FormData>();
+  const [files, $files] = useState<string[]>();
   const { register, getValues, handleSubmit, reset } = useForm();
   const { refetch: orderRefetch } = useOrders({ enabled: false });
   const navigateParams = useNavigateParams();
 
   const { mutate: orderStatus } = orderStatusMutation();
-
   const { mutate } = orderMutation();
   const { data, isFetching: orderLoading } = useOrders({
     id,
     enabled: !!id,
   });
   const order = data?.items?.[0];
+
   useEffect(() => {
-    if (order) {
+    if (order && id) {
       $activeCateg(order.sphere_id);
+      $files(order?.files);
       reset({
         is_urgent: order.is_urgent,
         purchaser: order.purchaser,
@@ -59,33 +61,31 @@ const EditAddOrder = () => {
 
   const { data: payers, isFetching: payersLoading } = usePayers({});
   const { data: spheres, isFetching: sphereLoading } = useSpheres({});
+  const { mutate: uploadImage } = imageUploadMutation();
 
-  const handleFilesSelected = (data: FileItem[]) => {
-    const formData = new FormData();
-    data.forEach((item) => {
-      formData.append("files", item.file, item.file.name);
-    });
-    $files(formData);
+  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const fileData = new FormData();
+    if (files) {
+      for (let i = 0; i < files?.length; i++) {
+        fileData.append("image", files[i]);
+      }
+
+      uploadImage(fileData, {
+        onSuccess: (data: any) => {
+          $files(data.images);
+        },
+      });
+    }
   };
 
   const onSubmit = () => {
     if (!activeCateg) alert("Выберите сферу");
-    const {
-      purchaser,
-      product,
-      price,
-      payment_type,
-      payer,
-      supplier,
-      comment,
-      is_urgent,
-    } = getValues();
 
-    if (id) {
+    if (!!id) {
       orderStatus(
         {
           id: +id,
-          // comment: "",
           status: OrderStatus.accept,
         },
         {
@@ -97,6 +97,16 @@ const EditAddOrder = () => {
         }
       );
     } else {
+      const {
+        purchaser,
+        product,
+        price,
+        payment_type,
+        payer,
+        supplier,
+        comment,
+        is_urgent,
+      } = getValues();
       mutate(
         {
           purchaser,
@@ -107,7 +117,7 @@ const EditAddOrder = () => {
           supplier,
           comment,
           sphere_id: activeCateg!,
-          files: [],
+          files,
           is_urgent: Number(is_urgent),
         },
         {
@@ -158,15 +168,58 @@ const EditAddOrder = () => {
     );
   }, [activeCateg, spheres, sphereLoading]);
 
+  const renderImages = useMemo(() => {
+    return (
+      <div className="w-1/3">
+        <BaseInput label="Добавить фото" className="relative w-full">
+          <div className="bg-white border border-mainGray rounded-md relative h-7 overflow-hidden">
+            <div className="bg-lightGray h-7 w-1/2 border border-r-mainGray pl-2">
+              <Typography size={TextSize.S} className="text-[#9F9FA0]">
+                Выбрать файл
+              </Typography>
+            </div>
+            <input
+              className="absolute top-0 bottom-0 left-0 right-0 opacity-0 cursor-pointer"
+              id="fileUploader"
+              type="file"
+              multiple
+              onChange={handleUploadImage}
+            />
+          </div>
+        </BaseInput>
+
+        <div className="gap-2 flex mt-2">
+          {files?.map((item, idx) => (
+            <div className="relative" key={idx}>
+              <img
+                src={`${baseURL}/${item}`}
+                className="max-h-12 object-contain h-full"
+                alt={`image-${idx}`}
+              />
+              <div
+                className="absolute top-1 right-1 border border-black rounded-full"
+                // onClick={() => handleFileDelete(item.id)}
+              >
+                <img src="/assets/icons/clear.svg" alt="delete" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }, [files]);
+
   if (sphereLoading || orderLoading || payersLoading)
     return <Loading absolute />;
 
   return (
     <>
-      <Header title={id ? `Заявка №100091` : "Новая заявка"}>
-        <Button className="bg-[#F69B30] w-24" textClassName="text-white">
-          Логи
-        </Button>
+      <Header title={id ? `Заявка ${id}` : "Новая заявка"}>
+        {!!id && (
+          <Button className="bg-[#F69B30] w-24" textClassName="text-white">
+            Логи
+          </Button>
+        )}
       </Header>
       <Card className="md:flex flex-col">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -220,22 +273,11 @@ const EditAddOrder = () => {
             </BaseInput>
           </div>
           <div className="flex justify-between mt-6">
-            <BaseInput label="Добавить фото" className="relative w-1/3">
-              <UploadComponent
-                disabled={!!id}
-                onFilesSelected={handleFilesSelected}
-              />
-            </BaseInput>
-
+            {renderImages}
             <BaseInput className="w-1/2" label="Комментарии">
               <MainTextArea register={register("comment")} disabled={!!id} />
             </BaseInput>
           </div>
-          {/* <div className="flex w-full justify-end my-20">
-            <Button className="bg-green w-24 shadow-button" type="submit">
-              Отправить на согласование
-            </Button>
-          </div> */}
           <div className="flex w-full justify-end my-20">
             <div className="w-max flex gap-3">
               <Button className="bg-green w-24 shadow-button" type="submit">

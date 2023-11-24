@@ -71,11 +71,24 @@ export enum MainPermissions {
   settings = 1,
 }
 export interface MeTypes {
-  id: number | string;
-  username: string;
-  role?: { descrition: string; name: string };
-  full_name: string;
-  permissions: number[];
+  user: {
+    username: string;
+    status: 0;
+    created_at: Date | string;
+    full_name: string;
+    is_client: 0;
+    id: 0;
+    role_id: 0;
+    phone_number: string;
+    user_role: {
+      id: 0;
+      name: string;
+    };
+    tg_id: 0;
+  };
+  permissions: {
+    [key: number]: number;
+  };
 }
 
 export interface SphereTypes {
@@ -297,4 +310,18 @@ export enum OrderStatus {
   new = 0,
   accept = 1,
   deny = 2,
+}
+
+export interface CurrencyTypes {
+  id: number;
+  Code: string;
+  Ccy: string;
+  CcyNm_RU: string;
+  CcyNm_UZ: string;
+  CcyNm_UZC: string;
+  CcyNm_EN: string;
+  Nominal: string;
+  Rate: string;
+  Diff: string;
+  Date: string;
 }

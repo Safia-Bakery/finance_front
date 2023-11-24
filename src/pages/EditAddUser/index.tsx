@@ -38,7 +38,8 @@ const EditAddUser = () => {
   const handlePhone = (e: string) => $phone_number(e);
 
   const onSubmit = () => {
-    const { username, password, role_id, full_name, status } = getValues();
+    const { username, password, role_id, full_name, status, tg_id } =
+      getValues();
 
     mutate(
       {
@@ -48,6 +49,7 @@ const EditAddUser = () => {
         role_id: +role_id,
         full_name,
         status: Number(status),
+        tg_id,
         ...(!!id && { id: Number(id) }),
       },
       {
@@ -65,7 +67,7 @@ const EditAddUser = () => {
       $phone_number(user?.phone_number);
       reset({
         full_name: user?.full_name,
-
+        tg_id: user.tg_id,
         role_id: user?.role_id,
         username: user?.username,
         status: user?.status,
@@ -130,6 +132,12 @@ const EditAddUser = () => {
                 className="flex items-center"
               />
             </BaseInput>
+          </div>
+          <div className="flex gap-8">
+            <BaseInput label="Телеграм ID" className="flex flex-1 flex-col">
+              <MainInput register={register("tg_id")} />
+            </BaseInput>
+            <div className="flex flex-1" />
           </div>
         </div>
         <div className="flex flex-1 justify-end">

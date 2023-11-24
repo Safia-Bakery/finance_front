@@ -20,6 +20,7 @@ interface Props {
   onFocus?: () => void;
   ref?: any;
   inputStyle?: InputStyle;
+  multiple?: boolean;
 }
 
 const MainInput: FC<Props> = ({
@@ -28,10 +29,12 @@ const MainInput: FC<Props> = ({
   register,
   ref,
   inputStyle = InputStyle.primary,
+  multiple,
   ...others
 }) => {
   return (
     <input
+      multiple={multiple}
       className={cl(
         "mb-2 w-full rounded-lg",
         styles.inputBox,

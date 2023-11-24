@@ -1,7 +1,5 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 // import { reportImgSelector } from "src/redux/reducers/selects";
-import { useAppSelector } from "src/store/utils/types";
-import styles from "./index.module.scss";
 import Typography, { TextSize } from "../Typography";
 import { imageConverter } from "src/utils/helpers";
 

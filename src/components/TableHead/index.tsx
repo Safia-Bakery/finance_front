@@ -41,7 +41,7 @@ const TableHead: FC<Props> = ({ column, children, data, onSort }) => {
         <tr className={styles.row}>
           {column.map(({ name, key }) => {
             return (
-              <th onClick={handleSort(key)} key={name}>
+              <th onClick={handleSort(key)} key={name + key}>
                 <Typography size={TextSize.L} weight={Weight.medium}>
                   {name} {sortKey === key && (sortOrder === "asc" ? "▲" : "▼")}
                 </Typography>

@@ -8,11 +8,10 @@ interface Body {
   supplier: string;
   sphere_id: number;
   payer_id: number;
-  files: string[];
+  files?: string[];
   purchaser: string;
   is_urgent: number;
   comment: string;
-
   id?: number;
   status?: number;
 }

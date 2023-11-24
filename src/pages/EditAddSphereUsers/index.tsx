@@ -15,6 +15,8 @@ import useSphereUsers from "src/hooks/useSphereUsers";
 import useSpheres from "src/hooks/useSpheres";
 import MainCheckBox from "src/components/BaseInputs/MainCheckBox";
 import useQueryString from "src/hooks/useQueryString";
+import Header from "src/components/Header";
+import Container from "src/components/Container";
 
 const EditAddSphereUsers = () => {
   const { sphere_id, user_id } = useParams();
@@ -79,56 +81,64 @@ const EditAddSphereUsers = () => {
   if (userLoading || sphereLoading || sphereLoding) return <Loading absolute />;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography size={TextSize.XXL} className="flex my-4 ml-1">
-        Добавить
-      </Typography>
+    <Container>
+      <Header title="Добавить" />
+
       <Card className="px-8 py-4">
-        <div className="flex flex-1 gap-4 flex-col">
-          <BaseInput label="Пользователь" className="mt-4">
-            <MainSelect
-              disabled={!!user_id}
-              register={register("user", { required: "Обязательное поле" })}
-            >
-              <option value={undefined}></option>
-              {users?.items.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.full_name}
-                </option>
-              ))}
-            </MainSelect>
-          </BaseInput>
-          {!!user_id && (
-            <BaseInput label="Сфера" className="mt-4">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-1 gap-4 flex-col">
+            <BaseInput label="Пользователь" className="mt-4">
               <MainSelect
-                register={register("sphere", { required: "Обязательное поле" })}
+                disabled={!!user_id}
+                register={register("user", { required: "Обязательное поле" })}
               >
                 <option value={undefined}></option>
-                {spheres?.map((item) => (
+                {users?.items.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.name}
+                    {item.full_name}
                   </option>
                 ))}
               </MainSelect>
             </BaseInput>
-          )}
-          <BaseInput label="Очередь" className="mt-2">
-            <MainInput
-              type="number"
-              register={register("sequence", { required: "Обязательное поле" })}
-            />
-          </BaseInput>
-          <BaseInput className="mt-2">
-            <MainCheckBox register={register("status")} label={"Статус"} />
-          </BaseInput>
-        </div>
-        <div className="flex flex-1 justify-end">
-          <Button className="bg-darkYellow mt-4 w-64 text-black" type="submit">
-            {!!sphere_id ? "Изменить" : "Создать"}
-          </Button>
-        </div>
+            {!!user_id && (
+              <BaseInput label="Сфера" className="mt-4">
+                <MainSelect
+                  register={register("sphere", {
+                    required: "Обязательное поле",
+                  })}
+                >
+                  <option value={undefined}></option>
+                  {spheres?.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </MainSelect>
+              </BaseInput>
+            )}
+            <BaseInput label="Очередь" className="mt-2">
+              <MainInput
+                type="number"
+                register={register("sequence", {
+                  required: "Обязательное поле",
+                })}
+              />
+            </BaseInput>
+            <BaseInput className="mt-2">
+              <MainCheckBox register={register("status")} label={"Статус"} />
+            </BaseInput>
+          </div>
+          <div className="flex flex-1 justify-end">
+            <Button
+              className="bg-darkYellow mt-4 w-64 text-black"
+              type="submit"
+            >
+              {!!sphere_id ? "Изменить" : "Создать"}
+            </Button>
+          </div>
+        </form>
       </Card>
-    </form>
+    </Container>
   );
 };
 

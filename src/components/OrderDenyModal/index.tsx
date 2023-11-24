@@ -19,7 +19,7 @@ const OrderDenyModal = () => {
   const modal = Number(useQueryString("modal"));
   const removeParams = useRemoveParams();
   const { register, getValues } = useForm();
-  const { refetch } = useOrders({ id });
+  const { refetch } = useOrders({ id, enabled: false });
 
   const closeModal = () => removeParams(["modal"]);
 

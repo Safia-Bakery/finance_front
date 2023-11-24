@@ -50,17 +50,17 @@ const Users: FC<Props> = ({ client, edit, add }) => {
   return (
     <>
       <UsersFilter />
-      <Header title={client ? "" : "Пользователи"}>
-        {!client && perms?.[add] && (
-          <Button
-            className="bg-yellow ml-2 w-24"
-            textClassName="text-black"
-            textSize={TextSize.L}
-            onClick={handleNavigate("add")}
-          >
-            Создать
-          </Button>
-        )}
+      <Header title={"Пользователи"}>
+        {/* {!client && perms?.[add] && ( */}
+        <Button
+          className="bg-yellow ml-2 w-24"
+          textClassName="text-black"
+          textSize={TextSize.L}
+          onClick={handleNavigate("add")}
+        >
+          Создать
+        </Button>
+        {/* )} */}
       </Header>
       <Card>
         <table>
@@ -84,9 +84,9 @@ const Users: FC<Props> = ({ client, edit, add }) => {
                 <td>{user?.phone_number}</td>
                 <td>{!!user?.status ? "Активный" : "Неактивный"}</td>
                 <td width={40}>
-                  {perms?.[edit] && (
-                    <TableViewBtn onClick={handleNavigate(`${user?.id}`)} />
-                  )}
+                  {/* {perms?.[edit] && ( */}
+                  <TableViewBtn onClick={handleNavigate(`${user?.id}`)} />
+                  {/* )} */}
                 </td>
               </tr>
             ))}

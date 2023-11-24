@@ -26,22 +26,28 @@ import SphereUsers from "src/pages/SphereUsers";
 import Payers from "src/pages/Payers";
 import EditAddPayers from "src/pages/EditAddPayers";
 import useSphereUsers from "./hooks/useSphereUsers";
-import { useAppSelector } from "./store/utils/types";
+import { useAppDispatch, useAppSelector } from "./store/utils/types";
 import { tokenSelector } from "./store/reducers/auth";
+import { sortHandler } from "./store/reducers/sorter";
+import useUpdateEffect from "src/hooks/useUpdateEffect";
 
 dayjs.locale("ru");
 
-//test
-
 const App = () => {
   const token = useAppSelector(tokenSelector);
-  useSphereUsers({ enabled: !!token });
+  const dispatch = useAppDispatch();
+  const { data } = useSphereUsers({ enabled: !!token });
+
+  useUpdateEffect(() => {
+    if (!!data?.length) dispatch(sortHandler(data));
+  }, [data]);
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
         <Route element={<Login />} path={"/login"} />
 
         <Route element={<Home />} path={"/home"} />
+        <Route element={<Home />} path={"*"} />
         <Route element={<ControlPanel />} path={"/"} />
         <Route element={<Orders />} path={"/orders/all"} />
         <Route element={<EditAddOrder />} path={"/orders/add"} />

@@ -2,17 +2,19 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 import cl from "classnames";
 import { Fragment, useMemo } from "react";
-import { useAppDispatch } from "src/store/utils/types";
+import { useAppDispatch, useAppSelector } from "src/store/utils/types";
 import { logoutHandler } from "src/store/reducers/auth";
 import { MainPermissions } from "src/utils/types";
 import useToken from "src/hooks/useToken";
 import useSphereUsers from "src/hooks/useSphereUsers";
+import { sortedUsers } from "src/store/reducers/sorter";
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
-  const { data: sphereUsers, isLoading } = useSphereUsers({});
+  // const { data: sphereUsers, isLoading } = useSphereUsers({});
+  const sphereUsers = useAppSelector(sortedUsers);
 
   const dispatch = useAppDispatch();
   const permission = { 1: true, 2: true };
@@ -117,7 +119,7 @@ const Sidebar = () => {
         </ul>
       </div>
       <span onClick={handleLogout} className={styles.logout}>
-        Выйти ({me?.username})
+        Выйти ({me?.user?.username})
       </span>
     </div>
   );
