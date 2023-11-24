@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Card from "src/components/Card";
-import Container from "src/components/Container";
 import Header from "src/components/Header";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
@@ -10,6 +9,7 @@ import Loading from "src/components/Loader";
 import EmptyList from "src/components/EmptyList";
 import { priceNum } from "src/utils/helpers";
 import dayjs from "dayjs";
+import { Order } from "src/utils/types";
 
 const column = [
   { name: "№ Заявки", key: "" },
@@ -24,36 +24,25 @@ const column = [
 ];
 
 const FinanceDepartment = () => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
-
+  const [sort, $sort] = useState<Order[]>();
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
-    <Container>
-      <Header title="Все заявки"></Header>
+    <>
+      <Header title="Все заявки" />
 
       <Card>
         <div className=" overflow-x-auto">
           <table>
             <TableHead
+              onSort={(data) => $sort(data)}
               column={column}
-              sort={handleSort}
-              sortKey={sortKey}
-              sortOrder={sortOrder}
+              data={orders?.items}
             />
 
             <tbody className="px-2 py-1">
-              {orders?.items.map((item, idx) => (
-                <tr className="py-1 text-center ">
+              {(sort?.length ? sort : orders?.items)?.map((item) => (
+                <tr className="py-1 text-center " key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
@@ -90,7 +79,7 @@ const FinanceDepartment = () => {
           <Pagination className="my-4" totalPages={orders?.pages} />
         )}
       </Card>
-    </Container>
+    </>
   );
 };
 

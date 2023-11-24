@@ -10,7 +10,6 @@ import Typography from "src/components/Typography";
 import useOrders from "src/hooks/useOrders";
 import { priceNum } from "src/utils/helpers";
 import dayjs from "dayjs";
-
 const column = [
   { name: "№ Заявки", key: "" },
   { name: "Сфера", key: "id" },
@@ -24,35 +23,24 @@ const column = [
 ];
 
 const Accounting = () => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortKey, setSortKey] = useState();
-  const handleSort = (key: any) => {
-    if (key === sortKey) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortKey(key);
-      setSortOrder("asc");
-    }
-  };
-
+  const [sort, $sort] = useState<Order[]>();
   const { data: orders, refetch, isLoading } = useOrders({});
 
   return (
-    <Container>
+    <>
       <Header title="Все заявки"></Header>
 
       <Card>
         <div className=" overflow-x-auto">
           <table>
             <TableHead
+              onSort={(data) => $sort(data)}
               column={column}
-              sort={handleSort}
-              sortKey={sortKey}
-              sortOrder={sortOrder}
+              data={orders?.items}
             />
             <tbody className="px-2 py-1">
-              {orders?.items.map((item, idx) => (
-                <tr className="py-1 text-center ">
+              {(sort?.length ? sort : orders?.items)?.map((item, idx) => (
+                <tr className="py-1 text-center " key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.sphere_id}</td>
                   <td>Гафуржанов Шахзод</td>
@@ -89,7 +77,7 @@ const Accounting = () => {
           <Pagination className="my-4" totalPages={orders?.pages} />
         )}
       </Card>
-    </Container>
+    </>
   );
 };
 

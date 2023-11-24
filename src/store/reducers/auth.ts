@@ -19,10 +19,7 @@ export const authReducer = createSlice({
   initialState,
   reducers: {
     logoutHandler: (state) => {
-      // state.token = null;
-      // state.permissions = undefined;
-      // window.location.reload();
-      // // localStorage.clear();
+      state.token = null;
       // const { pathname, search } = window.location;
       // if (pathname.includes("login")) state.link = "/home";
       // else state.link = pathname + search;

@@ -55,10 +55,10 @@ const EditAddSphereUsers = () => {
         id: Number(user_id),
       },
       {
-        onSuccess: (data: any) => {
-          successToast(!sphere_id ? "role created" : "role updated");
-          navigate(`/sphere-users/${sphere_id}`);
+        onSuccess: () => {
           refetch();
+          successToast(!sphere_id ? "role created" : "role updated");
+          navigate(-1);
         },
         onError: (e: any) => errorToast(e.message),
       }
@@ -92,7 +92,9 @@ const EditAddSphereUsers = () => {
             >
               <option value={undefined}></option>
               {users?.items.map((item) => (
-                <option value={item.id}>{item.full_name}</option>
+                <option key={item.id} value={item.id}>
+                  {item.full_name}
+                </option>
               ))}
             </MainSelect>
           </BaseInput>
@@ -103,7 +105,9 @@ const EditAddSphereUsers = () => {
               >
                 <option value={undefined}></option>
                 {spheres?.map((item) => (
-                  <option value={item.id}>{item.name}</option>
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
                 ))}
               </MainSelect>
             </BaseInput>

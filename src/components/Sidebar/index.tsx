@@ -1,68 +1,70 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 import cl from "classnames";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import { useAppDispatch } from "src/store/utils/types";
 import { logoutHandler } from "src/store/reducers/auth";
 import { MainPermissions } from "src/utils/types";
 import useToken from "src/hooks/useToken";
-
-const routes = [
-  { name: "Главная страница", url: "/home", param: "?" },
-  {
-    name: "Отчёты",
-    url: "/reports",
-    screen: MainPermissions.reports,
-  },
-  { name: "Все заявки", url: "/orders", screen: MainPermissions.fillings },
-  {
-    name: "Отдел закупа",
-    url: "/purchasing",
-    screen: MainPermissions.purchasing_dep,
-  },
-  {
-    name: "Финансовый отдел",
-    url: "/finance",
-    screen: MainPermissions.finance,
-  },
-  {
-    name: "Бухгалтерия",
-    url: "/accounting",
-    screen: MainPermissions.accounting,
-  },
-  { name: "Архив", url: "/archieve", screen: MainPermissions.archieve },
-  {
-    name: "Сотрудники",
-    url: "/users",
-    hasline: true,
-    screen: MainPermissions.employees,
-  },
-  {
-    name: "Роли",
-    url: "/roles",
-    screen: MainPermissions.roles,
-  },
-  {
-    name: "Плательщики",
-    url: "/payers",
-    screen: MainPermissions.payers,
-  },
-  { name: "Сферы", url: "/spheres", screen: MainPermissions.spheres },
-  { name: "Настройки", url: "/settings", screen: MainPermissions.settings },
-];
+import useSphereUsers from "src/hooks/useSphereUsers";
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
+  const { data: sphereUsers, isLoading } = useSphereUsers({});
 
   const dispatch = useAppDispatch();
   const permission = { 1: true, 2: true };
   const { data: me } = useToken({ enabled: false });
 
   const handleLogout = () => dispatch(logoutHandler());
+  const routes = useMemo(() => {
+    const init = [
+      { name: "Главная страница", url: "/home" },
+      {
+        name: "Отчёты",
+        url: "/reports",
+        screen: MainPermissions.reports,
+        hasline: true,
+      },
+      {
+        name: "Все заявки",
+        url: "/orders/all",
+        screen: MainPermissions.fillings,
+      },
+      { name: "Архив", url: "/archieve", screen: MainPermissions.archieve },
+      {
+        name: "Сотрудники",
+        url: "/users",
+        screen: MainPermissions.employees,
+      },
+      {
+        name: "Роли",
+        url: "/roles",
+        screen: MainPermissions.roles,
+      },
+      {
+        name: "Плательщики",
+        url: "/payers",
+        screen: MainPermissions.payers,
+      },
+      { name: "Сферы", url: "/spheres", screen: MainPermissions.spheres },
+      { name: "Настройки", url: "/settings", screen: MainPermissions.settings },
+    ];
 
-  if (!permission) return;
+    const sphere = sphereUsers?.map((user, idx) => {
+      return {
+        name: user.sp_user.full_name,
+        url: `/orders/${user.id}/sphere`,
+        screen: MainPermissions.fillings,
+        ...(idx === sphereUsers?.length - 1 && { hasline: true }),
+      };
+    });
+    if (!!sphere?.length) return init.slice(0, 3).concat(sphere, init.slice(3));
+    else return init;
+  }, [sphereUsers]);
+  // if (!permission) return;
 
   return (
     <div className={cl(styles.sidebar)}>
