@@ -64,8 +64,6 @@ const Home = () => {
     );
   }, [currency, amount, filteredCurrencies]);
 
-  console.log(currency, "currency");
-
   return (
     <div className="pr-2">
       <div className={cl(styles.top, "!shadow")}>

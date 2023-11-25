@@ -6,8 +6,6 @@ interface Props extends PropsWithChildren {
   subTitle?: string;
 }
 
-console.log(window.innerWidth, "width");
-
 const Header: FC<Props> = ({ children, title, subTitle }) => {
   return (
     <div

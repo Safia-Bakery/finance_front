@@ -20,7 +20,6 @@ const Logs = () => {
   const navigate = useNavigate();
   const { data } = useHistory({ order_id: id, enabled: !!id });
 
-  console.log(data, "data");
   return (
     <Container>
       <Header title="Логи">

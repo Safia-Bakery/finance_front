@@ -83,7 +83,7 @@ const routes = [
   },
 
   {
-    element: <Archive />,
+    element: <Orders />,
     path: "/archieve",
     screen: MainPermissions.archieve,
   },
@@ -241,59 +241,6 @@ const App = () => {
           path={"login"}
         />
         {renderScreen}
-
-        {/* <Route element={<Login />} path={"/login"} />
-
-        <Route element={<Home />} path={"/home"} />
-        <Route element={<Home />} path={"*"} />
-        <Route element={<ControlPanel />} path={"/"} />
-        <Route element={<Orders />} path={"/orders/all"} />
-        <Route element={<EditAddOrder />} path={"/orders/add"} />
-        <Route element={<EditAddOrder />} path={"/orders/:id"} />
-
-        <Route element={<Orders />} path={"/orders/:user_id/sphere"} />
-        <Route element={<Archive />} path={"/archieve"} />
-
-        <Route element={<PurchasingDepartment />} path={"/purchasing"} />
-        <Route element={<FinanceDepartment />} path={"/finance"} />
-        <Route element={<Accounting />} path={"/accounting"} />
-
-        <Route
-          element={
-            <Users
-              edit={MainPermissions.edit_user}
-              add={MainPermissions.add_user}
-            />
-          }
-          path={"/users"}
-        />
-        <Route element={<EditAddUser />} path={"/users/:id"} />
-        <Route element={<EditAddUser />} path={"/users/add"} />
-
-        <Route element={<Roles />} path={"/roles"} />
-        <Route element={<EditAddRole />} path={"/roles/add"} />
-        <Route element={<EditAddRole />} path={"/roles/:id"} />
-        <Route element={<ShowRole />} path={"/permission/:id"} />
-
-        <Route element={<Spheres />} path={"/spheres"} />
-        <Route element={<EditAddSphere />} path={"/spheres/add"} />
-        <Route element={<EditAddSphere />} path={"/spheres/:id"} />
-
-        <Route element={<Payers />} path={"/payers"} />
-        <Route element={<EditAddPayers />} path={"/payers/add"} />
-        <Route element={<EditAddPayers />} path={"/payers/:id"} />
-
-        <Route element={<Logs />} path={"/logs/:id"} />
-
-        <Route element={<SphereUsers />} path={"/sphere-users/:sphere_id"} />
-        <Route
-          element={<EditAddSphereUsers />}
-          path={"/sphere-users/:sphere_id/add"}
-        />
-        <Route
-          element={<EditAddSphereUsers />}
-          path={"/sphere-users/:sphere_id/:user_id"}
-        />*/}
       </Route>
     </Routes>
   );
