@@ -105,9 +105,17 @@ a {
   td {
     border-right: 1px solid var(--borderColor);
     padding: 0 10px;
+
+    @media screen and (min-width: 1700px) {
+      font-size: 20px;
+    }
   }
   th {
     border-right: 1px solid var(--white);
+
+    @media screen and (min-width: 1700px) {
+      font-size: 20px;
+    }
   }
 }
 

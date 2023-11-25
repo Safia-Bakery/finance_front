@@ -34,7 +34,12 @@ const Sidebar = () => {
         url: "/orders/all",
         screen: MainPermissions.fillings,
       },
-      { name: "Архив", url: "/archieve", screen: MainPermissions.archieve },
+      {
+        name: "Архив",
+        url: "/archieve",
+        screen: MainPermissions.archieve,
+        hasline: true,
+      },
       {
         name: "Сотрудники",
         url: "/users",
@@ -59,10 +64,10 @@ const Sidebar = () => {
         name: user?.sp_user?.full_name,
         url: `/orders/${user.id}/sphere`,
         screen: MainPermissions.orders,
-        ...(idx === sphereUsers?.length - 1 && { hasline: true }),
+        // ...(idx === sphereUsers?.length - 1 && { hasline: true }),
       };
     });
-    if (!!sphere?.length) return init.slice(0, 3).concat(sphere, init.slice(3));
+    if (!!sphere?.length) return init.slice(0, 2).concat(sphere, init.slice(2));
     else return init;
   }, [sphereUsers]);
   if (!permission) return;

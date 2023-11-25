@@ -46,12 +46,11 @@ const EditAddUser = () => {
         username,
         password,
         phone_number,
-
         full_name,
         status: Number(status),
-        tg_id,
         ...(!!id && { id: Number(id) }),
         ...(!!role_id && { role_id: +role_id }),
+        ...(!!tg_id && { tg_id }),
       },
       {
         onSuccess: (data: any) => {

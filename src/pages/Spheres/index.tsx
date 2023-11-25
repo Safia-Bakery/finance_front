@@ -77,7 +77,7 @@ const Spheres = () => {
                           {category?.name}
                         </Link>
                       </td>
-                      <td>{"category?.name"}</td>
+                      <td>{category?.sphereuser?.[0]?.name}</td>
                       <td>{!!category?.status ? "Активный" : "Неактивный"}</td>
                       <td width={40}>
                         {perms?.[MainPermissions.edit_sphere] && (

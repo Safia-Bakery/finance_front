@@ -91,6 +91,7 @@ export interface SphereTypes {
     {
       id: number;
       sphere_id: number;
+      name: string;
       status: number;
       sequence: number;
       user_id: number;
