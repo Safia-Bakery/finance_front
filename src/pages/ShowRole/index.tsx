@@ -74,14 +74,16 @@ const ShowRole = () => {
       <Card className="p-4">
         <div className="content">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <table className="table table-striped table-hover report-table">
+            <table className="table table-striped table-hover bordered">
               {!!permissions?.length &&
                 permissions?.map((item) => {
                   return (
                     <Fragment key={item?.name}>
                       <thead className="bg-primary border-gray-400 border-2">
                         <tr>
-                          <th>{item?.name}</th>
+                          <th className="!py-3 text-left !pl-3">
+                            {item?.name}
+                          </th>
                           <th />
                         </tr>
                       </thead>
@@ -92,8 +94,8 @@ const ShowRole = () => {
                             key={child?.id}
                             className="border-b-2 border-b-gray-400 hover:bg-mainGray transition-colors"
                           >
-                            <td className="text-left !py-3 !px-3">
-                              {child?.name} = {child.id}
+                            <td className="!text-left !py-3 !px-3">
+                              {child?.name}
                             </td>
                             <td width={50}>
                               <input
