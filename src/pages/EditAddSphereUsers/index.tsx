@@ -28,9 +28,9 @@ const EditAddSphereUsers = () => {
     enabled: !!sphere_id,
   });
   const {
-    data: sphereUsers,
     isFetching: sphereLoading,
     refetch,
+    data: sphere,
   } = useSphereUsers({
     enabled: !!sphere_id,
     sphere_id: +sphere_id!,
@@ -47,7 +47,7 @@ const EditAddSphereUsers = () => {
   const user = sphereUser?.[0];
 
   const onSubmit = () => {
-    const { user, status, sequence, sphere } = getValues();
+    const { user, status, sequence, sphere, head } = getValues();
     mutate(
       {
         sphere_id: user_id ? sphere : sphere_id,
@@ -55,6 +55,7 @@ const EditAddSphereUsers = () => {
         status: Number(status),
         sequence: Number(sequence),
         id: Number(user_id),
+        name: head,
       },
       {
         onSuccess: () => {
@@ -74,11 +75,13 @@ const EditAddSphereUsers = () => {
         sphere: user?.sphere_id,
         status: user?.status,
         sequence: user?.sequence,
+        head: user?.name,
       });
     }
   }, [user, sphere_id]);
 
-  if (userLoading || sphereLoading || sphereLoding) return <Loading absolute />;
+  if (userLoading || sphereLoading || sphereLoding || sphereUserLoading)
+    return <Loading absolute />;
 
   return (
     <Container>
@@ -87,6 +90,11 @@ const EditAddSphereUsers = () => {
       <Card className="px-8 py-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-1 gap-4 flex-col">
+            {!sphere?.length && (
+              <BaseInput label="Руководитель отдела" className="mt-2">
+                <MainInput register={register("head")} />
+              </BaseInput>
+            )}
             <BaseInput label="Пользователь" className="mt-4">
               <MainSelect
                 disabled={!!user_id}
@@ -95,7 +103,7 @@ const EditAddSphereUsers = () => {
                 <option value={undefined}></option>
                 {users?.items.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.full_name}
+                    {item?.full_name}
                   </option>
                 ))}
               </MainSelect>

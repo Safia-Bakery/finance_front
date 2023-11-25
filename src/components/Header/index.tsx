@@ -6,6 +6,8 @@ interface Props extends PropsWithChildren {
   subTitle?: string;
 }
 
+console.log(window.innerWidth, "width");
+
 const Header: FC<Props> = ({ children, title, subTitle }) => {
   return (
     <div
@@ -13,7 +15,7 @@ const Header: FC<Props> = ({ children, title, subTitle }) => {
         "flex justify-between p-4 bg-white rounded-t-xl rounded-b-[2px] items-center"
       }
     >
-      <Typography size={TextSize.L}>{title}</Typography>
+      <Typography size={TextSize.XL}>{title}</Typography>
       {/* {subTitle && <p className="mb-0">{subTitle}</p>} */}
 
       <div className="">{children}</div>

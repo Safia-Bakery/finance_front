@@ -6,7 +6,7 @@ interface Body {
   sphere_id: number;
   status?: number;
   sequence: number;
-
+  name?: string;
   id?: number;
 }
 

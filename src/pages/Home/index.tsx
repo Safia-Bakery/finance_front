@@ -105,10 +105,10 @@ const Home = () => {
                       key={idx}
                     >
                       <td className="font-bold p-4">{item.CcyNm_RU}</td>
+                      <td className="font-bold p-4">{item.Rate}</td>
                       <td className="font-bold p-4">
                         {+item.Rate + +item.Diff}
                       </td>
-                      <td className="font-bold p-4">{item.Rate}</td>
                     </tr>
                   ))}
                 </tbody>

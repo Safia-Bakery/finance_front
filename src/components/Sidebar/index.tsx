@@ -6,24 +6,23 @@ import { useAppDispatch, useAppSelector } from "src/store/utils/types";
 import { logoutHandler } from "src/store/reducers/auth";
 import { MainPermissions } from "src/utils/types";
 import useToken from "src/hooks/useToken";
-import useSphereUsers from "src/hooks/useSphereUsers";
 import { sortedUsers } from "src/store/reducers/sorter";
+import Typography from "../Typography";
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
-  // const { data: sphereUsers, isLoading } = useSphereUsers({});
+  const { data } = useToken({});
   const sphereUsers = useAppSelector(sortedUsers);
 
   const dispatch = useAppDispatch();
-  const permission = { 1: true, 2: true };
+  const permission = data?.permissions;
   const { data: me } = useToken({ enabled: false });
 
   const handleLogout = () => dispatch(logoutHandler());
   const routes = useMemo(() => {
     const init = [
-      { name: "Главная страница", url: "/home" },
       {
         name: "Отчёты",
         url: "/reports",
@@ -39,7 +38,7 @@ const Sidebar = () => {
       {
         name: "Сотрудники",
         url: "/users",
-        screen: MainPermissions.employees,
+        screen: MainPermissions.users,
       },
       {
         name: "Роли",
@@ -57,16 +56,16 @@ const Sidebar = () => {
 
     const sphere = sphereUsers?.map((user, idx) => {
       return {
-        name: user.sp_user.full_name,
+        name: user?.sp_user?.full_name,
         url: `/orders/${user.id}/sphere`,
-        screen: MainPermissions.fillings,
+        screen: MainPermissions.orders,
         ...(idx === sphereUsers?.length - 1 && { hasline: true }),
       };
     });
     if (!!sphere?.length) return init.slice(0, 3).concat(sphere, init.slice(3));
     else return init;
   }, [sphereUsers]);
-  // if (!permission) return;
+  if (!permission) return;
 
   return (
     <div className={cl(styles.sidebar)}>
@@ -89,7 +88,7 @@ const Sidebar = () => {
               })}
               to={"/home"}
             >
-              <p className={styles.content}>Главная страница</p>
+              <Typography>Главная страница</Typography>
             </Link>
           </li>
           {routes.map((route) => {
@@ -108,7 +107,7 @@ const Sidebar = () => {
                       to={route.url}
                       state={{ name: route.name }}
                     >
-                      <p className={styles.content}>{route.name}</p>
+                      <Typography>{route.name}</Typography>
                     </Link>
                   </li>
                   {route.hasline && <div className={styles.line} />}

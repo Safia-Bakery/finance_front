@@ -9,6 +9,7 @@ import Button from "src/components/Button";
 import { useForm } from "react-hook-form";
 import useRoles from "src/hooks/useRoles";
 import roleMutation from "src/hooks/mutation/roleMutation";
+import Container from "src/components/Container";
 
 const ShowRole = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const ShowRole = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <Card className="p-4">
+    <Container>
       <Header title={role?.name}>
         <Button
           onClick={() => navigate(-1)}
@@ -70,49 +71,53 @@ const ShowRole = () => {
         </Button>
       </Header>
 
-      <div className="content">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <table className="table table-striped table-hover report-table">
-            {!!permissions?.length &&
-              permissions?.map((item) => {
-                return (
-                  <Fragment key={item?.name}>
-                    <thead className="bg-primary border-gray-400 border-2">
-                      <tr>
-                        <th>{item?.name}</th>
-                        <th />
-                      </tr>
-                    </thead>
-
-                    <tbody className="bg-mainGray border-gray-400 border-x ">
-                      {item.pages_crud.map((child) => (
-                        <tr
-                          key={child?.id}
-                          className="border-b-2 border-b-gray-400 hover:bg-hoverGray transition-colors"
-                        >
-                          <td className="text-left">{child?.name}</td>
-                          <td width={50}>
-                            <input
-                              type="checkbox"
-                              value={child?.id}
-                              {...register(`${child.id}`)}
-                            />
-                          </td>
+      <Card className="p-4">
+        <div className="content">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <table className="table table-striped table-hover report-table">
+              {!!permissions?.length &&
+                permissions?.map((item) => {
+                  return (
+                    <Fragment key={item?.name}>
+                      <thead className="bg-primary border-gray-400 border-2">
+                        <tr>
+                          <th>{item?.name}</th>
+                          <th />
                         </tr>
-                      ))}
-                    </tbody>
-                  </Fragment>
-                );
-              })}
-          </table>
-          <div className="w-full flex justify-end">
-            <Button className="bg-darkYellow mt-4 w-64 " type="submit">
-              Сохранить
-            </Button>
-          </div>
-        </form>
-      </div>
-    </Card>
+                      </thead>
+
+                      <tbody className=" border-gray-400 border-x ">
+                        {item.pages_crud.map((child) => (
+                          <tr
+                            key={child?.id}
+                            className="border-b-2 border-b-gray-400 hover:bg-mainGray transition-colors"
+                          >
+                            <td className="text-left !py-3 !px-3">
+                              {child?.name} = {child.id}
+                            </td>
+                            <td width={50}>
+                              <input
+                                type="checkbox"
+                                value={child?.id}
+                                {...register(`${child.id}`)}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Fragment>
+                  );
+                })}
+            </table>
+            <div className="w-full flex justify-end">
+              <Button className="bg-darkYellow mt-4 w-64 " type="submit">
+                Сохранить
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Card>
+    </Container>
   );
 };
 

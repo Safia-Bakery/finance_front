@@ -7,20 +7,13 @@ import MainInput from "src/components/BaseInputs/MainInput";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Header from "src/components/Header";
-import Typography, { TextSize } from "src/components/Typography";
 import sphereMutation from "src/hooks/mutation/sphere";
 import useSpheres from "src/hooks/useSpheres";
 
 const EditAddSphere: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-    getValues,
-  } = useForm();
+  const { register, handleSubmit, reset, getValues } = useForm();
 
   const { data, refetch } = useSpheres({
     ...(!!id && { id: Number(id) }),
@@ -67,11 +60,11 @@ const EditAddSphere: FC = () => {
               />
             </BaseInput>
 
-            {!!id && (
-              <BaseInput label="СТАТУС">
-                <MainCheckBox label="Активный" register={register("status")} />
-              </BaseInput>
-            )}
+            {/* {!!id && ( */}
+            <BaseInput label="СТАТУС">
+              <MainCheckBox label="Активный" register={register("status")} />
+            </BaseInput>
+            {/* )} */}
           </div>
           <div className="flex flex-1 justify-end">
             <Button

@@ -46,17 +46,20 @@ const EditAddUser = () => {
         username,
         password,
         phone_number,
-        role_id: +role_id,
+
         full_name,
         status: Number(status),
         tg_id,
         ...(!!id && { id: Number(id) }),
+        ...(!!role_id && { role_id: +role_id }),
       },
       {
-        onSuccess: () => {
-          if (id) refetch();
-          navigate("/users?update=1");
-          successToast("success");
+        onSuccess: (data: any) => {
+          if (data?.status === 200) {
+            if (id) refetch();
+            navigate("/users?update=1");
+            successToast("success");
+          }
         },
       }
     );
@@ -97,12 +100,7 @@ const EditAddUser = () => {
               />
             </BaseInput>
             <BaseInput label="РОЛЬ" className="flex flex-1 flex-col">
-              <MainSelect
-                values={roles}
-                register={register("role_id", {
-                  required: "Обязательное поле",
-                })}
-              />
+              <MainSelect values={roles} register={register("role_id")} />
             </BaseInput>
           </div>
           <div className="flex gap-8">

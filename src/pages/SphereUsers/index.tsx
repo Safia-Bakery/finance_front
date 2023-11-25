@@ -12,7 +12,10 @@ import EmptyList from "src/components/EmptyList";
 import useToken from "src/hooks/useToken";
 import Container from "src/components/Container";
 import Loading from "src/components/Loader";
-import { SphereUsers as SphereUsersTypes } from "src/utils/types";
+import {
+  MainPermissions,
+  SphereUsers as SphereUsersTypes,
+} from "src/utils/types";
 
 const column = [
   { name: "№", key: "" },
@@ -26,6 +29,8 @@ const SphereUsers = () => {
   const { sphere_id } = useParams();
   const navigate = useNavigate();
   const [sort, $sort] = useState<SphereUsersTypes[]>();
+  const { data } = useToken({});
+  const perms = data?.permissions;
 
   const update = useQueryString("update");
   const name = useQueryString("name");
@@ -46,16 +51,16 @@ const SphereUsers = () => {
     <Container>
       <Header title={`Пользователи сферы(${name})`}>
         <div className="flex gap-3">
-          {/* {perms?.[MainPermissions.filling] && ( */}
-          <Button
-            className="bg-yellow ml-2 w-24"
-            textClassName="text-black"
-            textSize={TextSize.L}
-            onClick={() => handleNavigate("add")}
-          >
-            Добавить
-          </Button>
-          {/* )} */}
+          {perms?.[MainPermissions.add_sphere_users] && (
+            <Button
+              className="bg-yellow ml-2 w-24"
+              textClassName="text-black"
+              textSize={TextSize.L}
+              onClick={() => handleNavigate("add")}
+            >
+              Добавить
+            </Button>
+          )}
         </div>
       </Header>
       <Card className="mt-1">
@@ -84,11 +89,11 @@ const SphereUsers = () => {
                       <td className="pl-4">{user.sequence}</td>
                       <td>{!!user?.status ? "Активный" : "Неактивный"}</td>
                       <td width={40}>
-                        {/* {perms?.[MainPermissions.filling] && ( */}
-                        <TableViewBtn
-                          onClick={() => handleNavigate(`${user.id}`)}
-                        />
-                        {/* )} */}
+                        {perms?.[MainPermissions.edit_sphere_users] && (
+                          <TableViewBtn
+                            onClick={() => handleNavigate(`${user.id}`)}
+                          />
+                        )}
                       </td>
                     </tr>
                   ))}

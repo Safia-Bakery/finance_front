@@ -42,23 +42,6 @@ const EditAddOrder = () => {
   });
   const order = data?.items?.[0];
 
-  useEffect(() => {
-    if (order && id) {
-      $activeCateg(order.sphere_id);
-      $files(order?.files);
-      reset({
-        is_urgent: order.is_urgent,
-        purchaser: order.purchaser,
-        product: order.title,
-        price: order.price,
-        payment_type: order.payment_type,
-        payer: order.payer_id,
-        supplier: order.supplier,
-        comment: order.comment,
-      });
-    }
-  }, [order]);
-
   const { data: payers, isFetching: payersLoading } = usePayers({});
   const { data: spheres, isFetching: sphereLoading } = useSpheres({});
   const { mutate: uploadImage } = imageUploadMutation();
@@ -209,6 +192,23 @@ const EditAddOrder = () => {
     );
   }, [files]);
 
+  useEffect(() => {
+    if (order && id) {
+      $activeCateg(order.sphere_id);
+      $files(order?.files);
+      reset({
+        is_urgent: order.is_urgent,
+        purchaser: order.purchaser,
+        product: order.title,
+        price: order.price,
+        payment_type: order.payment_type,
+        payer: order.payer_id,
+        supplier: order.supplier,
+        comment: order.comment,
+      });
+    }
+  }, [order]);
+
   if (sphereLoading || orderLoading || payersLoading)
     return <Loading absolute />;
 
@@ -216,7 +216,11 @@ const EditAddOrder = () => {
     <>
       <Header title={id ? `Заявка ${id}` : "Новая заявка"}>
         {!!id && (
-          <Button className="bg-[#F69B30] w-24" textClassName="text-white">
+          <Button
+            onClick={() => navigate(`/logs/${id}`)}
+            className="bg-[#F69B30] w-24"
+            textClassName="text-white"
+          >
             Логи
           </Button>
         )}

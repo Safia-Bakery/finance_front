@@ -7,7 +7,7 @@ import TableViewBtn from "src/components/TableViewBtn";
 import Button from "src/components/Button";
 import { TextSize } from "src/components/Typography";
 import usePayers from "src/hooks/usePayers";
-import { PayersType } from "src/utils/types";
+import { MainPermissions, PayersType } from "src/utils/types";
 import useToken from "src/hooks/useToken";
 import EmptyList from "src/components/EmptyList";
 import Loading from "src/components/Loader";
@@ -22,6 +22,7 @@ const Payers = () => {
   const navigate = useNavigate();
   const handleNavigate = (route: string) => () => navigate(route);
   const { data } = useToken({});
+  const perms = data?.permissions;
 
   const { data: payers, isLoading } = usePayers({});
   const [sort, $sort] = useState<PayersType[]>();
@@ -30,17 +31,17 @@ const Payers = () => {
 
   return (
     <>
-      <Header title="Роли">
-        {/* {perms?.[MainPermissions.payers] && ( */}
-        <Button
-          className="bg-yellow"
-          textClassName="text-black"
-          textSize={TextSize.L}
-          onClick={() => navigate("add")}
-        >
-          Создать
-        </Button>
-        {/* )} */}
+      <Header title="Плательщики">
+        {perms?.[MainPermissions.payers] && (
+          <Button
+            className="bg-yellow"
+            textClassName="text-black"
+            textSize={TextSize.L}
+            onClick={() => navigate("add")}
+          >
+            Создать
+          </Button>
+        )}
       </Header>
       <Card className="mt-1">
         <div className="table-responsive grid-view content">
@@ -60,9 +61,9 @@ const Payers = () => {
                     </td>
                     <td>{payer.name}</td>
                     <td width={40}>
-                      {/* {perms?.[MainPermissions.edit_payers] && ( */}
-                      <TableViewBtn onClick={handleNavigate(`${payer.id}`)} />
-                      {/* )} */}
+                      {perms?.[MainPermissions.edit_payers] && (
+                        <TableViewBtn onClick={handleNavigate(`${payer.id}`)} />
+                      )}
                     </td>
                   </tr>
                 ))}

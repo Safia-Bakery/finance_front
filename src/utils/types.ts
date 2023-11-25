@@ -42,50 +42,42 @@ export interface BranchTypes extends BasePaginatedRes {
 }
 
 export enum MainPermissions {
+  reports = 1,
+
+  orders = 2,
+  add_order = 3,
+  edit_orders = 4,
+
+  archieve = 5,
+
+  roles = 9,
+  edit_roles = 11,
+  add_role = 10,
+
+  payers = 12,
+  edit_payers = 14,
+  add_payers = 13,
+
+  spheres = 15,
+  add_sphere = 16,
+  edit_sphere = 17,
+
   fillings = 1,
   filling = 2,
   add_categories = 2,
 
-  payers = 1,
-  edit_payers = 1,
-  add_payers = 1,
+  settings = 18,
 
-  roles = 1,
-  edit_roles = 1,
-  add_role = 1,
+  users = 6,
+  add_user = 7,
+  edit_user = 8,
 
-  reports = 1,
-  purchasing_dep = 1,
-
-  orders = 1,
-  add_order = 1,
-  finance = 1,
-  accounting = 1,
-  archieve = 1,
-  employees = 1,
-
-  spheres = 1,
-  add_sphere = 1,
-  edit_sphere = 1,
-
-  settings = 1,
+  sphere_users = 1,
+  add_sphere_users = 1,
+  edit_sphere_users = 1,
 }
 export interface MeTypes {
-  user: {
-    username: string;
-    status: 0;
-    created_at: Date | string;
-    full_name: string;
-    is_client: 0;
-    id: 0;
-    role_id: 0;
-    phone_number: string;
-    user_role: {
-      id: 0;
-      name: string;
-    };
-    tg_id: 0;
-  };
+  user: UserType;
   permissions: {
     [key: number]: number;
   };
@@ -102,21 +94,7 @@ export interface SphereTypes {
       status: number;
       sequence: number;
       user_id: number;
-      sp_user: {
-        username: string;
-        status: number;
-        created_at: string | Date;
-        full_name: string;
-        is_client: number;
-        id: number;
-        role_id: number;
-        phone_number: string;
-        user_role: {
-          id: number;
-          name: string;
-        };
-        tg_id: number;
-      };
+      sp_user: UserType;
     }
   ];
 }
@@ -127,21 +105,8 @@ export interface SphereUsers {
   status: number;
   sequence: number;
   user_id: number;
-  sp_user: {
-    username: string;
-    status: number;
-    created_at: string | Date;
-    full_name: string;
-    is_client: number;
-    id: number;
-    role_id: number;
-    phone_number: string;
-    user_role: {
-      id: number;
-      name: string;
-    };
-    tg_id: number;
-  };
+  sp_user: UserType;
+  name: string;
 }
 
 export interface ContentTypes {
@@ -226,6 +191,16 @@ export interface PermissionTypes {
     }
   ];
 }
+
+export interface HistoryTypes {
+  id: number;
+  user_id: number;
+  order_id: number;
+  status: number;
+  comment: string;
+  created_at: string | Date;
+  hi_user: UserType;
+}
 export interface UserType {
   username: string;
   status: number;
@@ -261,24 +236,11 @@ export interface Order {
       {
         id: number;
         sphere_id: number;
+        name?: string;
         status: number;
         sequence: number;
         user_id: number;
-        sp_user: {
-          username: string;
-          status: number;
-          created_at: string | Date;
-          full_name: string;
-          is_client: number;
-          id: number;
-          role_id: number;
-          phone_number: string;
-          user_role: {
-            id: number;
-            name: string;
-          };
-          tg_id: number;
-        };
+        sp_user: UserType;
       }
     ];
   };

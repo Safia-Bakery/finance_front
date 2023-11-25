@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "src/components/Card";
 import Loading from "src/components/Loader";
 import TableHead from "src/components/TableHead";
@@ -80,7 +80,11 @@ const Users: FC<Props> = ({ client, edit, add }) => {
                 <td>
                   <span className="not-set">{user?.username}</span>
                 </td>
-                <td width={250}>{user?.user_role?.name}</td>
+                <td width={250}>
+                  <Link to={`/permission/${user.role_id}`}>
+                    {user?.user_role?.name}
+                  </Link>
+                </td>
                 <td>{user?.phone_number}</td>
                 <td>{!!user?.status ? "Активный" : "Неактивный"}</td>
                 <td width={40}>

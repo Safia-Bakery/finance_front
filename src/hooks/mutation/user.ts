@@ -6,7 +6,7 @@ interface Body {
   username: string;
   password: string;
   phone_number: string;
-  role_id: number;
+  role_id?: number;
   full_name: string;
   status: number;
   tg_id?: string;

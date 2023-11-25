@@ -40,16 +40,16 @@ const Spheres = () => {
       {/* <CategoriesFilter /> */}
       <Header title="Сферы">
         <div className="flex gap-3">
-          {/* {perms?.[MainPermissions.filling] && ( */}
-          <Button
-            className="bg-yellow ml-2 w-24"
-            textClassName="text-black"
-            textSize={TextSize.L}
-            onClick={() => handleNavigate("add")}
-          >
-            Создать
-          </Button>
-          {/* )} */}
+          {perms?.[MainPermissions.add_sphere] && (
+            <Button
+              className="bg-yellow ml-2 w-24"
+              textClassName="text-black"
+              textSize={TextSize.L}
+              onClick={() => handleNavigate("add")}
+            >
+              Создать
+            </Button>
+          )}
         </div>
       </Header>
       <Card className="mt-1">
@@ -80,11 +80,11 @@ const Spheres = () => {
                       <td>{"category?.name"}</td>
                       <td>{!!category?.status ? "Активный" : "Неактивный"}</td>
                       <td width={40}>
-                        {/* {perms?.[MainPermissions.edit_sphere] && ( */}
-                        <TableViewBtn
-                          onClick={() => handleNavigate(`${category.id}`)}
-                        />
-                        {/* )} */}
+                        {perms?.[MainPermissions.edit_sphere] && (
+                          <TableViewBtn
+                            onClick={() => handleNavigate(`${category.id}`)}
+                          />
+                        )}
                       </td>
                     </tr>
                   ))}

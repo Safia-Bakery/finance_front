@@ -15,30 +15,19 @@ import Approved from "src/components/Approved";
 import { useAppSelector } from "src/store/utils/types";
 import { sortedUsers } from "src/store/reducers/sorter";
 import dayjs from "dayjs";
+import Typography from "src/components/Typography";
 
 const Orders = () => {
   const navigate = useNavigate();
   const { user_id } = useParams();
-  // const { data: sphereUsers, isLoading: usersLoading } = useSphereUsers({});
   const sphereUsers = useAppSelector(sortedUsers);
   const [sort, $sort] = useState<Order[]>();
 
-  const {
-    refetch: orderRefetch,
-    isLoading,
-    data: orders,
-  } = useOrders({ user_id });
+  const { isLoading, data: orders } = useOrders({ user_id });
 
   const handleNavigate = () => {
     navigate("/orders/add");
   };
-
-  const sphereObj = useMemo(() => {
-    return sphereUsers.reduce((acc: any, item) => {
-      acc[item.id] = true;
-      return acc;
-    }, {});
-  }, []);
 
   const column = useMemo(() => {
     const init = [
@@ -48,7 +37,6 @@ const Orders = () => {
       { name: "Дата поступления", key: "created_at" },
       { name: "Сумма", key: "price" },
       { name: "Срочно", key: "urgent" },
-      // { name: "Статус", key: "status" },
     ];
 
     const sphere = sphereUsers?.map((user) => {
@@ -67,7 +55,11 @@ const Orders = () => {
   return (
     <Container>
       <Header title="Все заявки">
-        <Button onClick={handleNavigate} className="bg-primary">
+        <Button
+          onClick={handleNavigate}
+          className="bg-primary"
+          textClassName="text-white"
+        >
           Новая заявка
         </Button>
       </Header>
@@ -88,22 +80,30 @@ const Orders = () => {
                       <Link to={`/orders/${item?.id}`}>{item.id}</Link>
                     </td>
                     <td>{item?.order_sp?.name}</td>
-                    <td>Гафуржанов Шахзод</td>
+                    <td>{item?.order_sp?.sphereuser?.[0]?.name}</td>
                     <td>
                       {dayjs(item?.created_at).format("DD.MM.YYYY HH:mm")}
                     </td>
                     <td>{priceNum(+item?.price)} сум</td>
                     <td>{item.is_urgent ? "Да" : "Нет"}</td>
                     {/* <td>{item.status}</td> */}
-                    {sphereUsers.map((user) => {
-                      return item?.order_hi?.map((hist) => {
-                        if (user.user_id === hist.user_id)
-                          return (
-                            <td key={hist.id}>
-                              {!!hist.status ? <Approved /> : "-"}
-                            </td>
-                          );
-                      });
+                    {sphereUsers.map((user, idx) => {
+                      return (
+                        <td key={user.id}>
+                          {item?.order_hi?.map((hist) => {
+                            if (user.user_id === hist.user_id && !!hist.status)
+                              return (
+                                // <td key={hist.id}>
+                                <Approved />
+                                // </td>
+                              );
+                            if (user.user_id === hist.user_id)
+                              return (
+                                <Typography>Ожидает согласования</Typography>
+                              );
+                          })}
+                        </td>
+                      );
                     })}
                   </tr>
                 ))}
@@ -111,7 +111,6 @@ const Orders = () => {
           </table>
         </div>
 
-        {isLoading && <Loading className=" py-4" />}
         {!orders?.items.length && !isLoading && <EmptyList />}
 
         {!!orders?.pages && (
