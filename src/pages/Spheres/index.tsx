@@ -11,6 +11,7 @@ import useQueryString from "src/hooks/useQueryString";
 import EmptyList from "src/components/EmptyList";
 import useToken from "src/hooks/useToken";
 import { MainPermissions, SphereTypes } from "src/utils/types";
+import Loading from "src/components/Loader";
 
 const column = [
   { name: "№", key: "" },
@@ -35,9 +36,10 @@ const Spheres = () => {
     if (update) refetch();
   }, [update]);
 
+  if (isLoading) return <Loading absolute />;
+
   return (
     <>
-      {/* <CategoriesFilter /> */}
       <Header title="Сферы">
         <div className="flex gap-3">
           {perms?.[MainPermissions.add_sphere] && (
@@ -91,8 +93,6 @@ const Spheres = () => {
                 </tbody>
               )}
             </table>
-
-            {/* {isLoading && <Loading />} */}
             {!categories?.length && !isLoading && <EmptyList />}
           </div>
         </div>

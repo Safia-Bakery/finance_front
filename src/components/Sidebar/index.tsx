@@ -7,7 +7,7 @@ import { logoutHandler } from "src/store/reducers/auth";
 import { MainPermissions } from "src/utils/types";
 import useToken from "src/hooks/useToken";
 import { sortedUsers } from "src/store/reducers/sorter";
-import Typography from "../Typography";
+import Typography, { TextSize, Weight } from "../Typography";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -75,15 +75,13 @@ const Sidebar = () => {
   return (
     <div className={cl(styles.sidebar)}>
       <div className={styles.block}>
-        <div
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={() => navigate("/home")}
-        >
-          <img
-            className="w-full m-3"
-            src="/assets/icons/main-logo.svg"
-            alt="safia-logo"
-          />
+        <div className="cursor-pointer" onClick={() => navigate("/home")}>
+          <div className="p-5">
+            <Typography size={TextSize.M} weight={Weight.bold}>
+              FINANCE DEPARTMENT
+            </Typography>
+          </div>
+          <div className={styles.line} />
         </div>
         <ul className={styles.mainList}>
           <li className={cl(styles.navItem)}>

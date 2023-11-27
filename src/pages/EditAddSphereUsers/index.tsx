@@ -5,7 +5,6 @@ import BaseInput from "src/components/BaseInputs";
 import MainInput from "src/components/BaseInputs/MainInput";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
-import Typography, { TextSize } from "src/components/Typography";
 import { errorToast, successToast } from "src/utils/toast";
 import sphereUsersMutation from "src/hooks/mutation/sphereUsers";
 import MainSelect from "src/components/BaseInputs/MainSelect";
@@ -14,7 +13,6 @@ import Loading from "src/components/Loader";
 import useSphereUsers from "src/hooks/useSphereUsers";
 import useSpheres from "src/hooks/useSpheres";
 import MainCheckBox from "src/components/BaseInputs/MainCheckBox";
-import useQueryString from "src/hooks/useQueryString";
 import Header from "src/components/Header";
 import Container from "src/components/Container";
 
@@ -39,7 +37,11 @@ const EditAddSphereUsers = () => {
     enabled: !!user_id,
   });
 
-  const { data: sphereUser, isFetching: sphereUserLoading } = useSphereUsers({
+  const {
+    data: sphereUser,
+    isFetching: sphereUserLoading,
+    refetch: userRefetch,
+  } = useSphereUsers({
     enabled: !!user_id,
     id: Number(user_id),
   });
@@ -62,6 +64,7 @@ const EditAddSphereUsers = () => {
           refetch();
           successToast(!sphere_id ? "role created" : "role updated");
           navigate(-1);
+          if (user_id) userRefetch();
         },
         onError: (e: any) => errorToast(e.message),
       }
@@ -90,7 +93,7 @@ const EditAddSphereUsers = () => {
       <Card className="px-8 py-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-1 gap-4 flex-col">
-            {!sphere?.length && (
+            {(!sphere?.length || user?.sequence === 1) && (
               <BaseInput label="Руководитель отдела" className="mt-2">
                 <MainInput register={register("head")} />
               </BaseInput>

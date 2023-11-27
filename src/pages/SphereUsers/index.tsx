@@ -47,6 +47,8 @@ const SphereUsers = () => {
     if (update) refetch();
   }, [update]);
 
+  if (isLoading) return <Loading absolute />;
+
   return (
     <Container>
       <Header title={`Пользователи сферы(${name})`}>
@@ -66,7 +68,6 @@ const SphereUsers = () => {
       <Card className="mt-1">
         <div className="content">
           <div className="table-responsive grid-view">
-            {/* <ItemsCount data={categories} /> */}
             <table className="table table-hover">
               <TableHead
                 onSort={(data) => $sort(data)}
@@ -76,7 +77,7 @@ const SphereUsers = () => {
 
               {!!users?.length && (
                 <tbody>
-                  {users?.map((user, idx) => (
+                  {(sort?.length ? sort : users)?.map((user, idx) => (
                     <tr key={idx} className="bg-blue">
                       <td className="first:pl-3 py-3" width="40">
                         {idx + 1}
@@ -100,8 +101,6 @@ const SphereUsers = () => {
                 </tbody>
               )}
             </table>
-
-            {isLoading && <Loading />}
             {!users?.length && !isLoading && <EmptyList />}
           </div>
         </div>

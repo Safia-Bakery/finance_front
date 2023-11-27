@@ -92,14 +92,12 @@ const Orders = () => {
                         <td key={user.id}>
                           {item?.order_hi?.map((hist) => {
                             if (user.user_id === hist.user_id && !!hist.status)
-                              return (
-                                // <td key={hist.id}>
-                                <Approved />
-                                // </td>
-                              );
+                              return <Approved key={hist.id} />;
                             if (user.user_id === hist.user_id)
                               return (
-                                <Typography>Ожидает согласования</Typography>
+                                <Typography key={hist.id}>
+                                  Ожидает согласования
+                                </Typography>
                               );
                           })}
                         </td>
