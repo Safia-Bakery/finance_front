@@ -213,6 +213,7 @@ export interface UserType {
   phone_number: string;
   tg_id: null | number;
   user_role: { id: number; name: string };
+  show?: number;
 }
 
 export interface UsersType extends BasePaginatedRes {

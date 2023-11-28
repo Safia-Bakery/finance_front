@@ -3,14 +3,15 @@ import apiClient from "src/main";
 import { errorToast } from "src/utils/toast";
 
 interface Body {
-  username: string;
-  password: string;
-  phone_number: string;
+  username?: string;
+  password?: string;
+  phone_number?: string;
   role_id?: number;
-  full_name: string;
-  status: number;
+  full_name?: string;
+  status?: number;
   tg_id?: string;
   id?: number;
+  show?: number;
 }
 
 const userMutation = () => {

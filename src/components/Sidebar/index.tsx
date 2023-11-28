@@ -59,14 +59,15 @@ const Sidebar = () => {
       { name: "Настройки", url: "/settings", screen: MainPermissions.settings },
     ];
 
-    const sphere = sphereUsers?.map((user, idx) => {
-      return {
-        name: user?.sp_user?.full_name,
-        url: `/orders/${user.id}/sphere`,
-        screen: MainPermissions.orders,
-        // ...(idx === sphereUsers?.length - 1 && { hasline: true }),
-      };
-    });
+    const sphere = sphereUsers
+      ?.filter((item) => !!item?.sp_user?.show)
+      .map((user) => {
+        return {
+          name: user?.sp_user?.full_name,
+          url: `/orders/${user.user_id}/sphere`,
+          screen: MainPermissions.orders,
+        };
+      });
     if (!!sphere?.length) return init.slice(0, 2).concat(sphere, init.slice(2));
     else return init;
   }, [sphereUsers]);

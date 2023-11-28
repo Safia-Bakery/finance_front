@@ -1,7 +1,6 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "dayjs/locale/ru";
-import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css";
 import { lazy, useEffect, useMemo } from "react";
 import useToken from "./hooks/useToken";
@@ -12,7 +11,6 @@ import { tokenSelector } from "./store/reducers/auth";
 import { sortHandler } from "./store/reducers/sorter";
 import useUpdateEffect from "src/hooks/useUpdateEffect";
 import useSphereUsers from "./hooks/useSphereUsers";
-import ControlPanel from "src/pages/ControlPanel";
 import Navigation from "src/components/Routes";
 // import Home from "src/pages/Home";
 // import Orders from "src/pages/Orders";

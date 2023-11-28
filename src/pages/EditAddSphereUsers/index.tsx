@@ -15,12 +15,14 @@ import useSpheres from "src/hooks/useSpheres";
 import MainCheckBox from "src/components/BaseInputs/MainCheckBox";
 import Header from "src/components/Header";
 import Container from "src/components/Container";
+import userMutation from "src/hooks/mutation/user";
 
 const EditAddSphereUsers = () => {
   const { sphere_id, user_id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit, reset, getValues } = useForm();
   const { mutate } = sphereUsersMutation();
+  const { mutate: mutateUser } = userMutation();
 
   const { data: users, isFetching: userLoading } = useUsers({
     enabled: !!sphere_id,
@@ -49,12 +51,15 @@ const EditAddSphereUsers = () => {
   const user = sphereUser?.[0];
 
   const onSubmit = () => {
-    const { user, status, sequence, sphere, head } = getValues();
+    const { user: user_in, status, sequence, sphere, head, show } = getValues();
+    if (user?.user_id && user_id)
+      mutateUser({ id: user?.user_id, show: Number(show) });
     mutate(
       {
         sphere_id: user_id ? sphere : sphere_id,
-        user_id: Number(user),
+        user_id: Number(user_in),
         status: Number(status),
+
         sequence: Number(sequence),
         id: Number(user_id),
         name: head,
@@ -72,13 +77,14 @@ const EditAddSphereUsers = () => {
   };
 
   useEffect(() => {
-    if (user_id) {
+    if (user_id && user) {
       reset({
         user: user?.user_id,
         sphere: user?.sphere_id,
         status: user?.status,
         sequence: user?.sequence,
         head: user?.name,
+        show: user?.sp_user?.show,
       });
     }
   }, [user, sphere_id]);
@@ -137,6 +143,12 @@ const EditAddSphereUsers = () => {
             </BaseInput>
             <BaseInput className="mt-2">
               <MainCheckBox register={register("status")} label={"Статус"} />
+            </BaseInput>
+            <BaseInput className="mt-2">
+              <MainCheckBox
+                register={register("show")}
+                label={"Показать на сайдбаре"}
+              />
             </BaseInput>
           </div>
           <div className="flex flex-1 justify-end">
