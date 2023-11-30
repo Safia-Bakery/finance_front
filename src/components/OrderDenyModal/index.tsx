@@ -52,6 +52,7 @@ const OrderDenyModal = () => {
           <Button
             className="bg-primary text-white absolute bottom-2 w-[initial]"
             onClick={() => handleStatus(OrderStatus.deny)}
+            textClassName="text-white"
           >
             Отправить
           </Button>

@@ -77,7 +77,7 @@ const Orders = () => {
                 (sort?.length ? sort : orders?.items).map((item) => (
                   <tr className="py-1" key={item.id}>
                     <td className="!py-3 pl-3">
-                      <Link to={`/orders/${item?.id}`}>{item.id}</Link>
+                      <Link to={`${item?.id}`}>{item.id}</Link>
                     </td>
                     <td>{item?.order_sp?.name}</td>
                     <td>{item?.order_sp?.sphereuser?.[0]?.name}</td>

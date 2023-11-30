@@ -95,6 +95,20 @@ const Home = () => {
                     </th>
                   </tr>
                 </thead>
+                {/* <div className="bg-yellow"> */}
+                {/* <img
+                  src="/assets/icons/New_logo_Safia_1.svg"
+                  alt=""
+                  height={50}
+                  width={50}
+                />
+                <img
+                  src="/assets/icons/New_logo_Safia.svg"
+                  alt=""
+                  height={50}
+                  width={50}
+                /> */}
+                {/* </div> */}
 
                 <tbody>
                   {filteredCurrencies?.map((item, idx) => (

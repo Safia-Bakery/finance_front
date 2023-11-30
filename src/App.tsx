@@ -71,13 +71,18 @@ const routes = [
   },
   {
     element: <EditAddOrder />,
-    path: "/orders/:id",
+    path: "/orders/all/:id",
     screen: MainPermissions.edit_orders,
   },
   {
     element: <Orders />,
     path: "/orders/:user_id/sphere",
     screen: MainPermissions.orders,
+  },
+  {
+    element: <EditAddOrder />,
+    path: "/orders/:user_id/sphere/:id",
+    screen: MainPermissions.edit_orders,
   },
 
   {
