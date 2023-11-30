@@ -285,15 +285,17 @@ const EditAddOrder = () => {
           <div className="flex w-full justify-end my-20">
             <div className="w-max flex gap-3">
               <Button className="bg-green w-24 shadow-button" type="submit">
-                Согласовать
+                {!id ? "Создать" : "Согласовать"}
               </Button>
-              <Button
-                textClassName="text-white"
-                className="bg-red-400 w-24 shadow-button"
-                onClick={() => navigateParams({ modal: 1 })}
-              >
-                Отменить
-              </Button>
+              {!!id && (
+                <Button
+                  textClassName="text-white"
+                  className="bg-red-400 w-24 shadow-button"
+                  onClick={() => navigateParams({ modal: 1 })}
+                >
+                  Отменить
+                </Button>
+              )}
             </div>
           </div>
         </form>
