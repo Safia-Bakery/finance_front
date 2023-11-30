@@ -19,7 +19,7 @@ const ShowRole = () => {
     enabled: !!id,
   });
   const role = data?.[0];
-  const { mutate } = roleMutation();
+  const { mutate, isLoading: mutateLoading } = roleMutation();
   const { data: permissions } = usePermissions({});
 
   const {
@@ -112,7 +112,11 @@ const ShowRole = () => {
                 })}
             </table>
             <div className="w-full flex justify-end">
-              <Button className="bg-darkYellow mt-4 w-64 " type="submit">
+              <Button
+                className="bg-darkYellow mt-4 w-64 "
+                type="submit"
+                isLoading={mutateLoading}
+              >
                 Сохранить
               </Button>
             </div>

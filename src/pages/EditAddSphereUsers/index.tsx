@@ -21,8 +21,8 @@ const EditAddSphereUsers = () => {
   const { sphere_id, user_id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit, reset, getValues } = useForm();
-  const { mutate } = sphereUsersMutation();
-  const { mutate: mutateUser } = userMutation();
+  const { mutate, isLoading: mutateLoading } = sphereUsersMutation();
+  const { mutate: mutateUser, isLoading: userLoadingMutation } = userMutation();
 
   const { data: users, isFetching: userLoading } = useUsers({
     enabled: !!sphere_id,
@@ -153,6 +153,7 @@ const EditAddSphereUsers = () => {
           </div>
           <div className="flex flex-1 justify-end">
             <Button
+              isLoading={mutateLoading || userLoadingMutation}
               className="bg-darkYellow mt-4 w-64 text-black"
               type="submit"
             >

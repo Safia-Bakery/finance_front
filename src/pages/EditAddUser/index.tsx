@@ -25,7 +25,7 @@ const EditAddUser = () => {
   const [phone_number, $phone_number] = useState("");
   const user = userData?.items?.[0];
 
-  const { mutate } = userMutation();
+  const { mutate, isLoading: mutateLoading } = userMutation();
 
   const {
     register,
@@ -138,7 +138,11 @@ const EditAddUser = () => {
           </div>
         </div>
         <div className="flex flex-1 justify-end">
-          <Button className="bg-darkYellow mt-4 mr-8" type="submit">
+          <Button
+            className="bg-darkYellow mt-4 mr-8"
+            type="submit"
+            isLoading={mutateLoading}
+          >
             Сохранить
           </Button>
         </div>

@@ -87,7 +87,7 @@ const Users: FC<Props> = ({ client, edit, add }) => {
                   <span className="not-set">{user?.username}</span>
                 </td>
                 <td width={250}>
-                  <Link to={`/permission/${user.role_id}`}>
+                  <Link to={`/roles/permission/${user.role_id}`}>
                     {user?.user_role?.name}
                   </Link>
                 </td>

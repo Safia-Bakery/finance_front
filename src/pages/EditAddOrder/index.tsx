@@ -34,8 +34,9 @@ const EditAddOrder = () => {
   const { refetch: orderRefetch } = useOrders({ enabled: false });
   const navigateParams = useNavigateParams();
 
-  const { mutate: orderStatus } = orderStatusMutation();
-  const { mutate } = orderMutation();
+  const { mutate: orderStatus, isLoading: statusLoading } =
+    orderStatusMutation();
+  const { mutate, isLoading: mutateLoaidng } = orderMutation();
   const { data, isFetching: orderLoading } = useOrders({
     id,
     enabled: !!id,
@@ -44,7 +45,8 @@ const EditAddOrder = () => {
 
   const { data: payers, isFetching: payersLoading } = usePayers({});
   const { data: spheres, isFetching: sphereLoading } = useSpheres({});
-  const { mutate: uploadImage } = imageUploadMutation();
+  const { mutate: uploadImage, isLoading: imageLoading } =
+    imageUploadMutation();
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -284,7 +286,11 @@ const EditAddOrder = () => {
           </div>
           <div className="flex w-full justify-end my-20">
             <div className="w-max flex gap-3">
-              <Button className="bg-green w-24 shadow-button" type="submit">
+              <Button
+                className="bg-green w-24 shadow-button"
+                type="submit"
+                isLoading={mutateLoaidng || statusLoading}
+              >
                 {!id ? "Создать" : "Согласовать"}
               </Button>
               {!!id && (

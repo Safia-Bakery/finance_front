@@ -31,7 +31,7 @@ const EditAddRole = () => {
       {
         onSuccess: (data: any) => {
           successToast(!id ? "role created" : "role updated");
-          navigate(!id ? `/permission/${data.id}` : "/roles");
+          navigate(!id ? `/roles/permission/${data.id}` : "/roles");
           refetch();
         },
         onError: (e: any) => errorToast(e.message),

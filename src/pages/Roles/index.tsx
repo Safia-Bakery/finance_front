@@ -61,7 +61,9 @@ const Roles = () => {
                     </td>
                     <td>
                       {perms?.[MainPermissions.edit_roles] ? (
-                        <Link to={`/permission/${role.id}`}>{role.name}</Link>
+                        <Link to={`/roles/permission/${role.id}`}>
+                          {role.name}
+                        </Link>
                       ) : (
                         role.name
                       )}

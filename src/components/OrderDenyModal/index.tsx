@@ -15,7 +15,7 @@ import useOrders from "src/hooks/useOrders";
 
 const OrderDenyModal = () => {
   const { id } = useParams();
-  const { mutate } = orderStatusMutation();
+  const { mutate, isLoading } = orderStatusMutation();
   const modal = Number(useQueryString("modal"));
   const removeParams = useRemoveParams();
   const { register, getValues } = useForm();
@@ -50,6 +50,7 @@ const OrderDenyModal = () => {
           </BaseInput>
 
           <Button
+            isLoading={isLoading}
             className="bg-primary text-white absolute bottom-2 w-[initial]"
             onClick={() => handleStatus(OrderStatus.deny)}
             textClassName="text-white"

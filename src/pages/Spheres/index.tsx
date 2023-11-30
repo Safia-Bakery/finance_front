@@ -74,7 +74,7 @@ const Spheres = () => {
                       </td>
                       <td>
                         <Link
-                          to={`/sphere-users/${category.id}?name=${category.name}`}
+                          to={`/spheres/members/${category.id}?name=${category.name}`}
                         >
                           {category?.name}
                         </Link>

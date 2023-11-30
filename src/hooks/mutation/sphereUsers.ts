@@ -13,10 +13,16 @@ interface Body {
 const sphereUsersMutation = () => {
   return useMutation(["handle_sphere_users"], async (body: Body) => {
     if (!body.id) {
-      const { data } = await apiClient.post({ url: "/v1/spheres/users", body });
+      const { data } = await apiClient.post({
+        url: "/v1/spheres/members",
+        body,
+      });
       return data;
     } else {
-      const { data } = await apiClient.put({ url: "/v1/spheres/users", body });
+      const { data } = await apiClient.put({
+        url: "/v1/spheres/members",
+        body,
+      });
       return data;
     }
   });

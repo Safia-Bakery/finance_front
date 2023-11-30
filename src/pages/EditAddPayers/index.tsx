@@ -21,7 +21,7 @@ const EditAddPayers = () => {
   });
 
   const { refetch } = usePayers({ enabled: false });
-  const { mutate: postRole } = payerMutation();
+  const { mutate: postRole, isLoading: mutateLoading } = payerMutation();
   const payer = data?.[0];
 
   const onSubmit = () => {
@@ -62,7 +62,11 @@ const EditAddPayers = () => {
           </BaseInput>
         </div>
         <div className="flex flex-1 justify-end">
-          <Button className="bg-darkYellow mt-4 w-64 text-black" type="submit">
+          <Button
+            className="bg-darkYellow mt-4 w-64 text-black"
+            type="submit"
+            isLoading={mutateLoading}
+          >
             {!!id ? "Изменить" : "Создать"}
           </Button>
         </div>

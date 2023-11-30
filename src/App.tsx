@@ -118,7 +118,7 @@ const routes = [
   },
   {
     element: <ShowRole />,
-    path: "/permission/:id",
+    path: "/roles/permission/:id",
     screen: MainPermissions.edit_roles,
   },
   {
@@ -158,18 +158,18 @@ const routes = [
   },
   {
     element: <SphereUsers />,
-    path: "/sphere-users/:sphere_id",
+    path: "/spheres/members/:sphere_id",
     screen: MainPermissions.sphere_users,
   },
 
   {
     element: <EditAddSphereUsers />,
-    path: "/sphere-users/:sphere_id/add",
+    path: "/spheres/members/:sphere_id/add",
     screen: MainPermissions.add_sphere_users,
   },
   {
     element: <EditAddSphereUsers />,
-    path: "/sphere-users/:sphere_id/:user_id",
+    path: "/spheres/members/:sphere_id/:user_id",
     screen: MainPermissions.edit_sphere_users,
   },
   {
