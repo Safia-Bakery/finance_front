@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Button from "src/components/Button";
 import Card from "src/components/Card";
 import Container from "src/components/Container";
@@ -8,7 +8,7 @@ import Loading from "src/components/Loader";
 import Pagination from "src/components/Pagination";
 import TableHead from "src/components/TableHead";
 import useOrders from "src/hooks/useOrders";
-import { priceNum } from "src/utils/helpers";
+import { orderStatus, priceNum } from "src/utils/helpers";
 import { Order } from "src/utils/types";
 import EmptyList from "src/components/EmptyList";
 import Approved from "src/components/Approved";
@@ -16,14 +16,20 @@ import { useAppSelector } from "src/store/utils/types";
 import { sortedUsers } from "src/store/reducers/sorter";
 import dayjs from "dayjs";
 import Typography from "src/components/Typography";
+import cl from "classnames";
+import Denied from "src/components/Denied";
+import useQueryString from "src/hooks/useQueryString";
 
 const Orders = () => {
   const navigate = useNavigate();
   const { user_id } = useParams();
   const sphereUsers = useAppSelector(sortedUsers);
   const [sort, $sort] = useState<Order[]>();
+  const page = Number(useQueryString("page")) || 1;
 
-  const { isLoading, data: orders } = useOrders({ user_id });
+  const location = useLocation();
+
+  const { isLoading, data: orders } = useOrders({ user_id, page });
 
   const handleNavigate = () => {
     navigate("/orders/add");
@@ -54,7 +60,9 @@ const Orders = () => {
 
   return (
     <Container>
-      <Header title="Все заявки">
+      <Header
+        title={!!location?.state?.name ? location?.state?.name : "Все заявки"}
+      >
         <Button
           onClick={handleNavigate}
           className="bg-primary"
@@ -72,10 +80,10 @@ const Orders = () => {
               column={column}
               data={orders?.items}
             />
-            <tbody className="px-2 py-1 ">
+            <tbody className="px-2 py-1">
               {!!orders?.items?.length &&
                 (sort?.length ? sort : orders?.items).map((item) => (
-                  <tr className="py-1" key={item.id}>
+                  <tr className={cl("py-1", orderStatus(item))} key={item.id}>
                     <td className="!py-3 pl-3">
                       <Link to={`${item?.id}`}>{item.id}</Link>
                     </td>
@@ -86,13 +94,20 @@ const Orders = () => {
                     </td>
                     <td>{priceNum(+item?.price)} сум</td>
                     <td>{item.is_urgent ? "Да" : "Нет"}</td>
-                    {/* <td>{item.status}</td> */}
                     {sphereUsers.map((user, idx) => {
                       return (
                         <td key={user.id}>
                           {item?.order_hi?.map((hist) => {
-                            if (user.user_id === hist.user_id && !!hist.status)
+                            if (
+                              user.user_id === hist.user_id &&
+                              hist.status === 1
+                            )
                               return <Approved key={hist.id} />;
+                            if (
+                              user.user_id === hist.user_id &&
+                              hist.status === 2
+                            )
+                              return <Denied key={hist.id} />;
                             if (user.user_id === hist.user_id)
                               return (
                                 <Typography key={hist.id}>
@@ -112,7 +127,7 @@ const Orders = () => {
         {!orders?.items.length && !isLoading && <EmptyList />}
 
         {!!orders?.pages && (
-          <Pagination className="my-4" totalPages={orders?.pages} />
+          <Pagination className="my-4" totalPages={orders.pages} />
         )}
       </Card>
     </Container>

@@ -9,6 +9,14 @@ import useToken from "src/hooks/useToken";
 import { sortedUsers } from "src/store/reducers/sorter";
 import Typography, { TextSize, Weight } from "../Typography";
 
+interface routeType {
+  name: string;
+  url: string;
+  screen: MainPermissions;
+  param?: string;
+  hasline?: boolean;
+}
+
 const Sidebar = () => {
   const navigate = useNavigate();
 
@@ -22,11 +30,12 @@ const Sidebar = () => {
 
   const handleLogout = () => dispatch(logoutHandler());
   const routes = useMemo(() => {
-    const init = [
+    const init: routeType[] = [
       {
         name: "Отчёты",
         url: "/reports",
         screen: MainPermissions.reports,
+        param: "",
         hasline: true,
       },
       {
@@ -59,13 +68,14 @@ const Sidebar = () => {
       { name: "Настройки", url: "/settings", screen: MainPermissions.settings },
     ];
 
-    const sphere = sphereUsers
+    const sphere: routeType[] = sphereUsers
       ?.filter((item) => !!item?.sp_user?.show)
       .map((user) => {
         return {
           name: user?.sp_user?.full_name,
           url: `/orders/${user.user_id}/sphere`,
           screen: MainPermissions.orders,
+          param: `?name=${user?.sp_user?.full_name}`,
         };
       });
     if (!!sphere?.length) return init.slice(0, 2).concat(sphere, init.slice(2));

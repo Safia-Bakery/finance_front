@@ -13,6 +13,7 @@ import useUsers from "src/hooks/useUsers";
 import useQueryString from "src/hooks/useQueryString";
 import { MainPermissions, UserType } from "src/utils/types";
 import useToken from "src/hooks/useToken";
+import Pagination from "src/components/Pagination";
 
 interface Props {
   client?: boolean;
@@ -35,14 +36,13 @@ const Users: FC<Props> = ({ client, edit, add }) => {
   const { data } = useToken({});
   const perms = data?.permissions;
   const [sort, $sort] = useState<UserType[]>();
+  const page = Number(useQueryString("page")) || 1;
 
   const {
     data: users,
     refetch,
     isLoading,
-  } = useUsers({
-    ...(!!client && { is_client: Number(client) }),
-  });
+  } = useUsers({ page, ...(!!client && { is_client: Number(client) }) });
 
   const navigate = useNavigate();
   const handleNavigate = (route: string) => () => navigate(route);
@@ -102,6 +102,10 @@ const Users: FC<Props> = ({ client, edit, add }) => {
             ))}
           </tbody>
         </table>
+
+        {!!users?.pages && (
+          <Pagination className="my-4" totalPages={users.pages} />
+        )}
       </Card>
     </>
   );

@@ -22,7 +22,7 @@ import usePayers from "src/hooks/usePayers";
 import useSpheres from "src/hooks/useSpheres";
 import { baseURL } from "src/main";
 import { PaymentTypes } from "src/utils/helpers";
-import { successToast } from "src/utils/toast";
+import { errorToast, successToast } from "src/utils/toast";
 import { OrderStatus } from "src/utils/types";
 
 const EditAddOrder = () => {
@@ -79,6 +79,7 @@ const EditAddOrder = () => {
             navigate("/orders/all");
             successToast("created");
           },
+          onError: (e: any) => errorToast(e.message),
         }
       );
     } else {
@@ -220,7 +221,7 @@ const EditAddOrder = () => {
         {!!id && (
           <Button
             onClick={() => navigate(`/logs/${id}`)}
-            className="bg-[#F69B30] w-24"
+            className="bg-mainOrange w-24"
             textClassName="text-white"
           >
             Логи
@@ -287,7 +288,7 @@ const EditAddOrder = () => {
           <div className="flex w-full justify-end my-20">
             <div className="w-max flex gap-3">
               <Button
-                className="bg-green w-24 shadow-button"
+                className="bg-mainGreen w-24 shadow-button"
                 type="submit"
                 isLoading={mutateLoaidng || statusLoading}
               >

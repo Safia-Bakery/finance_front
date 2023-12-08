@@ -95,20 +95,6 @@ const Home = () => {
                     </th>
                   </tr>
                 </thead>
-                {/* <div className="bg-yellow"> */}
-                {/* <img
-                  src="/assets/icons/New_logo_Safia_1.svg"
-                  alt=""
-                  height={50}
-                  width={50}
-                />
-                <img
-                  src="/assets/icons/New_logo_Safia.svg"
-                  alt=""
-                  height={50}
-                  width={50}
-                /> */}
-                {/* </div> */}
 
                 <tbody>
                   {filteredCurrencies?.map((item, idx) => (
@@ -133,25 +119,6 @@ const Home = () => {
               </Typography>
 
               {renderCalculation}
-
-              {/* <div className="">
-                <div className="flex gap-2">
-                  <MainInput
-                    type="number"
-                    className="flex flex-2 shadow p-1 border rounded text-black w-min "
-                  />
-                  <MainSelect
-                    className="flex-1 flex p-1 shadow text-black border rounded w-min"
-                    noDefault
-                    onChange={(e) => $currency(+e.target.value)}
-                    values={currencyVals}
-                  />
-                </div>
-                <div className="bg-[#ECECEC] rounded p-2 flex justify-between">
-                  <Typography>12000.00</Typography>
-                  <Typography>UZS</Typography>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

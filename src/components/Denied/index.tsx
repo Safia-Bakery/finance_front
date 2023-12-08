@@ -1,13 +1,13 @@
 import Typography from "../Typography";
 
-const Approved = () => {
+const Denied = () => {
   return (
     <div className="flex items-center justify-center gap-1 w-max">
-      <Typography>Согласовано</Typography>
+      <Typography>Отказан</Typography>
       <span>
         <img
-          src="/assets/icons/right-green.svg"
-          alt="approved"
+          src="/assets/icons/denied.svg"
+          alt="denied"
           height={15}
           width={15}
         />
@@ -16,4 +16,4 @@ const Approved = () => {
   );
 };
 
-export default Approved;
+export default Denied;

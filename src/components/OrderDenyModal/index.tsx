@@ -7,7 +7,7 @@ import Modal from "src/components/Modal";
 import Typography, { TextSize } from "src/components/Typography";
 import { useRemoveParams } from "src/hooks/useCustomNavigate";
 import useQueryString from "src/hooks/useQueryString";
-import { successToast } from "src/utils/toast";
+import { errorToast, successToast } from "src/utils/toast";
 import { OrderStatus } from "src/utils/types";
 import Button from "src/components/Button";
 import orderStatusMutation from "src/hooks/mutation/orderStatus";
@@ -32,6 +32,7 @@ const OrderDenyModal = () => {
           refetch();
           if (modal) closeModal();
         },
+        onError: (e: any) => errorToast(e.message),
       }
     );
   };

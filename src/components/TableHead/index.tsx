@@ -35,6 +35,7 @@ const TableHead: FC<Props> = ({ column, children, data, onSort }) => {
   useUpdateEffect(() => {
     sortData();
   }, [sortKey, sortOrder]);
+
   return (
     <>
       <thead className="w-full bg-mainGray">

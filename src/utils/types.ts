@@ -271,9 +271,9 @@ export interface OrdersTypes extends BasePaginatedRes {
   items: Order[];
 }
 export enum OrderStatus {
-  new = 0,
-  accept = 1,
-  deny = 2,
+  new,
+  accept,
+  deny,
 }
 
 export interface CurrencyTypes {
